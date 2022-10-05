@@ -1,0 +1,28 @@
+.cuerpo-container {
+    display: flex;
+    background-color: white;
+    color: black;
+    height: 70vh;
+    padding: 100px 0 100px 0;
+}
+.cuerpo-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 55%;
+    padding: 0 100px 0 100px;
+}
+.cuerpo-text > h3 {
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+.cuerpo-text > p {
+    line-height: 1.5;
+}
+.cuerpo-img {
+    width: 45%;
+    height: 65vh;
+    display: flex;
+    align-self: center;
+    overflow: hidden;
+}
