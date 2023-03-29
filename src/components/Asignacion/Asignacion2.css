@@ -1,0 +1,13 @@
+.table-smaller {
+    max-width: 250px;
+  }
+  
+  .table-smaller td,
+  .table-smaller th {
+    padding: 5px;
+    width: 5px;
+    height: 30px;
+  }
+
+  
+  

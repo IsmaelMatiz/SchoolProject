@@ -26,3 +26,17 @@
     align-self: center;
     overflow: hidden;
 }
+
+
+.container2 {
+    display: flex;
+    align-items: center;
+  }
+  
+  .image {
+    width: 50%;
+  }
+  
+  .text {
+    width: 50%;
+  }

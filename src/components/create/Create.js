@@ -1,13 +1,11 @@
 import React, {useState} from 'react'
-import { collection, addDoc } from 'firebase/firestore'
+import { collection } from 'firebase/firestore'
 import  { db } from '../../firebase/firebaseConfi'
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { getAuth,createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
-import firebaseApp from '../../firebase/firebaseConfi';
 
 const auth = getAuth();
-const firestore = getFirestore(firebaseApp);
 
 
 const Create = () => {
@@ -17,7 +15,6 @@ const Create = () => {
   const [password, setPassword ] = useState("");
   const [rol, setRol ] = useState("");
 
-  const medicosCollection = collection(db, "pacientes")
 
   const GuardarFira = async (a)=>{
     const docuRef = collection(db, `pacientes`);

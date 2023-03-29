@@ -119,6 +119,3 @@ const CerrarSesion = () =>{
 };
 
 export default Barra
-
-
-

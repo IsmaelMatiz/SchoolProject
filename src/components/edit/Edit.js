@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getDoc, updateDoc, doc } from 'firebase/firestore'
 import { db } from '../../firebase/firebaseConfi'
-import { async } from '@firebase/util'
 
 const Edit = () => {
   const [nombre, setNombre ] = useState('')
@@ -29,13 +28,13 @@ const Edit = () => {
       setEmail(medico.data().email)
 
     }else{
-      console.log('el medico no existe');
+      
     }
   }
 
   useEffect( () => {
     getNombreById(id)
-  }, [])
+  }, [id])
 
   return (
     <div className='container'>

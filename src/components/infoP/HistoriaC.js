@@ -1,7 +1,7 @@
 import React from 'react'
 import InfoP from './InfoP'
 
-const Deberes = () => {
+const HistoriaC = () => {
   return (
     <div>
        <InfoP />
@@ -12,4 +12,4 @@ const Deberes = () => {
   )
 }
 
-export default Deberes
+export default HistoriaC

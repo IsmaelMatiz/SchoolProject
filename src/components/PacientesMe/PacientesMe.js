@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback} from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore'
 import { db } from '../../firebase/firebaseConfi'
 
-const Pacientes = () => {
-
+const PacientesMe = () => {
+    
 // hooks
 const [medicos, SetMedicos ] = useState( [] )
 
@@ -13,13 +13,13 @@ const medicosCollection = collection(db, "pacientes")
 
 // funcion para mostrar todos los docs
 const getMedicos = useCallback(async () =>{
-   const data = await getDocs(medicosCollection)
-   SetMedicos(
-    data.docs.map((doc) => ({
-        ...doc.data(), id:doc.id
-    })
-   ))
-}, [medicosCollection, SetMedicos]);
+    const data = await getDocs(medicosCollection)
+    SetMedicos(
+     data.docs.map((doc) => ({
+         ...doc.data(), id:doc.id
+     })
+    ))
+ }, [medicosCollection, SetMedicos]);
 
 // funcion para eliminar un doc
 const deleteMedicos = async (id)=>{
@@ -83,4 +83,4 @@ useEffect(() =>{
   )
 }
 
-export default Pacientes
+export default PacientesMe

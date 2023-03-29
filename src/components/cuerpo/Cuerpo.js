@@ -26,7 +26,50 @@ const Cuerpo = () => {
     <span class="visually-hidden">Next</span>
   </button>
 </div>
+<br/>
 
+<div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+  <h1 style={{textAlign: 'center'}}>¿Como funciona?</h1>
+  <br/>
+  <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+    <div class="card" style={{width: '18rem', marginRight: '1rem'}}>
+      <img src="https://cdn-icons-png.flaticon.com/512/2029/2029830.png" className="card-img-top" alt="..."/>
+      <div className="card-body">
+        <p className="card-text">Prescribe las tareas</p>
+      </div>
+    </div>
+    <div className="card" style={{width: '18rem', marginRight: '1rem'}}>
+      <img src="https://cdn-icons-png.flaticon.com/512/5868/5868370.png" className="card-img-top" alt="..."/>
+      <div className="card-body">
+        <p className="card-text">Control del progreso</p>
+      </div>
+    </div>
+    <div className="card" style={{width: '18rem', marginRight: '1rem'}}>
+      <img src="https://cdn-icons-png.flaticon.com/512/7819/7819907.png" className="card-img-top" alt="..."/>
+      <div className="card-body">
+        <p className="card-text">El paciente trabaja desde la casa</p>
+      </div>
+    </div>
+    <div className="card" style={{width: '18rem'}}>
+      <img src="https://cdn-icons-png.flaticon.com/512/7160/7160500.png" className="card-img-top" alt="..."/>
+      <div className="card-body">
+        <p className="card-text">Supervisa el cumplimiento</p>
+      </div>
+    </div>
+  </div>
+</div>
+<br/>
+<br/>
+<div className="container2">
+      <p className="text">Texto aquí</p>
+      <img
+        src="https://via.placeholder.com/150"
+        alt="imagen"
+        className="image"
+      />
+    </div>
+    <br/>
+    <br/>
     </>
   );
 };

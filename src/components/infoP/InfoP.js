@@ -17,6 +17,9 @@ function InfoP() {
     <a class="nav-link3 text-dark" href="/Deberes">DEBERES</a>
   </li>
   <li class="nav-item">
+    <a class="nav-link3 text-dark" href="/HistoriaC">HISTORIA CLINICA</a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link4 text-dark" href="/Edit">EDITAR PACIENTE</a>
   </li>
 </ul>

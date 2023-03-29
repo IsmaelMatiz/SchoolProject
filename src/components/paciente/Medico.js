@@ -1,14 +1,13 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
-import { collection, addDoc } from 'firebase/firestore'
+import { collection } from 'firebase/firestore'
 import  { db } from '../../firebase/firebaseConfi'
-import { getFirestore, doc, setDoc, getDocs, deleteDoc } from "firebase/firestore";
+import { doc, setDoc, getDocs, deleteDoc } from "firebase/firestore";
 import { getAuth,createUserWithEmailAndPassword } from "firebase/auth";
-import { useNavigate } from 'react-router-dom';
-import firebaseApp from '../../firebase/firebaseConfi';
+
+
 
 const auth = getAuth();
-const firestore = getFirestore(firebaseApp);
 
 
 const Medico = () => {
@@ -49,14 +48,14 @@ const Medico = () => {
 
 
 // funcion para mostrar todos los docs
-const getPacientes = async () =>{
-   const data = await getDocs(pacientesCollection)
-   SetPacientes(
-    data.docs.map((doc) => ({
-        ...doc.data(), id:doc.id
-    })
-   ))
-}
+const getPacientes = useCallback(async () =>{
+  const data = await getDocs(pacientesCollection)
+  SetPacientes(
+   data.docs.map((doc) => ({
+       ...doc.data(), id:doc.id
+   })
+  ))
+}, [pacientesCollection, SetPacientes]);
 
 // funcion para eliminar un doc
 const deletePacientes = async (id)=>{
@@ -68,9 +67,10 @@ const deletePacientes = async (id)=>{
 // usamos useEffect
 useEffect(() =>{
   getPacientes()
-}, [] )
+}, [getPacientes]);
 
   return (
+    <>
     <div className='container'>
       <div className='row'>
       <div className='col-md-4'>
@@ -117,6 +117,7 @@ useEffect(() =>{
 
     </div>
     </div>
+    </>
     
   )
 }
