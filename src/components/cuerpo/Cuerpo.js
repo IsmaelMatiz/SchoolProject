@@ -2,9 +2,9 @@ import React from 'react'
 import "./Cuerpo.css";
 
 
-const Cuerpo = () => {
+export const Cuerpo = () => {
   return (
-    <>
+    <React.Fragment>
     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
@@ -70,8 +70,7 @@ const Cuerpo = () => {
     </div>
     <br/>
     <br/>
-    </>
+    </React.Fragment>
   );
 };
 
-export default Cuerpo

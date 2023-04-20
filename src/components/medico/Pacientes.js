@@ -14,6 +14,7 @@ const medicosCollection = collection(db, "pacientes")
 // funcion para mostrar todos los docs
 const getMedicos = useCallback(async () =>{
    const data = await getDocs(medicosCollection)
+   console.log(medicos)
    SetMedicos(
     data.docs.map((doc) => ({
         ...doc.data(), id:doc.id
@@ -50,6 +51,7 @@ useEffect(() =>{
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Correo</th>
+                <th>Rol</th>
                 <th>Acciones</th>
                 </tr>
             </thead>
@@ -60,6 +62,7 @@ useEffect(() =>{
                         <td>{medico.nombre}</td>
                         <td>{medico.apellido}</td>
                         <td>{medico.email}</td>
+                        <td>{medico.rol}</td>
                         <td>
                             <Link to={`/Edit/${medico.id}`} className="btn btn-light m-1">Editar</Link>
                             <button onClick={ () => {deleteMedicos(medico.id)} } className="btn btn-danger">Eliminar</button>

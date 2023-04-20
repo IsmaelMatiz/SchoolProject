@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
-import { collection } from 'firebase/firestore'
+import { collection, CollectionReference } from 'firebase/firestore'
 import  { db } from '../../firebase/firebaseConfi'
-import { doc, setDoc } from "firebase/firestore";
+import { addDoc } from "firebase/firestore";
 import { getAuth,createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 
@@ -17,25 +17,31 @@ const Create = () => {
 
 
   const GuardarFira = async (a)=>{
-    const docuRef = collection(db, `pacientes`);
-    await setDoc(doc(docuRef,`/${a}`), {email:email, rol:rol, nombre:nombre, apellido:apellido});
+    const collectionRef = collection(db, 'pacientes')
+    try {
+      await addDoc(collectionRef, {email:email, rol:rol, nombre:nombre, apellido:apellido})  
+    } catch (error) {
+      console.error("se petaquio en guardar: "+ error)
+    }
+    
     
   }
 
   // registro
   const handleLogin =async (e)=>{
     e.preventDefault();
+    console.log("the email is: "+email+" and the pass is: "+password)
     await createUserWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
     // Signed in 
     const user = userCredential.user;
     e.target.reset()
-    GuardarFira(user.uid)
+    //GuardarFira(user.uid)
 
     navigate("/Pacientes")
   })
   .catch((error) => {
-    
+    console.error("Se petaquio en crear el usuario con email y password: "+error)
   });
   
   }
