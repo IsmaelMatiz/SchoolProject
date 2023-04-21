@@ -1,26 +1,28 @@
-import React, {useState} from 'react'
-import { useNavigate } from 'react-router-dom';
-import { CreateAdmin } from '../../firebase/crudAdmin';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { CreateDoctor } from "../../firebase/crudMedicos";
 
 
-const Create = () => {
-  const [nombre, setNombre ] = useState("");
-  const [apellido, setApellido ] = useState("");
-  const [email, setEmail ] = useState("");
-  const [password, setPassword ] = useState("");
-  const [rol, setRol ] = useState("");
-  const navigate = useNavigate()
+export function CreateDoctorView() {
+    const [nombre, setNombre ] = useState("");
+    const [apellido, setApellido ] = useState("");
+    const [email, setEmail ] = useState("");
+    const [password, setPassword ] = useState("");
+    const navigate = useNavigate()
 
-  // registro
-  const handleLogin =async (e)=>{
-    e.preventDefault();
-    CreateAdmin(email, password,nombre,apellido)
-    e.target.reset()
-    navigate("/Admins")
-  }
+    // registro
+    const handleLogin =async (e)=>{
+        e.preventDefault();
+        CreateDoctor(email,password,nombre,apellido)
+        e.target.reset()
+        navigate("/Medicos")
+    }
 
-  return (
-    <div className='container'>
+    
+
+    return(
+        <React.Fragment>
+            <div className='container'>
       <div className='row'>
         <div className='col'>
             <h1>Crear Paciente</h1>
@@ -63,7 +65,6 @@ const Create = () => {
         </div>
       </div>
     </div>
-  )
+        </React.Fragment>
+    )
 }
-
-export default Create

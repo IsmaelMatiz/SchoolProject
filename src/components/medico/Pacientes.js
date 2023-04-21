@@ -14,12 +14,12 @@ const medicosCollection = collection(db, "pacientes")
 // funcion para mostrar todos los docs
 const getMedicos = useCallback(async () =>{
    const data = await getDocs(medicosCollection)
-   console.log(medicos)
    SetMedicos(
     data.docs.map((doc) => ({
         ...doc.data(), id:doc.id
     })
    ))
+   console.log(medicos)
 }, [medicosCollection, SetMedicos]);
 
 // funcion para eliminar un doc
@@ -32,7 +32,7 @@ const deleteMedicos = async (id)=>{
 // usamos useEffect
 useEffect(() =>{
     getMedicos()
-}, [getMedicos] )
+}, [] )
 
 // devolvemos vista de nuestro documento     
 
@@ -42,7 +42,7 @@ useEffect(() =>{
       <div className='row'>
         <div className='col'>
             <div className="d-grid gap-2">
-            <Link to="/Create" className='btn btn-secondary mt-2 mb-2'>Crear</Link>
+            <Link to="/CrearPaciente" className='btn btn-secondary mt-2 mb-2'>Crear</Link>
             </div>
 
             <table className='table table-dark table-hover'>

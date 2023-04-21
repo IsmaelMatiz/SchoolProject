@@ -13,6 +13,10 @@ import InfoP from './components/infoP/InfoP';
 import Cumplimiento from './components/infoP/Cumplimiento';
 import Deberes from './components/infoP/Deberes'; 
 import Evolucion from './components/infoP/Evolucion';
+import { Medicos } from './components/medico/Medicos';
+import { Admins } from './components/medico/Admins';
+import { CreatePatientView } from './components/create/CreatePaciente';
+import { CreateDoctorView } from './components/create/CreateMedico';
 
 
 function App() {  
@@ -23,9 +27,13 @@ function App() {
       <Routes>
         <Route exact path='/' element={<Cuerpo/>} />
         <Route path='/Pacientes' element={<Pacientes/>} />
+        <Route path='/Medicos' element={<Medicos/>} />
+        <Route path='/Admins' element={<Admins/>} />
         <Route path='/Edit/:id' element={<Edit/>} />
         <Route path='/EditMedico/:id' element={<EditMedico/>} />
         <Route path='/Create' element={<Create/>} />
+        <Route path='/CrearPaciente' element={<CreatePatientView/>} />
+        <Route path='/CrearMedico' element={<CreateDoctorView/>} />
         <Route path='/Medico' element={<Medico/>} />
         <Route path='/InfoP' element={<InfoP/>} />
         <Route path='/Cumplimiento' element={<Cumplimiento/>} />

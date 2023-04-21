@@ -9,13 +9,12 @@ import {collection,
         deleteDoc
         } from 'firebase/firestore';
 
-import {doc, getDoc } from 'firebase/firestore';
-
-import {onAuthStateChanged} from 'firebase/auth'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { AddToDB, auth } from './firebaseConfi';
 
 
 //TODO: Analizar pa q era esto XD
-export function Rol(){
+/*export function Rol(){
     // captura del rol del usuario
   const [user, setUser] = useState(null);
 
@@ -58,7 +57,23 @@ export function Rol(){
       setUser(null);
     }
   })
+}*/
+
+//Create
+export async function CreatePatient(email,password,name,lastName){
+  await createUserWithEmailAndPassword(auth, email, password)
+.then((userCredential) => {
+  // Signed in 
+  const user = userCredential.user;
+  AddToDB(user.uid,user.email,name,lastName,'pacientes')
+})
+.catch((error) => {
+  console.error("Error al crear Paciente: "+error)
+});
 }
 
+//Read
+//Update
+//Delete
 
 

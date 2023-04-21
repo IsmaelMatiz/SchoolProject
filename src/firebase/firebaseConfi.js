@@ -1,12 +1,17 @@
 import { initializeApp } from "firebase/app";
 import {getAuth} from 'firebase/auth';
-import {getStorage, 
-  ref, 
-  uploadBytes, 
-  getDownloadURL,
-  getBytes
-} from 'firebase/storage';
+import {getStorage} from 'firebase/storage';
 import {getFirestore} from 'firebase/firestore';
+import {collection,
+        addDoc,
+        getDoc,
+        doc,
+        getDocs,
+        query,
+        where,
+        setDoc,
+        deleteDoc
+        } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIRABASE_APIKEY,
@@ -24,4 +29,17 @@ export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+
+
+
+//Global functions for CRUD
+export async function AddToDB (uid,email,nombre,apellido,table){
+  const collectionRef = collection(db, table)
+  const docRef = doc(collectionRef,uid)
+  try {
+    await setDoc(docRef, {id:uid,email:email, nombre:nombre, apellido:apellido})  
+  } catch (error) {
+    console.error("Error al agregar a base de datos "+table+": "+ error)
+  }
+}
 

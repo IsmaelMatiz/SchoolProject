@@ -21,7 +21,7 @@ export function LoginSection (){
 
         await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            navigate("/Pacientes")
+            navigate("/Admins")
             setError(false)
         })
         .catch((error) => {
