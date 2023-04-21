@@ -10,7 +10,7 @@ import {collection,
         } from 'firebase/firestore';
 
 import { createUserWithEmailAndPassword } from 'firebase/auth'
-import { AddToDB, auth } from './firebaseConfi';
+import { AddToDB, auth, db } from './firebaseConfi';
 
 
 //TODO: Analizar pa q era esto XD
@@ -73,6 +73,25 @@ export async function CreatePatient(email,password,name,lastName){
 }
 
 //Read
+export async function getAllPatients(){
+  
+  try {
+    const allPatients = []
+    const patientsCollectionRef= collection(db,"pacientes")
+    const data = await getDocs(patientsCollectionRef)
+  
+    data.forEach(doc => {
+      allPatients.push(doc.data())
+    })
+    
+    return allPatients
+
+  } catch (error) {
+    console.error("Error al obtener todos los admins: "+error)
+  }
+  
+}
+
 //Update
 //Delete
 

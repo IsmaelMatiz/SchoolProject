@@ -2,36 +2,31 @@ import React, { useState, useEffect, useCallback} from 'react'
 import { Link } from 'react-router-dom'
 import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore'
 import { db } from '../../firebase/firebaseConfi'
+import { getAllPatients } from '../../firebase/crudPacientes'
 
 const Pacientes = () => {
 
 // hooks
-const [medicos, SetMedicos ] = useState( [] )
+const [pacientes, setPacientes ] = useState( [] )
 
 // db firestore
 const medicosCollection = collection(db, "pacientes")
 
 // funcion para mostrar todos los docs
-const getMedicos = useCallback(async () =>{
-   const data = await getDocs(medicosCollection)
-   SetMedicos(
-    data.docs.map((doc) => ({
-        ...doc.data(), id:doc.id
-    })
-   ))
-   console.log(medicos)
-}, [medicosCollection, SetMedicos]);
+async function getPatients(){
+    setPacientes(await getAllPatients())
+}
 
 // funcion para eliminar un doc
 const deleteMedicos = async (id)=>{
     const medicosDoc = doc(db, "pacientes", id)
     await deleteDoc(medicosDoc)
-    getMedicos()
+    getPatients()
 }
 
 // usamos useEffect
 useEffect(() =>{
-    getMedicos()
+    getPatients()
 }, [] )
 
 // devolvemos vista de nuestro documento     
@@ -51,25 +46,22 @@ useEffect(() =>{
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Correo</th>
-                <th>Rol</th>
                 <th>Acciones</th>
                 </tr>
             </thead>
 
             <tbody>
-                { medicos.map( (medico) =>(
+                { pacientes.map( (medico) =>(
                     <tr key={medico.id}>
                         <td>{medico.nombre}</td>
                         <td>{medico.apellido}</td>
                         <td>{medico.email}</td>
-                        <td>{medico.rol}</td>
                         <td>
                             <Link to={`/Edit/${medico.id}`} className="btn btn-light m-1">Editar</Link>
                             <button onClick={ () => {deleteMedicos(medico.id)} } className="btn btn-danger">Eliminar</button>
                         </td>
                     </tr>
                 ))}
-
             </tbody>
 
 

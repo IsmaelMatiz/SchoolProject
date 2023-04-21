@@ -8,7 +8,6 @@ const Create = () => {
   const [apellido, setApellido ] = useState("");
   const [email, setEmail ] = useState("");
   const [password, setPassword ] = useState("");
-  const [rol, setRol ] = useState("");
   const navigate = useNavigate()
 
   // registro

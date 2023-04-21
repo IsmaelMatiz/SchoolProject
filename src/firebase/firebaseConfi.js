@@ -33,6 +33,8 @@ export const storage = getStorage(app);
 
 
 //Global functions for CRUD
+
+//Create
 export async function AddToDB (uid,email,nombre,apellido,table){
   const collectionRef = collection(db, table)
   const docRef = doc(collectionRef,uid)

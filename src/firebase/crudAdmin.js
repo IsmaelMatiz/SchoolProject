@@ -1,5 +1,6 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { AddToDB, auth} from "./firebaseConfi";
+import { collection, getDocs } from "firebase/firestore";
+import { AddToDB, auth, db} from "./firebaseConfi";
 
 
 //Create
@@ -17,5 +18,24 @@ export async function CreateAdmin (email,password,name,lastName){
 
 
 //Read
+export async function getAllAdmins(){
+  
+  try {
+    const allAdmins = []
+    const adminCollectionRef= collection(db,"admins")
+    const data = await getDocs(adminCollectionRef)
+  
+    data.forEach(doc => {
+      allAdmins.push(doc.data())
+    })
+    
+    return allAdmins
+
+  } catch (error) {
+    console.error("Error al obtener todos los admins: "+error)
+  }
+  
+}
+
 //Update
 //Delete

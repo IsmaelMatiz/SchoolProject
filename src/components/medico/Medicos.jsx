@@ -1,25 +1,19 @@
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getAllDoctors } from "../../firebase/crudMedicos";
 import { db } from "../../firebase/firebaseConfi";
 
 export function Medicos() {
     // hooks
-const [medicos, SetMedicos ] = useState( [] )
-
-// db firestore
-const medicosCollection = collection(db, "medicos")
+const [medicos, setMedicos ] = useState( [] )
 
 // funcion para mostrar todos los docs
-const getMedicos = useCallback(async () =>{
-   const data = await getDocs(medicosCollection)
-   SetMedicos(
-    data.docs.map((doc) => ({
-        ...doc.data(), id:doc.id
-    })
-   ))
-   console.log(medicos)
-}, [medicosCollection, SetMedicos]);
+async function getMedicos(){
+    setMedicos(await getAllDoctors())
+    console.log(medicos)
+}
+   
 
 // funcion para eliminar un doc
 const deleteMedicos = async (id)=>{

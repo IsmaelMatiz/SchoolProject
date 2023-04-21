@@ -1,38 +1,31 @@
 import { collection, getDocs,doc, deleteDoc } from "firebase/firestore";
 import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getAllAdmins } from "../../firebase/crudAdmin";
 import { db } from "../../firebase/firebaseConfi";
 
 
 export function Admins() {
 
     // hooks
-const [medicos, SetMedicos ] = useState( [] )
+    const [admins, setAdmins ] = useState( [] )
 
-// db firestore
-const medicosCollection = collection(db, "admins")
+    // funcion para mostrar todos los docs
+    async function getAdmins (){
+        setAdmins(await getAllAdmins())
+    }
 
-// funcion para mostrar todos los docs
-const getMedicos = useCallback(async () =>{
-   const data = await getDocs(medicosCollection)
-   SetMedicos(
-    data.docs.map((doc) => ({
-        ...doc.data(), id:doc.id
-    })
-   ))
-   console.log(medicos)
-}, [medicosCollection, SetMedicos]);
 
-// funcion para eliminar un doc
-const deleteMedicos = async (id)=>{
-    const medicosDoc = doc(db, "pacientes", id)
-    await deleteDoc(medicosDoc)
-    getMedicos()
-}
+    // funcion para eliminar un doc
+    const deleteMedicos = async (id)=>{
+        const medicosDoc = doc(db, "pacientes", id)
+        await deleteDoc(medicosDoc)
+        getAdmins()
+    }
 
 // usamos useEffect
 useEffect(() =>{
-    getMedicos()
+    getAdmins()
 }, [] )
 
     return(
@@ -55,7 +48,7 @@ useEffect(() =>{
                     </thead>
 
                     <tbody>
-                        { medicos.map( (medico) =>(
+                        { admins.map( (medico) =>(
                             <tr key={medico.id}>
                                 <td>{medico.nombre}</td>
                                 <td>{medico.apellido}</td>
