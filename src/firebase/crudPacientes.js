@@ -12,6 +12,7 @@ import {collection,
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { AddToDB, auth, db } from './firebaseConfi';
 
+const patientsCollectionRef= collection(db,"pacientes")
 
 //TODO: Analizar pa q era esto XD
 /*export function Rol(){
@@ -77,7 +78,6 @@ export async function getAllPatients(){
   
   try {
     const allPatients = []
-    const patientsCollectionRef= collection(db,"pacientes")
     const data = await getDocs(patientsCollectionRef)
   
     data.forEach(doc => {
@@ -87,7 +87,27 @@ export async function getAllPatients(){
     return allPatients
 
   } catch (error) {
-    console.error("Error al obtener todos los admins: "+error)
+    console.error("Error al obtener todos los pacientes: "+error)
+  }
+  
+}
+
+
+export async function getAPatient(uid){
+  
+  try {
+    const patient = []
+    const queryGetPatients = query(patientsCollectionRef, where('id','==',uid));
+    const data = await getDocs(queryGetPatients)
+  
+    data.forEach(doc => {
+      patient.push(doc.data())
+    })
+    
+    return patient
+
+  } catch (error) {
+    console.error("Error al obtener un paciente: "+error)
   }
   
 }

@@ -1,16 +1,14 @@
 import React, { useState, useEffect, useCallback} from 'react'
 import { Link } from 'react-router-dom'
-import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore'
+import { deleteDoc, doc } from 'firebase/firestore'
 import { db } from '../../firebase/firebaseConfi'
-import { getAllPatients } from '../../firebase/crudPacientes'
+import { getAllPatients, getAPatient } from '../../firebase/crudPacientes'
 
 const Pacientes = () => {
 
 // hooks
 const [pacientes, setPacientes ] = useState( [] )
 
-// db firestore
-const medicosCollection = collection(db, "pacientes")
 
 // funcion para mostrar todos los docs
 async function getPatients(){
@@ -51,14 +49,14 @@ useEffect(() =>{
             </thead>
 
             <tbody>
-                { pacientes.map( (medico) =>(
-                    <tr key={medico.id}>
-                        <td>{medico.nombre}</td>
-                        <td>{medico.apellido}</td>
-                        <td>{medico.email}</td>
+                { pacientes.map( (paciente) =>(
+                    <tr key={paciente.id}>
+                        <td>{paciente.nombre}</td>
+                        <td>{paciente.apellido}</td>
+                        <td>{paciente.email}</td>
                         <td>
-                            <Link to={`/Edit/${medico.id}`} className="btn btn-light m-1">Editar</Link>
-                            <button onClick={ () => {deleteMedicos(medico.id)} } className="btn btn-danger">Eliminar</button>
+                            <Link to={`/Edit/${paciente.id}`} className="btn btn-light m-1">Editar</Link>
+                            <button onClick={ () => {deleteMedicos(paciente.id)} } className="btn btn-danger">Eliminar</button>
                         </td>
                     </tr>
                 ))}

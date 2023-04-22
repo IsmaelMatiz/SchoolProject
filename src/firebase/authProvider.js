@@ -34,4 +34,10 @@ import { useNavigate } from "react-router-dom";
     
 }*/
 
-export const infoLoggedUser = auth.currentUser
+export const infoLoggedUser = ()=>{
+    const infoUser = auth.currentUser
+    return infoUser
+}
+
+
+

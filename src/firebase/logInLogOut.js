@@ -10,15 +10,12 @@ export function LoginSection (){
     const [usuario, setUsuario] = useState(null) //nos perimte saber si el usuario esta logueado o no
     const navigate = useNavigate()//Redireccionar una vez el usuario se a logueado o desloqueado
     const [error, setError] = useState(false)//si el usuario se equivoca al ingresar el email o password se lo alertamos
-    const [email,setEmail] = useState("")
-    const [password,setPassword] = useState("")
 
 
     async function handlerSubmit(e){
         e.preventDefault()
-        setEmail(e.target.email.value)
-        setPassword(e.target.password.value)
-
+        const email = e.target.email.value
+        const password = e.target.password.value
         await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             navigate("/Admins")

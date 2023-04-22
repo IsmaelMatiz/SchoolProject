@@ -1,7 +1,17 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, getDocs } from "firebase/firestore";
 import { AddToDB, auth, db} from "./firebaseConfi";
+import {collection,
+  addDoc,
+  getDoc,
+  doc,
+  getDocs,
+  query,
+  where,
+  setDoc,
+  deleteDoc
+  } from 'firebase/firestore';
 
+const adminCollectionRef= collection(db,"admins")
 
 //Create
 export async function CreateAdmin (email,password,name,lastName){
@@ -22,7 +32,6 @@ export async function getAllAdmins(){
   
   try {
     const allAdmins = []
-    const adminCollectionRef= collection(db,"admins")
     const data = await getDocs(adminCollectionRef)
   
     data.forEach(doc => {
@@ -33,6 +42,25 @@ export async function getAllAdmins(){
 
   } catch (error) {
     console.error("Error al obtener todos los admins: "+error)
+  }
+  
+}
+
+export async function getAdmin(uid){
+  
+  try {
+    const admin = []
+    const queryGetAdmin = query(adminCollectionRef, where('id','==',uid));
+    const data = await getDocs(queryGetAdmin)
+  
+    data.forEach(doc => {
+      admin.push(doc.data())
+    })
+    
+    return admin
+
+  } catch (error) {
+    console.error("Error al obtener un admin: "+error)
   }
   
 }

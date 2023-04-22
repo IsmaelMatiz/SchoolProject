@@ -1,7 +1,8 @@
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getAllDoctors } from "../../firebase/crudMedicos";
+import { infoLoggedUser } from "../../firebase/authProvider";
+import { getADoctor, getAllDoctors } from "../../firebase/crudMedicos";
 import { db } from "../../firebase/firebaseConfi";
 
 export function Medicos() {
@@ -11,7 +12,6 @@ const [medicos, setMedicos ] = useState( [] )
 // funcion para mostrar todos los docs
 async function getMedicos(){
     setMedicos(await getAllDoctors())
-    console.log(medicos)
 }
    
 
