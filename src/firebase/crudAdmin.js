@@ -1,5 +1,5 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { AddToDB, auth, db} from "./firebaseConfi";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateEmail } from "firebase/auth";
+import { AddToDB, auth, db, tempAuth, updateDB} from "./firebaseConfi";
 import {collection,
   addDoc,
   getDoc,
@@ -8,14 +8,15 @@ import {collection,
   query,
   where,
   setDoc,
-  deleteDoc
+  deleteDoc,
+  updateDoc
   } from 'firebase/firestore';
 
 const adminCollectionRef= collection(db,"admins")
 
 //Create
 export async function CreateAdmin (email,password,name,lastName){
-    await createUserWithEmailAndPassword(auth, email, password)
+    await createUserWithEmailAndPassword(tempAuth, email, password)
   .then((userCredential) => {
     // Signed in 
     const user = userCredential.user;
@@ -24,6 +25,7 @@ export async function CreateAdmin (email,password,name,lastName){
   .catch((error) => {
     console.error("Error al crear admin: "+error)
   });
+
   }
 
 
@@ -66,4 +68,35 @@ export async function getAdmin(uid){
 }
 
 //Update
+export async function updateAdmin(uid,newName,newLastName,newEmail,formerEmail,password){
+  //actualizar correo de autenticacion
+  let success = false
+  await signInWithEmailAndPassword(tempAuth,formerEmail, password)
+    .then(function(userCredential) {
+        console.log("tempUser se logueo correctamente")
+    }).catch(error => console.error("Error al iniciar sesion temp: "+error))
+
+    await updateEmail(tempAuth.currentUser, newEmail)
+    .then(()=>{
+      console.log("Actualizado correctamente correo autenticacion")
+      success = true
+    })
+    .catch(error => console.error("Error al cambiar Correo autenticacion: "+error))
+
+    await signOut(tempAuth).then(() => {
+      console.log("TempAuth cerro sesion")
+    }).catch((error) => {
+      console.error("Error al cerrar sesion de TempAuth: "+error)
+    });
+    //Actualizar DB
+    updateDB(newName,newLastName,newEmail,doc(adminCollectionRef,uid)).catch(
+      error => {
+        console.log("Error Actualizando la DB: "+error)
+        return false
+      }
+    )
+
+    return tempAuth.currentUser == null && success ? true : false    
+}
+
 //Delete

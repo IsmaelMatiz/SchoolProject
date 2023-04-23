@@ -55,7 +55,7 @@ useEffect(() =>{
                         <td>{paciente.apellido}</td>
                         <td>{paciente.email}</td>
                         <td>
-                            <Link to={`/Edit/${paciente.id}`} className="btn btn-light m-1">Editar</Link>
+                            <Link to={`/EditPaciente/${paciente.id}`} className="btn btn-light m-1">Editar</Link>
                             <button onClick={ () => {deleteMedicos(paciente.id)} } className="btn btn-danger">Eliminar</button>
                         </td>
                     </tr>

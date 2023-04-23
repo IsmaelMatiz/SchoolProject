@@ -53,7 +53,7 @@ useEffect(() =>{
                                 <td>{medico.apellido}</td>
                                 <td>{medico.email}</td>
                                 <td>
-                                    <Link to={`/Edit/${medico.id}`} className="btn btn-light m-1">Editar</Link>
+                                    <Link to={`/EditMedico/${medico.id}`} className="btn btn-light m-1">Editar</Link>
                                     <button onClick={ () => {deleteMedicos(medico.id)} } className="btn btn-danger">Eliminar</button>
                                 </td>
                             </tr>

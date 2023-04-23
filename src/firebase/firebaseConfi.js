@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import {getAuth} from 'firebase/auth';
 import {getStorage} from 'firebase/storage';
-import {getFirestore} from 'firebase/firestore';
+import {getFirestore, updateDoc} from 'firebase/firestore';
 import {collection,
         addDoc,
         getDoc,
@@ -30,9 +30,8 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 
-
-
 //Global functions for CRUD
+export const tempAuth = getAuth(app);//its used when i want to update a user from another
 
 //Create
 export async function AddToDB (uid,email,nombre,apellido,table){
@@ -42,6 +41,20 @@ export async function AddToDB (uid,email,nombre,apellido,table){
     await setDoc(docRef, {id:uid,email:email, nombre:nombre, apellido:apellido})  
   } catch (error) {
     console.error("Error al agregar a base de datos "+table+": "+ error)
+  }
+}
+
+//Update
+export async function updateDB(newName,newLastName, newEmail,docRef){
+  try {
+    const userRef = docRef
+    await updateDoc(userRef,{
+      nombre: newName,
+      apellido: newLastName,
+      email: newEmail
+    })
+  } catch (error) {
+    console.log("Error actualizando la DB: "+error) 
   }
 }
 
