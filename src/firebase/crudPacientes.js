@@ -9,8 +9,8 @@ import {collection,
         deleteDoc
         } from 'firebase/firestore';
 
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateEmail } from 'firebase/auth'
-import { AddToDB, auth, db, tempAuth, updateDB } from './firebaseConfi';
+import { createUserWithEmailAndPassword, deleteUser, signInWithEmailAndPassword, signOut, updateEmail } from 'firebase/auth'
+import { AddToDB, auth, db, deleteFromDB, tempAuth, updateDB } from './firebaseConfi';
 
 const patientsCollectionRef= collection(db,"pacientes")
 
@@ -145,5 +145,33 @@ export async function updatePatient(uid,newName,newLastName,newEmail,formerEmail
 }
 
 //Delete
+export async function deletePatient(id,email,password){
+  //Borrar correo de autenticacion
+  let success = false
+  await signInWithEmailAndPassword(tempAuth,email, password)
+    .then(function(userCredential) {
+        console.log("tempUser se logueo correctamente")
+    }).catch(error => console.error("Error al iniciar sesion temp: "+error))
 
+    await deleteUser(tempAuth.currentUser)
+    .then(()=>{
+      console.log("Borrado correctamente correo autenticacion")
+      success = true
+    })
+    .catch(error => console.error("Error al cambiar Correo autenticacion: "+error))
+
+    await signOut(tempAuth).then(() => {
+      console.log("TempAuth cerro sesion")
+    }).catch((error) => {
+      console.error("Error al cerrar sesion de TempAuth: "+error)
+    });
+
+    //Borra de DB
+    deleteFromDB(doc(patientsCollectionRef, id)).catch(error => {
+      console.error("Error al borrar de DB")
+      return false
+    })
+ 
+    return tempAuth.currentUser == null && success ? true : false
+}
 

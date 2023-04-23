@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { infoLoggedUser } from "../../firebase/authProvider";
 import { getADoctor, getAllDoctors } from "../../firebase/crudMedicos";
 import { db } from "../../firebase/firebaseConfi";
+import { TableItemt } from "./TableItem";
 
 export function Medicos() {
     // hooks
@@ -14,13 +15,6 @@ async function getMedicos(){
     setMedicos(await getAllDoctors())
 }
    
-
-// funcion para eliminar un doc
-const deleteMedicos = async (id)=>{
-    const medicosDoc = doc(db, "pacientes", id)
-    await deleteDoc(medicosDoc)
-    getMedicos()
-}
 
 // usamos useEffect
 useEffect(() =>{
@@ -48,15 +42,14 @@ useEffect(() =>{
 
                     <tbody>
                         { medicos.map( (medico) =>(
-                            <tr key={medico.id}>
-                                <td>{medico.nombre}</td>
-                                <td>{medico.apellido}</td>
-                                <td>{medico.email}</td>
-                                <td>
-                                    <Link to={`/EditMedico/${medico.id}`} className="btn btn-light m-1">Editar</Link>
-                                    <button onClick={ () => {deleteMedicos(medico.id)} } className="btn btn-danger">Eliminar</button>
-                                </td>
-                            </tr>
+                            <TableItemt
+                            key={medico.id}
+                            id={medico.id}
+                            nombre={medico.nombre}
+                            apellido={medico.apellido}
+                            email={medico.email}
+                            rol={"Medico"}
+                            />
                         ))}
 
                     </tbody>

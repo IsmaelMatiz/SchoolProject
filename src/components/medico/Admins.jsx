@@ -1,27 +1,20 @@
-import { collection, getDocs,doc, deleteDoc } from "firebase/firestore";
-import React, { useCallback, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, {  useEffect, useState } from "react";
+import { Link} from "react-router-dom";
 import { getAllAdmins } from "../../firebase/crudAdmin";
-import { db } from "../../firebase/firebaseConfi";
+import {TableItemt } from "./TableItem";
 
 
 export function Admins() {
 
     // hooks
     const [admins, setAdmins ] = useState( [] )
+    
 
     // funcion para mostrar todos los docs
     async function getAdmins (){
         setAdmins(await getAllAdmins())
     }
 
-
-    // funcion para eliminar un doc
-    const deleteMedicos = async (id)=>{
-        const medicosDoc = doc(db, "pacientes", id)
-        await deleteDoc(medicosDoc)
-        getAdmins()
-    }
 
 // usamos useEffect
 useEffect(() =>{
@@ -48,16 +41,15 @@ useEffect(() =>{
                     </thead>
 
                     <tbody>
-                        { admins.map( (medico) =>(
-                            <tr key={medico.id}>
-                                <td>{medico.nombre}</td>
-                                <td>{medico.apellido}</td>
-                                <td>{medico.email}</td>
-                                <td>
-                                    <Link to={`/Edit/${medico.id}`} className="btn btn-light m-1">Editar</Link>
-                                    <button onClick={ () => {deleteMedicos(medico.id)} } className="btn btn-danger">Eliminar</button>
-                                </td>
-                            </tr>
+                        {admins.map(admin => (
+                            <TableItemt
+                            key={admin.id}
+                            id={admin.id}
+                            nombre={admin.nombre}
+                            apellido={admin.apellido}
+                            email={admin.email}
+                            rol={"Admin"}
+                            />
                         ))}
 
                     </tbody>

@@ -58,3 +58,14 @@ export async function updateDB(newName,newLastName, newEmail,docRef){
   }
 }
 
+//Delete
+
+export async function deleteFromDB(docRef){
+  try {
+    const toBeDeleted = docRef
+    await deleteDoc(toBeDeleted) 
+  } catch (error) {
+    console.error("Error al eliminar admin: "+error)
+  }
+}
+
