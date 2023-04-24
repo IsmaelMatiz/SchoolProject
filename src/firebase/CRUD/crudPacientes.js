@@ -2,11 +2,13 @@ import {collection,
         doc,
         getDocs,
         query,
+        setDoc,
+        updateDoc,
         where
         } from 'firebase/firestore';
 
 import { createUserWithEmailAndPassword, deleteUser, signInWithEmailAndPassword, signOut, updateEmail } from 'firebase/auth'
-import { AddToDB, auth, db, deleteFromDB, tempAuth, updateDB } from '../firebaseConfi';
+import { auth, db, deleteFromDB, tempAuth } from '../firebaseConfi';
 
 const patientsCollectionRef= collection(db,"pacientes")
 
@@ -62,11 +64,21 @@ export async function CreatePatient(email,password,name,lastName){
 .then((userCredential) => {
   // Signed in 
   const user = userCredential.user;
-  AddToDB(user.uid,user.email,name,lastName,'pacientes')
+  AddToDBPatient(user.uid,user.email,name,lastName,'pacientes',"inactivo")
 })
 .catch((error) => {
   console.error("Error al crear Paciente: "+error)
 });
+}
+
+async function AddToDBPatient (uid,email,nombre,apellido,table,status){
+  const collectionRef = collection(db, table)
+  const docRef = doc(collectionRef,uid)
+  try {
+    await setDoc(docRef, {id:uid,email:email, nombre:nombre, apellido:apellido,status:status})  
+  } catch (error) {
+    console.error("Error al agregar a base de datos "+table+": "+ error)
+  }
 }
 
 //Read
@@ -130,7 +142,7 @@ export async function updatePatient(uid,newName,newLastName,newEmail,formerEmail
       console.error("Error al cerrar sesion de TempAuth: "+error)
     });
     //Actualizar DB
-    updateDB(newName,newLastName,newEmail,doc(patientsCollectionRef,uid)).catch(
+    updateDBPatient(newName,newLastName,newEmail,doc(patientsCollectionRef,uid)).catch(
       error => {
         console.log("Error Actualizando la DB: "+error)
         return false
@@ -138,6 +150,20 @@ export async function updatePatient(uid,newName,newLastName,newEmail,formerEmail
     )
 
     return tempAuth.currentUser == null && success ? true : false    
+}
+
+async function updateDBPatient(newName,newLastName, newEmail,docRef,status){
+  try {
+    const userRef = docRef
+    await updateDoc(userRef,{
+      nombre: newName,
+      apellido: newLastName,
+      email: newEmail,
+      status: status
+    })
+  } catch (error) {
+    console.log("Error actualizando la DB: "+error) 
+  }
 }
 
 //Delete
