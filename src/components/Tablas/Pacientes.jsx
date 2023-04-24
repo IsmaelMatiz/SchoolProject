@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
+import AuthProvider from '../../firebase/authProvider'
 import { getAllPatients } from '../../firebase/CRUD/crudPacientes'
 import { TableItemt } from './TableItem'
 
@@ -7,6 +8,7 @@ const Pacientes = () => {
 
 // hooks
 const [pacientes, setPacientes ] = useState( [] )
+AuthProvider()
 
 
 // funcion para mostrar todos los docs

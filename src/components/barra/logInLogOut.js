@@ -3,7 +3,7 @@ import { signInWithEmailAndPassword } from "firebase/auth"
 import { useNavigate } from "react-router-dom"
 import React, { useEffect, useState } from 'react'
 import "../../styles/Barra.css"
-import authProvider from "../../firebase/authProvider"
+import  { userType } from "../../firebase/authProvider"
 
 
 export function LoginSection (){
@@ -12,21 +12,42 @@ export function LoginSection (){
     const navigate = useNavigate()//Redireccionar una vez el usuario se a logueado o desloqueado
     const [error, setError] = useState(false)//si el usuario se equivoca al ingresar el email o password se lo alertamos
 
-
-    async function handlerSubmit(e){
+    async function HandlerSubmit(e){
         e.preventDefault()
         const email = e.target.email.value
         const password = e.target.password.value
         await signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
+        .then(async (userCredential) => {
             setError(false)
-            authProvider()
+            console.log(await userType(auth.currentUser.uid))
         })
         .catch((error) => {
             console.error("algo no salio bien iniciando sesion: "+ error)
             setError(true)
         });
+        RedirectUser(await userType(auth.currentUser.uid)) 
         e.target.reset()
+    }
+
+    async function RedirectUser(user) {
+        console.log("user is: "+ user)
+        switch (user) {
+            case "Nobody":
+                navigate("/")
+                break;
+            
+            case "Admin":
+                navigate("/Admins")
+                break;
+            case "Medico":
+                navigate("/Medicos")
+                break;
+            case "Paciente":
+                navigate("/Pacientes")
+                break;
+            default:
+                break;
+        }
     }
 
     useEffect( () =>{
@@ -55,7 +76,7 @@ export function LoginSection (){
                     Acceder
                     </button>
     
-                    <form className="dropdown-menu p-4" id='cuadro' onSubmit={handlerSubmit}>
+                    <form className="dropdown-menu p-4" id='cuadro' onSubmit={HandlerSubmit}>
                     <div className="mb-3">
                     <label for="exampleDropdownFormEmail2" className="form-label" >Correo Electronico</label>
                     <input type="email" className="form-control" name='email'  placeholder="email@example.com"  required/>

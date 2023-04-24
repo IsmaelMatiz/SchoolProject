@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import AuthProvider from "../../firebase/authProvider";
 import { getAllDoctors } from "../../firebase/CRUD/crudMedicos";
 import { TableItemt } from "./TableItem";
 
 export function Medicos() {
     // hooks
-const [medicos, setMedicos ] = useState( [] )
+    const [medicos, setMedicos ] = useState( [] )
+    AuthProvider()
 
-// funcion para mostrar todos los docs
-async function getMedicos(){
-    setMedicos(await getAllDoctors())
-}
-   
+    // funcion para mostrar todos los docs
+    async function getMedicos(){
+        setMedicos(await getAllDoctors())
+    }
+    
 
-// usamos useEffect
-useEffect(() =>{
-    getMedicos()
-}, [] )
+    // usamos useEffect
+    useEffect(() =>{
+        getMedicos()
+    }, [] )
 
     return(
         <React.Fragment>

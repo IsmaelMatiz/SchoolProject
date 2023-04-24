@@ -1,7 +1,7 @@
 import React, {  useEffect, useState } from "react";
 import { useCallback } from "react";
 import { Link} from "react-router-dom";
-import authProvider, { infoLoggedUser } from "../../firebase/authProvider";
+import AuthProvider from "../../firebase/authProvider";
 import { getAllAdmins } from "../../firebase/CRUD/crudAdmin";
 import {TableItemt } from "./TableItem";
 
@@ -10,7 +10,7 @@ export function Admins() {
 
     // hooks
     const [admins, setAdmins ] = useState( [] )
-    authProvider()
+    AuthProvider()
 
     // funcion para mostrar todos los docs
     async function getAdmins (){

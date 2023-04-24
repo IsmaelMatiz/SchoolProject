@@ -39,32 +39,12 @@ import { getAPatient } from "./CRUD/crudPacientes";
 
 //Esta funcion redirige a la pagina requerida dependiendo 
 //si el usuario esta resgistrado o no
-export default function AuthProvider(){
+export default async function AuthProvider(){
     const whoIsLogged = infoLoggedUser() ? infoLoggedUser().uid : "Nobody" //Id de quien esta Logueado
     const navigate = useNavigate()
-    
-    //Determinar que clase de usuario es, Admin, Medico o Paciente?
-    async function userType(id){
-        if(id == "Nobody"){
-            return "Nobody"
-        }
-        const isAdmin = await getAdmin(id)
-        const isDoctor = await getADoctor(id)
-        const isPatient = await getAPatient(id)
-
-        if(isAdmin.length == 1){
-            return "Admin"
-        }else if(isDoctor.length == 1){
-            return "Medico"
-        }else if(isPatient.length == 1){
-            return "Paciente"
-        }
-    }
-
-    async function RedirectUser() {
-        const UserType = await userType(whoIsLogged)
-        console.log("user is: "+ UserType)
-        switch (UserType) {
+    async function redirectUser(user) {
+        console.log("user is: "+ user)
+        switch (user) {
             case "Nobody":
                 navigate("/")
                 break;
@@ -82,9 +62,27 @@ export default function AuthProvider(){
                 break;
         }
     }
-    
-    RedirectUser()
+    redirectUser(await userType(whoIsLogged))
 }
+
+//Determinar que clase de usuario es, Admin, Medico o Paciente?
+export async function userType(id){
+    if(id == "Nobody"){
+        return "Nobody"
+    }
+    const isAdmin = await getAdmin(id)
+    const isDoctor = await getADoctor(id)
+    const isPatient = await getAPatient(id)
+
+    if(isAdmin.length == 1){
+        return "Admin"
+    }else if(isDoctor.length == 1){
+        return "Medico"
+    }else if(isPatient.length == 1){
+        return "Paciente"
+    }
+}
+
 
 export const infoLoggedUser = ()=>{
     const infoUser = auth.currentUser
