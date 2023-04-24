@@ -17,6 +17,7 @@ import { Admins } from './components/Tablas/Admins';
 import { CreatePatientView } from './components/create/CreatePaciente';
 import { CreateDoctorView } from './components/create/CreateMedico';
 import { EditPaciente } from './components/edit/EditPaciente';
+import { RegisterView } from './components/create/Register';
 
 
 function App() {  
@@ -32,6 +33,7 @@ function App() {
         <Route path='/Edit/:id' element={<Edit/>} />
         <Route path='/EditMedico/:id' element={<EditMedico/>} />
         <Route path='/EditPaciente/:id' element={<EditPaciente/>} />
+        <Route path='/Register' element={<RegisterView/>} />
         <Route path='/Create' element={<Create/>} />
         <Route path='/CrearPaciente' element={<CreatePatientView/>} />
         <Route path='/CrearMedico' element={<CreateDoctorView/>} />

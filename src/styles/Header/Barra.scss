@@ -1,5 +1,11 @@
+$azul-oscuro:#091d36;
+$azul-profundo: #3a4e7a;
+$azul-intermedio: #5e83ba;
+$azul-claro:#c2d2e9;
+$semi-blanco: #f1f1f0;
+
 .barraMenu{
-    background-color: #FFC300;
+    background-color: $azul-intermedio;
     height: 80px;
     font-size: 20px;
     /*position: fixed;*/

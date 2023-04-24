@@ -1,0 +1,60 @@
+.card {
+  width: 70%;
+  margin: 10px;
+}
+
+body {
+  background-color: #f1f1f0;
+}
+
+form {
+  color: silver;
+}
+
+.card-title {
+  color: #3a4e7a;
+}
+
+.form-label {
+  color: #5e83ba;
+}
+
+select, option, .form-select {
+  border: none;
+  color: #5e83ba;
+}
+
+.bi {
+  font-size: 2em;
+  vertical-align: top;
+}
+
+.my-input {
+  display: flex;
+  border: solid silver 1.3px;
+  border-radius: 15px;
+  padding: 5px;
+  height: 45px;
+}
+.my-input .icono {
+  margin-top: -8px;
+  vertical-align: auto;
+}
+.my-input .form-control {
+  height: min-content;
+  border: none;
+  color: silver;
+}
+
+.btn {
+  width: 100%;
+  margin-top: 15px;
+  background-color: #3a4e7a;
+  color: #f1f1f0;
+}
+.btn:hover {
+  background-color: #5e83ba;
+  color: #f1f1f0;
+}
+
+/*# sourceMappingURL=Register.css.map */

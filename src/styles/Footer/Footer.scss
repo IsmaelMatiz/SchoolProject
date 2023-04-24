@@ -1,6 +1,12 @@
+$azul-oscuro:#091d36;
+$azul-profundo: #3a4e7a;
+$azul-intermedio: #5e83ba;
+$azul-claro:#c2d2e9;
+$semi-blanco: #f1f1f0;
+
 .pie-pagina{
     width: 100%;
-    background-color: #FFC300;
+    background-color: $azul-intermedio;
 }
 .pie-pagina .grupo-1{
     width: 100%;
@@ -33,14 +39,14 @@
     line-height: 45px;
     color: white;
     margin-right: 10px;
-    background-color: #D3A307;
+    background-color: $azul-claro;
     text-align: center;
 }
 .pie-pagina .grupo-1 .red-social a:hover{
     color: black;
 }
 .pie-pagina .grupo-2{
-    background-color: #D3A307;
+    background-color: $azul-intermedio;
     padding: 15px 10px;
     text-align: center;
     color: white;

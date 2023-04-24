@@ -1,0 +1,60 @@
+.pie-pagina {
+  width: 100%;
+  background-color: #5e83ba;
+}
+
+.pie-pagina .grupo-1 {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 50px;
+  padding: 45px 0px;
+}
+
+.pie-pagina .grupo-1 .box h1 {
+  font-size: 50px;
+  font-family: "Chau Philomene One", sans-serif;
+  color: white;
+  padding-top: 10%;
+}
+
+.pie-pagina .grupo-1 .box h3 {
+  color: white;
+  margin-bottom: 25px;
+  font-size: 20px;
+}
+
+.pie-pagina .grupo-1 .box p {
+  color: #efefef;
+}
+
+.pie-pagina .grupo-1 .red-social a {
+  display: inline-block;
+  text-decoration: none;
+  width: 45px;
+  height: 45px;
+  line-height: 45px;
+  color: white;
+  margin-right: 10px;
+  background-color: #c2d2e9;
+  text-align: center;
+}
+
+.pie-pagina .grupo-1 .red-social a:hover {
+  color: black;
+}
+
+.pie-pagina .grupo-2 {
+  background-color: #5e83ba;
+  padding: 15px 10px;
+  text-align: center;
+  color: white;
+}
+
+.pie-pagina .grupo-2 small {
+  font-size: 15px;
+}
+
+/*# sourceMappingURL=Footer.css.map */

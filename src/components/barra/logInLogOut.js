@@ -1,8 +1,8 @@
 import { auth } from "../../firebase/firebaseConfi"
 import { signInWithEmailAndPassword } from "firebase/auth"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import React, { useEffect, useState } from 'react'
-import "../../styles/Barra.css"
+import "../../styles/Header/Barra.css"
 import  { userType } from "../../firebase/authProvider"
 
 
@@ -86,8 +86,7 @@ export function LoginSection (){
                     <input type="password" className="form-control" name='password' placeholder="Ingresar contraseña"  required/>
                     </div>
                     <button type="submit" className="btn btn-primary">Ingresar</button>
-                    <br />
-                    <br />
+                    <p>Registrate <Link to='/Register'>Aqui</Link></p>
                     {error? <span>Error con el correo o la contraseña</span>:<span></span>} 
     
                     </form>
