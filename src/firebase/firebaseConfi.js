@@ -26,7 +26,9 @@ export const db = getFirestore(app);
 export const storage = getStorage(app);
 
 //Global functions for CRUD
-export const tempAuth = getAuth(app);//its used when i want to update a user from another
+//Temporal user to delete
+export const app2 = initializeApp(firebaseConfig);
+export const tempAuth = getAuth(app2);//its used when i want to update a user from another
 
 //Create
 export async function AddToDB (uid,email,nombre,apellido,table){

@@ -61,14 +61,15 @@ const patientsCollectionRef= collection(db,"pacientes")
 //Create
 export async function CreatePatient(email,password,name,lastName){
   await createUserWithEmailAndPassword(auth, email, password)
-.then((userCredential) => {
+.then(async (userCredential) => {
   // Signed in 
   const user = userCredential.user;
-  AddToDBPatient(user.uid,user.email,name,lastName,'pacientes',"inactivo")
+  await AddToDBPatient(user.uid,user.email,name,lastName,'pacientes',"inactivo")
 })
 .catch((error) => {
   console.error("Error al crear Paciente: "+error)
-});
+})
+await auth.signOut()
 }
 
 async function AddToDBPatient (uid,email,nombre,apellido,table,status){

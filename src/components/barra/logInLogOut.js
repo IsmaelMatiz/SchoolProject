@@ -1,5 +1,5 @@
 import { auth } from "../../firebase/firebaseConfi"
-import { signInWithEmailAndPassword } from "firebase/auth"
+import { browserSessionPersistence, setPersistence, signInWithEmailAndPassword } from "firebase/auth"
 import { Link, useNavigate } from "react-router-dom"
 import React, { useEffect, useState } from 'react'
 import "../../styles/Header/Barra.css"
@@ -16,15 +16,21 @@ export function LoginSection (){
         e.preventDefault()
         const email = e.target.email.value
         const password = e.target.password.value
-        await signInWithEmailAndPassword(auth, email, password)
-        .then(async (userCredential) => {
-            setError(false)
-            console.log(await userType(auth.currentUser.uid))
-        })
-        .catch((error) => {
-            console.error("algo no salio bien iniciando sesion: "+ error)
-            setError(true)
-        });
+        await setPersistence(auth,browserSessionPersistence).then(
+            async() =>
+            {
+                    return signInWithEmailAndPassword(auth, email, password)
+                .then(async (userCredential) => {
+                    setError(false)
+                    console.log(await userType(auth.currentUser.uid))
+                })
+                .catch((error) => {
+                    console.error("algo no salio bien iniciando sesion: "+ error)
+                    setError(true)
+                })
+            }
+        ) 
+        
         RedirectUser(await userType(auth.currentUser.uid)) 
         e.target.reset()
     }

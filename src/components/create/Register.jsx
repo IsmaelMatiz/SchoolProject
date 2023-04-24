@@ -34,15 +34,24 @@ export function RegisterView(){
             case "1":
                 CreateAdmin(email,password,name,lastName)
                 setSuccess(1)
-                break;
+                setTimeout(() => {
+                    window.location.reload()
+                }, 3000)
+                break
             case "2":
                 CreateDoctor(email,password,name,lastName)
                 setSuccess(1)
-                break;
+                setTimeout(() => {
+                    window.location.reload()
+                }, 3000)
+                break
             case "3":
                 CreatePatient(email,password,name,lastName)
                 setSuccess(1)
-                break;
+                setTimeout(() => {
+                    window.location.reload()
+                }, 3000)
+                break
             default:
                 alert("Elige que rol deseas Crear")
                 setSuccess(2)
@@ -61,14 +70,14 @@ export function RegisterView(){
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Nombre</label>
                             <div class="my-input">
-                                <div class="icono"><i class=" bi bi-envelope-fill"></i></div>
+                                <div class="icono"><i class="bi bi-person"></i></div>
                                 <input type="text" class="form-control" name="name" aria-describedby="emailHelp" />
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Apellido</label>
                             <div class="my-input">
-                                <div class="icono"><i class=" bi bi-envelope-fill"></i></div>
+                                <div class="icono"><i class="bi bi-person"></i></div>
                                 <input type="text" class="form-control" name="lastName" aria-describedby="emailHelp" />
                             </div>
                         </div>

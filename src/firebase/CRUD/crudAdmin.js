@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, deleteUser, signInWithEmailAndPassword, signOut, updateEmail } from "firebase/auth";
+import { createUserWithEmailAndPassword, deleteUser, EmailAuthProvider, reauthenticateWithCredential, signInWithEmailAndPassword, signOut, updateEmail } from "firebase/auth";
 import { AddToDB, auth, db, deleteFromDB, tempAuth, updateDB} from "../firebaseConfi";
 import {collection,
   addDoc,
@@ -17,15 +17,16 @@ const adminCollectionRef= collection(db,"admins")
 //Create
 export async function CreateAdmin (email,password,name,lastName){
     await createUserWithEmailAndPassword(tempAuth, email, password)
-  .then((userCredential) => {
+  .then(async(userCredential) => {
     // Signed in 
     const user = userCredential.user;
-    AddToDB(user.uid,user.email,name,lastName,'admins')
+    await AddToDB(user.uid,user.email,name,lastName,'admins')
+    console.log("parece q si")
   })
   .catch((error) => {
     console.error("Error al crear admin: "+error)
   });
-
+  await auth.signOut()
   }
 
 
@@ -100,8 +101,13 @@ export async function updateAdmin(uid,newName,newLastName,newEmail,formerEmail,p
 }
 
 //Delete
-
 export async function deleteAdmin (id,email,password){
+  
+  //Borra de DB
+  await deleteFromDB(doc(adminCollectionRef, id)).catch(error => {
+    console.error("Error al borrar de DB")
+    return false
+  })
   //Borrar correo de autenticacion
   let success = false
   await signInWithEmailAndPassword(tempAuth,email, password)
@@ -115,18 +121,6 @@ export async function deleteAdmin (id,email,password){
       success = true
     })
     .catch(error => console.error("Error al cambiar Correo autenticacion: "+error))
-
-    await signOut(tempAuth).then(() => {
-      console.log("TempAuth cerro sesion")
-    }).catch((error) => {
-      console.error("Error al cerrar sesion de TempAuth: "+error)
-    });
-
-    //Borra de DB
-    deleteFromDB(doc(adminCollectionRef, id)).catch(error => {
-      console.error("Error al borrar de DB")
-      return false
-    })
  
     return tempAuth.currentUser == null && success ? true : false
 }

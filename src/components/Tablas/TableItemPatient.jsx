@@ -11,13 +11,16 @@ export function TableItemtPatient(props) {
     const [password, setPassword] = useState("")
 
     function handleDelete(){
-        //Borrar Paciente
+        const continuar = prompt("Por motivos de seguridad se cerrar la sesion al borrar un perfil, desea continuar? si/no")
+        if(continuar.toLowerCase() == "si"){
+            //Borrar Paciente
             deletePatient(props.id,props.email,password).catch(
                 error => alert("Error al borrar doctor: "+error)
             )
             setTimeout(() => {
                 window.location.reload()    
             }, 2000)
+        }
     }
 
     return(

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { getAllPatients } from '../../firebase/CRUD/crudPacientes'
 import { TableItemtPatient } from './TableItemPatient'
 import "../../styles/itemTable/item.css"
+import "../../styles/dashBoard/dashboard.css"
 
 const Pacientes = () => {
 
@@ -29,7 +30,7 @@ useEffect(() =>{
     <div className='container'>
       <div className='row'>
         <div className='col'>
-
+          <div class="table-wrapper-scroll-y my-custom-scrollbar">
             <table className='table my-table table-hover'>
             <thead>
                 <tr>
@@ -53,9 +54,8 @@ useEffect(() =>{
                     />
                 ))}
             </tbody>
-
-
             </table>
+          </div>
         </div>
       </div>
     </div>

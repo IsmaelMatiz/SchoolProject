@@ -4,11 +4,12 @@ import AuthProvider from "../../firebase/authProvider";
 import { getAllDoctors } from "../../firebase/CRUD/crudMedicos";
 import { TableItemt } from "./TableItem";
 import "../../styles/itemTable/item.css"
+import "../../styles/dashBoard/dashboard.css"
 
-export function Medicos() {
+export function Medicos(props) {
     // hooks
     const [medicos, setMedicos ] = useState( [] )
-    //AuthProvider()
+    AuthProvider()
 
     // funcion para mostrar todos los docs
     async function getMedicos(){
@@ -23,10 +24,11 @@ export function Medicos() {
 
     return(
         <React.Fragment>
-                    <div className='container'>
+            <div className='container'>
             <div className='row'>
                 <div className='col'>
-
+                
+                <div class="table-wrapper-scroll-y my-custom-scrollbar">
                     <table className='table my-table table-hover'>
                     <thead>
                         <tr>
@@ -53,13 +55,12 @@ export function Medicos() {
 
 
                     </table>
+                    </div>
                 </div>
             </div>
             </div>
-            <br />
-            <br />
-            <br />
-            <br />
+
+ 
         </React.Fragment>
     )
 }

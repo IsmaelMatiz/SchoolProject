@@ -40,6 +40,7 @@ import { getAPatient } from "./CRUD/crudPacientes";
 //Esta funcion redirige a la pagina requerida dependiendo 
 //si el usuario esta resgistrado o no
 export default async function AuthProvider(){
+
     const whoIsLogged = infoLoggedUser() ? infoLoggedUser().uid : "Nobody" //Id de quien esta Logueado
     const navigate = useNavigate()
     async function redirectUser(user) {
@@ -50,13 +51,13 @@ export default async function AuthProvider(){
                 break;
             
             case "Admin":
-                navigate("/Admins")
+                console.log("un admin no requiere redireccion, el pueder hacerlo todo")
                 break;
             case "Medico":
                 navigate("/Medicos")
                 break;
             case "Paciente":
-                navigate("/Pacientes")
+                navigate("/Evolucion")
                 break;
             default:
                 break;

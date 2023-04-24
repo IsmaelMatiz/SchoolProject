@@ -11,30 +11,33 @@ export function TableItemt(props) {
     const [password, setPassword] = useState("")
 
     function handleDelete(){
-        //Borrar Admin
-        if (props.rol === "Admin"){
-            deleteAdmin(props.id,props.email,password).catch(
-                error => alert("Error al borrar Admin: "+error)
-            )
-            setTimeout(() => {
-                window.location.reload()    
-            }, 2000)
-        //Borrar Doctor
-        }else if (props.rol === "Medico"){
-            deleteDoctor(props.id,props.email,password).catch(
-                error => alert("Error al borrar doctor: "+error)
-            )
-            setTimeout(() => {
-                window.location.reload()    
-            }, 2000)
-        //Borrar Paciente
-        }else if(props.rol === "Paciente"){
-            deletePatient(props.id,props.email,password).catch(
-                error => alert("Error al borrar doctor: "+error)
-            )
-            setTimeout(() => {
-                window.location.reload()    
-            }, 2000)
+        const continuar = prompt("Por motivos de seguridad es posible que se cierre la sesion al borrar un perfil, desea continuar? si/no")
+        if(continuar.toLowerCase() == "si"){
+            //Borrar Admin
+            if (props.rol === "Admin"){
+                deleteAdmin(props.id,props.email,password).catch(
+                    error => alert("Error al borrar Admin: "+error)
+                )
+                setTimeout(() => {
+                    window.location.reload()    
+                }, 2000)
+            //Borrar Doctor
+            }else if (props.rol === "Medico"){
+                deleteDoctor(props.id,props.email,password).catch(
+                    error => alert("Error al borrar doctor: "+error)
+                )
+                setTimeout(() => {
+                    window.location.reload()    
+                }, 2000)
+            //Borrar Paciente
+            }else if(props.rol === "Paciente"){
+                deletePatient(props.id,props.email,password).catch(
+                    error => alert("Error al borrar doctor: "+error)
+                )
+                setTimeout(() => {
+                    window.location.reload()    
+                }, 2000)
+            }
         }
         
     }

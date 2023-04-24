@@ -7,17 +7,15 @@ import Footer from "./components/footer/Footer";
 import Pacientes from './components/Tablas/Pacientes';
 import Edit from './components/edit/Edit';
 import EditMedico from './components/edit/EditMedico';
-import Create from './components/create/Create';
 import InfoP from './components/infoP/InfoP';
 import Cumplimiento from './components/infoP/Cumplimiento';
 import Deberes from './components/infoP/Deberes'; 
 import Evolucion from './components/infoP/Evolucion';
 import { Medicos } from './components/Tablas/Medicos';
 import { Admins } from './components/Tablas/Admins';
-import { CreatePatientView } from './components/create/CreatePaciente';
-import { CreateDoctorView } from './components/create/CreateMedico';
 import { EditPaciente } from './components/edit/EditPaciente';
 import { RegisterView } from './components/create/Register';
+import { DashboardAdmin } from './components/dashboards/dashboardAdmin';
 
 
 function App() {  
@@ -34,9 +32,7 @@ function App() {
         <Route path='/EditMedico/:id' element={<EditMedico/>} />
         <Route path='/EditPaciente/:id' element={<EditPaciente/>} />
         <Route path='/Register' element={<RegisterView/>} />
-        <Route path='/Create' element={<Create/>} />
-        <Route path='/CrearPaciente' element={<CreatePatientView/>} />
-        <Route path='/CrearMedico' element={<CreateDoctorView/>} />
+        <Route path='/Dashboard/admin' element={<DashboardAdmin/>} />
         <Route path='/InfoP' element={<InfoP/>} />
         <Route path='/Cumplimiento' element={<Cumplimiento/>} />
         <Route path='/Deberes' element={<Deberes/>} />

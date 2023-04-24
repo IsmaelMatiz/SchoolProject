@@ -1,0 +1,28 @@
+.my-col {
+  background-color: #091d36;
+  width: fit-content;
+  padding: 0%;
+}
+.my-col h3 {
+  color: #5e83ba;
+  margin-left: 15px;
+}
+
+.asign {
+  border-radius: 20px;
+  padding: 50px;
+  margin: 20px;
+}
+
+.my-custom-scrollbar {
+  position: relative;
+  height: 300px;
+  width: 100%;
+  overflow: auto;
+}
+
+.table-wrapper-scroll-y {
+  display: block;
+}
+
+/*# sourceMappingURL=dashboard.css.map */
