@@ -1,8 +1,9 @@
-import { auth } from "./firebaseConfi"
+import { auth } from "../../firebase/firebaseConfi"
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { useNavigate } from "react-router-dom"
 import React, { useEffect, useState } from 'react'
-import "../components/barra/Barra.css"
+import "../../styles/Barra.css"
+import authProvider from "../../firebase/authProvider"
 
 
 export function LoginSection (){
@@ -18,8 +19,8 @@ export function LoginSection (){
         const password = e.target.password.value
         await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            navigate("/Admins")
             setError(false)
+            authProvider()
         })
         .catch((error) => {
             console.error("algo no salio bien iniciando sesion: "+ error)

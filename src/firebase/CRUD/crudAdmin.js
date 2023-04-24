@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, deleteUser, signInWithEmailAndPassword, signOut, updateEmail } from "firebase/auth";
-import { AddToDB, auth, db, deleteFromDB, tempAuth, updateDB} from "./firebaseConfi";
+import { AddToDB, auth, db, deleteFromDB, tempAuth, updateDB} from "../firebaseConfi";
 import {collection,
   addDoc,
   getDoc,

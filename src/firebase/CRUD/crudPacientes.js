@@ -1,16 +1,12 @@
 import {collection,
-        addDoc,
-        getDoc,
         doc,
         getDocs,
         query,
-        where,
-        setDoc,
-        deleteDoc
+        where
         } from 'firebase/firestore';
 
 import { createUserWithEmailAndPassword, deleteUser, signInWithEmailAndPassword, signOut, updateEmail } from 'firebase/auth'
-import { AddToDB, auth, db, deleteFromDB, tempAuth, updateDB } from './firebaseConfi';
+import { AddToDB, auth, db, deleteFromDB, tempAuth, updateDB } from '../firebaseConfi';
 
 const patientsCollectionRef= collection(db,"pacientes")
 

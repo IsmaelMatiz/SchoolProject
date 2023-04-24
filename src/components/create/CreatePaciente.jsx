@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CreatePatient } from "../../firebase/crudPacientes";
+import { CreatePatient } from "../../firebase/CRUD/crudPacientes";
 
 
 export function CreatePatientView() {

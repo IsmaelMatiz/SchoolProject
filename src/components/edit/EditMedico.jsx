@@ -1,9 +1,6 @@
 import React from 'react'
-import { useEffect, useState } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { getDoc, updateDoc, doc } from 'firebase/firestore'
-import { db } from '../../firebase/firebaseConfi'
-import { updateDoctor } from '../../firebase/crudMedicos'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { updateDoctor } from '../../firebase/CRUD/crudMedicos'
 
 
 const EditMedico = () => {

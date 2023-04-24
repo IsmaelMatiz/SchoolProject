@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { updatePatient } from "../../firebase/crudPacientes";
+import { updatePatient } from "../../firebase/CRUD/crudPacientes";
 
 
 export function EditPaciente(){

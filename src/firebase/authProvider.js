@@ -4,10 +4,13 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useEffect } from "react";
 import {auth, userExists} from "../firebase/firebaseConfi";
 import { useNavigate } from "react-router-dom";
+import { getAdmin } from "./CRUD/crudAdmin";
+import { getADoctor } from "./CRUD/crudMedicos";
+import { getAPatient } from "./CRUD/crudPacientes";
 
 
-//Esta funcion redirige a la pagina requerida dependiendo 
-//si el usuario esta resgistrado o no
+
+
 /*export default function authProvider(){
     //redireccionar a los usuarios
     const navigate = useNavigate();
@@ -34,10 +37,58 @@ import { useNavigate } from "react-router-dom";
     
 }*/
 
+//Esta funcion redirige a la pagina requerida dependiendo 
+//si el usuario esta resgistrado o no
+export default function AuthProvider(){
+    const whoIsLogged = infoLoggedUser() ? infoLoggedUser().uid : "Nobody" //Id de quien esta Logueado
+    const navigate = useNavigate()
+    
+    //Determinar que clase de usuario es, Admin, Medico o Paciente?
+    async function userType(id){
+        if(id == "Nobody"){
+            return "Nobody"
+        }
+        const isAdmin = await getAdmin(id)
+        const isDoctor = await getADoctor(id)
+        const isPatient = await getAPatient(id)
+
+        if(isAdmin.length == 1){
+            return "Admin"
+        }else if(isDoctor.length == 1){
+            return "Medico"
+        }else if(isPatient.length == 1){
+            return "Paciente"
+        }
+    }
+
+    async function RedirectUser() {
+        const UserType = await userType(whoIsLogged)
+        console.log("user is: "+ UserType)
+        switch (UserType) {
+            case "Nobody":
+                navigate("/")
+                break;
+            
+            case "Admin":
+                navigate("/Admins")
+                break;
+            case "Medico":
+                navigate("/Medicos")
+                break;
+            case "Paciente":
+                navigate("/Pacientes")
+                break;
+            default:
+                break;
+        }
+    }
+    
+    RedirectUser()
+}
+
 export const infoLoggedUser = ()=>{
     const infoUser = auth.currentUser
     return infoUser
 }
-
 
 

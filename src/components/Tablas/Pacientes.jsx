@@ -1,8 +1,6 @@
-import React, { useState, useEffect, useCallback} from 'react'
+import React, { useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
-import { deleteDoc, doc } from 'firebase/firestore'
-import { db } from '../../firebase/firebaseConfi'
-import { getAllPatients, getAPatient } from '../../firebase/crudPacientes'
+import { getAllPatients } from '../../firebase/CRUD/crudPacientes'
 import { TableItemt } from './TableItem'
 
 const Pacientes = () => {

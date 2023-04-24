@@ -1,7 +1,7 @@
 import React from 'react'
-import "./Barra.css"
+import "../../styles/Barra.css"
 import { Link} from 'react-router-dom'
-import { LoginSection } from '../../firebase/logInLogOut'
+import { LoginSection } from './logInLogOut'
 
 export default function Barra () {
   

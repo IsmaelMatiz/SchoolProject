@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link} from "react-router-dom";
-import { deleteAdmin } from "../../firebase/crudAdmin";
-import { deleteDoctor } from "../../firebase/crudMedicos";
-import { deletePatient } from "../../firebase/crudPacientes";
+import { deleteAdmin } from "../../firebase/CRUD/crudAdmin";
+import { deleteDoctor } from "../../firebase/CRUD/crudMedicos";
+import { deletePatient } from "../../firebase/CRUD/crudPacientes";
 
 export function TableItemt(props) {
 

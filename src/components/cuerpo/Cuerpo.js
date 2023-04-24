@@ -1,5 +1,5 @@
 import React from 'react'
-import "./Cuerpo.css";
+import "../../styles/Cuerpo.css";
 
 
 export const Cuerpo = () => {

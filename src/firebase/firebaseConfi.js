@@ -3,12 +3,7 @@ import {getAuth} from 'firebase/auth';
 import {getStorage} from 'firebase/storage';
 import {getFirestore, updateDoc} from 'firebase/firestore';
 import {collection,
-        addDoc,
-        getDoc,
         doc,
-        getDocs,
-        query,
-        where,
         setDoc,
         deleteDoc
         } from 'firebase/firestore';

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useLocation, useNavigate} from 'react-router-dom'
-import { updateAdmin } from '../../firebase/crudAdmin'
+import { updateAdmin } from '../../firebase/CRUD/crudAdmin'
 
 export default function Edit () {
 

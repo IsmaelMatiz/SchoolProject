@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { useNavigate } from 'react-router-dom';
-import { CreateAdmin } from '../../firebase/crudAdmin';
+import { CreateAdmin } from '../../firebase/CRUD/crudAdmin';
 
 
 const Create = () => {

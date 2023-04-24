@@ -1,9 +1,6 @@
-import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { infoLoggedUser } from "../../firebase/authProvider";
-import { getADoctor, getAllDoctors } from "../../firebase/crudMedicos";
-import { db } from "../../firebase/firebaseConfi";
+import { getAllDoctors } from "../../firebase/CRUD/crudMedicos";
 import { TableItemt } from "./TableItem";
 
 export function Medicos() {
