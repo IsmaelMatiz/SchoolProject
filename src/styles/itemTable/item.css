@@ -1,0 +1,13 @@
+.my-table {
+  background-color: white;
+  border-radius: 20px;
+}
+.my-table th {
+  color: #5e83ba;
+}
+
+.input-delete {
+  font-size: smaller;
+}
+
+/*# sourceMappingURL=item.css.map */

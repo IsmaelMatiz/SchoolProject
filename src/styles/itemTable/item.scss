@@ -1,0 +1,17 @@
+$azul-oscuro:#091d36;
+$azul-profundo: #3a4e7a;
+$azul-intermedio: #5e83ba;
+$azul-claro:#c2d2e9;
+$semi-blanco: #f1f1f0;
+
+.my-table{
+    background-color: white;
+    border-radius: 20px;
+    th{
+        color: $azul-intermedio;
+    }
+}
+
+.input-delete{
+    font-size: smaller;
+}

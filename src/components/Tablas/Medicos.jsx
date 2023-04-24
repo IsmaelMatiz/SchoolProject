@@ -3,11 +3,12 @@ import { Link } from "react-router-dom";
 import AuthProvider from "../../firebase/authProvider";
 import { getAllDoctors } from "../../firebase/CRUD/crudMedicos";
 import { TableItemt } from "./TableItem";
+import "../../styles/itemTable/item.css"
 
 export function Medicos() {
     // hooks
     const [medicos, setMedicos ] = useState( [] )
-    AuthProvider()
+    //AuthProvider()
 
     // funcion para mostrar todos los docs
     async function getMedicos(){
@@ -25,11 +26,8 @@ export function Medicos() {
                     <div className='container'>
             <div className='row'>
                 <div className='col'>
-                    <div className="d-grid gap-2">
-                    <Link to="/CrearMedico" className='btn btn-secondary mt-2 mb-2'>Crear</Link>
-                    </div>
 
-                    <table className='table table-dark table-hover'>
+                    <table className='table my-table table-hover'>
                     <thead>
                         <tr>
                         <th>Nombre</th>

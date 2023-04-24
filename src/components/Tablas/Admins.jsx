@@ -1,16 +1,15 @@
 import React, {  useEffect, useState } from "react";
-import { useCallback } from "react";
-import { Link} from "react-router-dom";
 import AuthProvider from "../../firebase/authProvider";
 import { getAllAdmins } from "../../firebase/CRUD/crudAdmin";
 import {TableItemt } from "./TableItem";
+import "../../styles/itemTable/item.css"
 
 
 export function Admins() {
 
     // hooks
     const [admins, setAdmins ] = useState( [] )
-    AuthProvider()
+    //AuthProvider()
 
     // funcion para mostrar todos los docs
     async function getAdmins (){
@@ -27,11 +26,8 @@ useEffect(() =>{
                     <div className='container'>
             <div className='row'>
                 <div className='col'>
-                    <div className="d-grid gap-2">
-                    <Link to="/Create" className='btn btn-secondary mt-2 mb-2'>Crear</Link>
-                    </div>
 
-                    <table className='table table-dark table-hover'>
+                    <table className='table my-table table-hover'>
                     <thead>
                         <tr>
                         <th>Nombre</th>

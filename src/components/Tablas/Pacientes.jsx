@@ -1,14 +1,14 @@
 import React, { useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
-import AuthProvider from '../../firebase/authProvider'
 import { getAllPatients } from '../../firebase/CRUD/crudPacientes'
-import { TableItemt } from './TableItem'
+import { TableItemtPatient } from './TableItemPatient'
+import "../../styles/itemTable/item.css"
 
 const Pacientes = () => {
 
 // hooks
 const [pacientes, setPacientes ] = useState( [] )
-AuthProvider()
+//AuthProvider()
 
 
 // funcion para mostrar todos los docs
@@ -29,29 +29,27 @@ useEffect(() =>{
     <div className='container'>
       <div className='row'>
         <div className='col'>
-            <div className="d-grid gap-2">
-            <Link to="/CrearPaciente" className='btn btn-secondary mt-2 mb-2'>Crear</Link>
-            </div>
 
-            <table className='table table-dark table-hover'>
+            <table className='table my-table table-hover'>
             <thead>
                 <tr>
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Correo</th>
+                <th>Status</th>
                 <th>Acciones</th>
                 </tr>
             </thead>
 
             <tbody>
                 { pacientes.map( (paciente) =>(
-                    <TableItemt
+                    <TableItemtPatient
                     key={paciente.id}
                     id={paciente.id}
                     nombre={paciente.nombre}
                     apellido={paciente.apellido}
                     email={paciente.email}
-                    rol={"Paciente"}
+                    status={paciente.status}
                     />
                 ))}
             </tbody>

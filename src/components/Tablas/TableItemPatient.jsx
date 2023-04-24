@@ -5,38 +5,19 @@ import { deleteDoctor } from "../../firebase/CRUD/crudMedicos";
 import { deletePatient } from "../../firebase/CRUD/crudPacientes";
 import "../../styles/itemTable/item.css"
 
-export function TableItemt(props) {
+export function TableItemtPatient(props) {
 
     const [verifyDelete, setVerifyDelete] = useState(false)
     const [password, setPassword] = useState("")
 
     function handleDelete(){
-        //Borrar Admin
-        if (props.rol === "Admin"){
-            deleteAdmin(props.id,props.email,password).catch(
-                error => alert("Error al borrar Admin: "+error)
-            )
-            setTimeout(() => {
-                window.location.reload()    
-            }, 2000)
-        //Borrar Doctor
-        }else if (props.rol === "Medico"){
-            deleteDoctor(props.id,props.email,password).catch(
-                error => alert("Error al borrar doctor: "+error)
-            )
-            setTimeout(() => {
-                window.location.reload()    
-            }, 2000)
         //Borrar Paciente
-        }else if(props.rol === "Paciente"){
             deletePatient(props.id,props.email,password).catch(
                 error => alert("Error al borrar doctor: "+error)
             )
             setTimeout(() => {
                 window.location.reload()    
             }, 2000)
-        }
-        
     }
 
     return(
@@ -58,6 +39,7 @@ export function TableItemt(props) {
                     </React.Fragment>
                     :
                     <td>{props.email}</td>}
+                    <td>{props.status}</td>
                     <td>
                         <Link to={`/Edit/${props.id}`} className="btn btn-light m-1"><i class="bi bi-pen"></i></Link>
                         <button onClick={ () => {

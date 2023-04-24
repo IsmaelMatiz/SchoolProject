@@ -104,7 +104,7 @@ export function RegisterView(){
                             </select>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Enviar</button>
+                        <button type="submit" class="btn my-btn btn-primary">Enviar</button>
                     </form>
                 </div>
             </div>

@@ -46,13 +46,13 @@ select, option, .form-select {
   color: silver;
 }
 
-.btn {
+.my-btn {
   width: 100%;
   margin-top: 15px;
   background-color: #3a4e7a;
   color: #f1f1f0;
 }
-.btn:hover {
+.my-btn:hover {
   background-color: #5e83ba;
   color: #f1f1f0;
 }
