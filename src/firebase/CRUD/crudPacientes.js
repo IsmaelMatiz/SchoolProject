@@ -169,13 +169,20 @@ async function updateDBPatient(newName,newLastName, newEmail,docRef,status){
 
 //Delete
 export async function deletePatient(id,email,password){
+  let success = true
+  //Borra de DB
+  await deleteFromDB(doc(patientsCollectionRef, id)).catch(error => {
+    console.error("Error al borrar de DB")
+    return false
+  })
+  
   //Borrar correo de autenticacion
-  let success = false
+  console.log("entra a la funcion: " + tempAuth.currentUser.email)
   await signInWithEmailAndPassword(tempAuth,email, password)
     .then(function(userCredential) {
         console.log("tempUser se logueo correctamente")
     }).catch(error => console.error("Error al iniciar sesion temp: "+error))
-
+    console.log("borrare a: " + tempAuth.currentUser.email)
     await deleteUser(tempAuth.currentUser)
     .then(()=>{
       console.log("Borrado correctamente correo autenticacion")
@@ -183,18 +190,6 @@ export async function deletePatient(id,email,password){
     })
     .catch(error => console.error("Error al cambiar Correo autenticacion: "+error))
 
-    await signOut(tempAuth).then(() => {
-      console.log("TempAuth cerro sesion")
-    }).catch((error) => {
-      console.error("Error al cerrar sesion de TempAuth: "+error)
-    });
-
-    //Borra de DB
-    deleteFromDB(doc(patientsCollectionRef, id)).catch(error => {
-      console.error("Error al borrar de DB")
-      return false
-    })
- 
     return tempAuth.currentUser == null && success ? true : false
 }
 

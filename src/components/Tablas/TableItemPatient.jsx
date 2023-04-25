@@ -3,6 +3,7 @@ import { Link} from "react-router-dom";
 import { deleteAdmin } from "../../firebase/CRUD/crudAdmin";
 import { deleteDoctor } from "../../firebase/CRUD/crudMedicos";
 import { deletePatient } from "../../firebase/CRUD/crudPacientes";
+import { auth } from "../../firebase/firebaseConfi";
 import "../../styles/itemTable/item.css"
 
 export function TableItemtPatient(props) {
@@ -14,12 +15,13 @@ export function TableItemtPatient(props) {
         const continuar = prompt("Por motivos de seguridad se cerrar la sesion al borrar un perfil, desea continuar? si/no")
         if(continuar.toLowerCase() == "si"){
             //Borrar Paciente
+            console.log("Inicia el borrardo y el user es: " + auth.currentUser.email)
             deletePatient(props.id,props.email,password).catch(
                 error => alert("Error al borrar doctor: "+error)
             )
             setTimeout(() => {
                 window.location.reload()    
-            }, 2000)
+            }, 4000)
         }
     }
 
