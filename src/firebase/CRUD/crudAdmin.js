@@ -90,7 +90,7 @@ export async function updateAdmin(uid,newName,newLastName,newEmail,formerEmail,p
       console.error("Error al cerrar sesion de TempAuth: "+error)
     });
     //Actualizar DB
-    updateDB(newName,newLastName,newEmail,doc(adminCollectionRef,uid)).catch(
+    await updateDB(newName,newLastName,newEmail,doc(adminCollectionRef,uid)).catch(
       error => {
         console.log("Error Actualizando la DB: "+error)
         return false

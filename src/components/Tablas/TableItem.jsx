@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { Link} from "react-router-dom";
-import { deleteAdmin } from "../../firebase/CRUD/crudAdmin";
-import { deleteDoctor } from "../../firebase/CRUD/crudMedicos";
+import { deleteAdmin, updateAdmin } from "../../firebase/CRUD/crudAdmin";
+import { deleteDoctor, updateDoctor } from "../../firebase/CRUD/crudMedicos";
 import { deletePatient } from "../../firebase/CRUD/crudPacientes";
 import "../../styles/itemTable/item.css"
 
 export function TableItemt(props) {
 
     const [verifyDelete, setVerifyDelete] = useState(false)
+    const [verifyEdit, setVerifyEdit] = useState(false)
+    const [name, setName] = useState("")
+    const [lastName, setLastName] = useState("")
+    const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
     function handleDelete(){
@@ -29,44 +33,104 @@ export function TableItemt(props) {
                 setTimeout(() => {
                     window.location.reload()    
                 }, 2000)
-            //Borrar Paciente
-            }else if(props.rol === "Paciente"){
-                deletePatient(props.id,props.email,password).catch(
-                    error => alert("Error al borrar doctor: "+error)
-                )
-                setTimeout(() => {
-                    window.location.reload()    
-                }, 2000)
             }
+        }   
+    }
+
+    async function handleUpdate(){
+        //Actualizar paciente
+        const continuar = prompt("Por motivos de seguridad se cerrar la sesion al editar un perfil, desea continuar? si/no")
+        if(continuar.toLowerCase() == "si"){
+                //Actualizar Medico
+                if (props.rol === "Medico"){
+                    let success = false
+                
+                    success = await updateDoctor(props.id,name,lastName,email,props.email,password)
+                    
+                    setTimeout(() => {
+                        if(success) window.location.reload()
+                        else alert("Email o clave incorrectas")
+                      }, 4000)
+                }else if(props.rol === "Admin"){
+                //Actualizar Admin
+                    let success = false
+                
+                    success = await updateAdmin(props.id,name,lastName,email,props.email,password)
+                    setTimeout(() => {
+                        if(success) window.location.reload()
+                        else alert("Email o clave incorrectas")
+                      }, 4000)
+                }
         }
-        
     }
 
     return(
             <tr key={props.id}>
-                <td>{props.nombre}</td>
+                {verifyEdit?
+                <React.Fragment>
+                    <td>
+                        <input type="text"  placeholder={props.nombre} 
+                        onChange={e => setName(e.target.value)} />
+                    </td>
+                    <td className="my-td">
+                            <input type="text"  placeholder={props.apellido} 
+                            onChange={e => setLastName(e.target.value)} />
+                    </td>
+                    <td className="my-td">
+                        <input type="email" placeholder={props.email} 
+                        onChange={e => setEmail(e.target.value)} />
+                        <input type="password"  placeholder="Ingresa la clave del paciente" 
+                        onChange={e => setPassword(e.target.value)} />
+                    </td>
+                </React.Fragment>
+                :
+                <React.Fragment>
+                    <td>{props.nombre}</td>
                     <td>{props.apellido}</td>
-                    {verifyDelete? 
+                    <td>
+                        {props.email}
+
+                        {verifyDelete? 
+                            <React.Fragment>
+                                <td>
+                                    <div>
+                                        <input type="password" placeholder="Ingrese clave de este usuario para confirmar"
+                                        onChange={e => setPassword(e.target.value)}
+                                        class="input-delete"
+                                        />
+                                        <button className="btn btn-danger" onClick={handleDelete}>Delete</button>
+                                    </div>
+                                </td>
+                            </React.Fragment>
+                            :
+                            <span></span>
+                        }
+                    </td>
+                </React.Fragment>
+                }
+                    
+                    <td>
+                    {verifyEdit?
                     <React.Fragment>
-                        <td>
-                            <div>
-                                {props.email}
-                                <input type="password" placeholder="Ingrese contrasena de este admin para confirmar"
-                                onChange={e => setPassword(e.target.value)}
-                                class="input-delete"
-                                />
-                                <button className="btn btn-danger" onClick={handleDelete}>Delete</button>
-                            </div>
-                        </td>
+                        <button onClick={ () => {//Confirmar Cambio
+                            handleUpdate()
+                        } } className="btn btn-light">Confirmar</button>
+                        <button class="btn btn-danger" onClick={ () => {//Cancelar edit
+                            setVerifyEdit(false)
+                        } }>Cancelar</button>
                     </React.Fragment>
                     :
-                    <td>{props.email}</td>}
-                    <td>
-                        <Link to={`/Edit/${props.id}`} className="btn btn-light m-1"><i class="bi bi-pen"></i></Link>
-                        <button onClick={ () => {
+                    <React.Fragment>
+                        <button onClick={ () => {//Editar
+                            if(verifyEdit) setVerifyEdit(false)
+                            else setVerifyEdit(true)
+                        } } className="btn btn-light"><i class="bi bi-pen"></i></button>
+                        <button onClick={ () => {//Borrar
                             if(verifyDelete) setVerifyDelete(false)
                             else setVerifyDelete(true)
                         } } className="btn btn-light"><i class="bi bi-trash"></i></button>
+                    </React.Fragment>
+                    }
                     </td>
                     </tr>
     )

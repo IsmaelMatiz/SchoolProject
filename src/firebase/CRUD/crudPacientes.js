@@ -122,7 +122,7 @@ export async function getAPatient(uid){
 }
 
 //Update
-export async function updatePatient(uid,newName,newLastName,newEmail,formerEmail,password){
+export async function updatePatient(uid,newName,newLastName,newEmail,formerEmail,password,status){
   //actualizar correo de autenticacion
   let success = false
   await signInWithEmailAndPassword(tempAuth,formerEmail, password)
@@ -143,7 +143,7 @@ export async function updatePatient(uid,newName,newLastName,newEmail,formerEmail
       console.error("Error al cerrar sesion de TempAuth: "+error)
     });
     //Actualizar DB
-    updateDBPatient(newName,newLastName,newEmail,doc(patientsCollectionRef,uid)).catch(
+    await updateDBPatient(newName,newLastName,newEmail,doc(patientsCollectionRef,uid),status).catch(
       error => {
         console.log("Error Actualizando la DB: "+error)
         return false

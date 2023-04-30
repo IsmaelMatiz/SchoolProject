@@ -83,7 +83,7 @@ export async function updateDoctor(uid,newName,newLastName,newEmail,formerEmail,
       console.error("Error al cerrar sesion de TempAuth: "+error)
     });
     //Actualizar DB
-    updateDB(newName,newLastName,newEmail,doc(doctorCollectionRef,uid)).catch(
+    await updateDB(newName,newLastName,newEmail,doc(doctorCollectionRef,uid)).catch(
       error => {
         console.log("Error Actualizando la DB: "+error)
         return false
