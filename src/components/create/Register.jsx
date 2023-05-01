@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
+import { infoLoggedUser, userType } from "../../firebase/authProvider";
 import { CreateAdmin } from "../../firebase/CRUD/crudAdmin";
 import { CreateDoctor } from "../../firebase/CRUD/crudMedicos";
 import { CreatePatient } from "../../firebase/CRUD/crudPacientes";
@@ -8,6 +9,8 @@ import "../../styles/Register/Register.css"
 export function RegisterView(){
 
     const [success, setSuccess] = useState(0)
+    const [editer, setEditer] = useState ("")
+    
 
     //Registrar usuario independiente de su rol
     function RegisterUser(data){
@@ -60,6 +63,16 @@ export function RegisterView(){
 
     }
 
+    async function checkEditer() {
+        const whoIsLogged = await userType( infoLoggedUser().uid)
+        console.log(await whoIsLogged)
+        setEditer(await whoIsLogged)
+    }
+
+    useEffect(()=>{
+        checkEditer()
+    },[editer])
+
 
     return(
         <React.Fragment>
@@ -107,9 +120,22 @@ export function RegisterView(){
                             <div class="icono"><i class="bi bi-person-circle"></i></div>
                             <select class="form-select" name="rol" aria-label="Default select example">
                                 <option selected>Cual es tu rol?</option>
-                                <option value="1">Admin</option>
-                                <option value="2">Medico</option>
-                                <option value="3">Paciente</option>
+                                {editer == "Admin"?
+                                <React.Fragment>
+                                    <option value="1">Admin</option>
+                                    <option value="2">Medico</option>
+                                    <option value="3">Paciente</option>
+                                </React.Fragment>
+                                :
+                                editer == "Medico"?
+                                <React.Fragment>
+                                    <option value="3">Paciente</option>
+                                </React.Fragment>
+                                :
+                                <React.Fragment>
+                                    <option value="0">nadie</option>
+                                </React.Fragment>
+                                }
                             </select>
                         </div>
 

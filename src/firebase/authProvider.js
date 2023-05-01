@@ -54,7 +54,7 @@ export default async function AuthProvider(){
                 console.log("un admin no requiere redireccion, el pueder hacerlo todo")
                 break;
             case "Medico":
-                navigate("/Medicos")
+                navigate("/Dashboard/medico")
                 break;
             case "Paciente":
                 navigate("/Evolucion")

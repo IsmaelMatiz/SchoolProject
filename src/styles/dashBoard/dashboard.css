@@ -8,6 +8,14 @@
   margin-left: 15px;
 }
 
+.my-col-pacientes-med {
+  background-color: #091d36;
+}
+.my-col-pacientes-med h3 {
+  color: #5e83ba;
+  margin-left: 15px;
+}
+
 .asign {
   border-radius: 20px;
   padding: 50px;
