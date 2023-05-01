@@ -8,7 +8,9 @@ import { getAllDoctors } from "../../firebase/CRUD/crudMedicos";
 import { getAllPatients } from "../../firebase/CRUD/crudPacientes";
 import { useState } from "react";
 import { useEffect } from "react";
-import { async } from "@firebase/util";
+import { Assignments } from "../Tablas/Assignments";
+import { AddToDBAssignment } from "../../firebase/CRUD/crudAsginacion";
+import { Link } from "react-router-dom";
 
 
 export function DashboardAdmin(){
@@ -21,6 +23,18 @@ export function DashboardAdmin(){
         setDoctors(await getAllDoctors()) 
         setPatients(await getAllPatients())
     }
+
+    async function registAssigment() {
+        //Primero Obtener la Info
+        let infoDoctor = document.getElementById("docInfo").value.split(",")
+        let infoPaciente = document.getElementById("pacienteInfo").value.split(",")
+
+        await AddToDBAssignment(infoDoctor[0],infoDoctor[1],infoPaciente[0],infoPaciente[1])
+
+        setTimeout(() => {
+            window.location.reload()
+        }, 4000)
+    }
     
     useEffect(()=>{
         setSelects()
@@ -28,6 +42,12 @@ export function DashboardAdmin(){
 
     return(
         <React.Fragment>
+            <div className="create-new-prof">
+                    <div className="row">
+                        <h1>Crear un nuevo perfil</h1>
+                            <Link to={"/Register"}> <button className="btn btn-primary">Crear</button> </Link>
+                    </div>
+                </div>
             <div className="row">
                 <div className="col my-col">
                     <h3>Doctores</h3>
@@ -46,12 +66,12 @@ export function DashboardAdmin(){
                         <div className="col">
                                 <div class="my-input">
                                             <div class="icono"><i class="bi bi-person-circle"></i></div>
-                                            <select class="form-select" name="rol" aria-label="Default select example">
+                                            <select class="form-select" id="docInfo" aria-label="Default select example">
                                                 <option selected>Elige el Medico?</option>
                                                 {
                                                     allDoctors.map(
                                                         doctor =>(
-                                                            <option value={doctor.id}>{doctor.email}</option>
+                                                            <option key={doctor.id} value={[doctor.id,doctor.email]}>{doctor.email}</option>
                                                         )
                                                     )
                                                 }
@@ -61,21 +81,22 @@ export function DashboardAdmin(){
                                 <div className="col">
                                 <div class="my-input">
                                             <div class="icono"><i class="bi bi-person-circle"></i></div>
-                                            <select class="form-select" name="rol" aria-label="Default select example">
+                                            <select class="form-select" id="pacienteInfo" aria-label="Default select example">
                                                 <option selected>Elige el paciente?</option>
                                                 {
                                                     allPatients.map(
                                                         patient =>(
-                                                            <option value={patient.id}>{patient.email}</option>
+                                                            <option key={patient.id} value={[patient.id,patient.email]}>{patient.email}</option>
                                                         )
                                                     )
                                                 }
                                             </select>
                                         </div>
                                 </div>
-                            <button type="submit" class="btn my-btn btn-primary">Enviar</button>
+                            <button onClick={registAssigment} class="btn my-btn btn-primary">Enviar</button>
                     </div>
                 </div>
+                <Assignments />
         </React.Fragment>
     )
 }

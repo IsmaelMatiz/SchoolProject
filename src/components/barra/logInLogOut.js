@@ -1,5 +1,6 @@
 import { auth } from "../../firebase/firebaseConfi"
 import { browserSessionPersistence, setPersistence, signInWithEmailAndPassword } from "firebase/auth"
+import { getAPatient } from "../../firebase/CRUD/crudPacientes"
 import { Link, useNavigate } from "react-router-dom"
 import React, { useEffect, useState } from 'react'
 import "../../styles/Header/Barra.css"
@@ -22,7 +23,6 @@ export function LoginSection (){
                     return signInWithEmailAndPassword(auth, email, password)
                 .then(async (userCredential) => {
                     setError(false)
-                    console.log(await userType(auth.currentUser.uid))
                 })
                 .catch((error) => {
                     console.error("algo no salio bien iniciando sesion: "+ error)
@@ -30,8 +30,19 @@ export function LoginSection (){
                 })
             }
         ) 
-        
-        RedirectUser(await userType(auth.currentUser.uid)) 
+
+        const whoIsLogged = await userType(auth.currentUser.uid)
+        //Verificar si el paciente esta activo antes de redireccionar
+        if (whoIsLogged == "Paciente"){
+            let paciente = await getAPatient(auth.currentUser.uid)
+            console.log("el paciente esta: "+paciente[0].status)
+            if (paciente[0].status == "activo") {
+                RedirectUser(whoIsLogged)       
+            } else {
+                alert("Al parecer tu perfil no esta activo, comunicate con un medico o administrador para activarlo")
+                CerrarSesion()
+            }
+        }else RedirectUser(whoIsLogged) 
         e.target.reset()
     }
 
@@ -49,7 +60,7 @@ export function LoginSection (){
                 navigate("/Medicos")
                 break;
             case "Paciente":
-                navigate("/Pacientes")
+                navigate("/Evolucion")
                 break;
             default:
                 break;
@@ -58,9 +69,10 @@ export function LoginSection (){
 
     useEffect( () =>{
         auth.onAuthStateChanged( (user) =>{
-          if (user){
+          
+        if (user){
             setUsuario(user.email)
-          }
+        }
         })
       
       },[])
@@ -92,7 +104,6 @@ export function LoginSection (){
                     <input type="password" className="form-control" name='password' placeholder="Ingresar contraseña"  required/>
                     </div>
                     <button type="submit" className="btn btn-primary">Ingresar</button>
-                    <p>Registrate <Link to='/Register'>Aqui</Link></p>
                     {error? <span>Error con el correo o la contraseña</span>:<span></span>} 
     
                     </form>

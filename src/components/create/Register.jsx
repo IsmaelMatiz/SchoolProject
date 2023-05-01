@@ -36,21 +36,21 @@ export function RegisterView(){
                 setSuccess(1)
                 setTimeout(() => {
                     window.location.reload()
-                }, 3000)
+                }, 4000)
                 break
             case "2":
                 CreateDoctor(email,password,name,lastName)
                 setSuccess(1)
                 setTimeout(() => {
                     window.location.reload()
-                }, 3000)
+                }, 4000)
                 break
             case "3":
                 CreatePatient(email,password,name,lastName)
                 setSuccess(1)
                 setTimeout(() => {
                     window.location.reload()
-                }, 3000)
+                }, 4000)
                 break
             default:
                 alert("Elige que rol deseas Crear")
