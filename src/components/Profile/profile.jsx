@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { infoLoggedUser, userType } from "../../firebase/authProvider";
 import { getAdmin, getAdminProfilePic, setAdminProfilePic, updateAdmin } from "../../firebase/CRUD/crudAdmin";
 import { getADoctor, getDoctorProfilePic, setDoctorProfilePic, updateDoctor } from "../../firebase/CRUD/crudMedicos";
+import { getAPatient, getPatientProfilePic, setPatientProfilePic, updatePatient } from "../../firebase/CRUD/crudPacientes";
 import "../../styles/profile/profile.css"
 
 export function Profile() {
@@ -21,6 +22,7 @@ export function Profile() {
     const [name, setName] = useState("")
     const [lastName, setLastName] = useState("")
     const [email, setEmail] = useState("")
+    const [status, setStatus] = useState("")
     const [femail, setFEmail] = useState("")//Email anterior
     const [password, setPassword] = useState("")
     const [userProf, setUserProf] = useState (null)//Tipo de usuario
@@ -69,19 +71,31 @@ export function Profile() {
                 setCurrentProfilePic(url)
                 const result = await getADoctor(idUser)
                 setInfoProfile(result)
+            }else if (userProf == "Paciente"){
+                    const url = await getPatientProfilePic(idUser)
+                    setCurrentProfilePic(url)
+                    const result = await getAPatient(idUser)
+                    setInfoProfile(result)
             }      
         }
     },[isUserProfSet])
 
 
     useEffect(() => {
-        console.log("\n//////////Data profile es: "+dataProfile.state+"/////////////////\n")
-        if (infoProfile.length == 1) {
+        if (infoProfile.length == 1 && dataProfile.state.power == "Admin") {
           setId(infoProfile[0].id);
           setName(infoProfile[0].nombre);
           setLastName(infoProfile[0].apellido);
           setEmail(infoProfile[0].email);
           setFEmail(infoProfile[0].email);
+          console.log("\n//////////Data profile es: "+infoProfile[0].status+"/////////////////\n")
+          setStatus(infoProfile[0].status)
+        }else if(infoProfile.length == 1 && dataProfile.state.power == "User"){
+            setId(infoProfile[0].id);
+            setName(infoProfile[0].nombre);
+            setLastName(infoProfile[0].apellido);
+            setEmail(infoProfile[0].email);
+            setFEmail(infoProfile[0].email);
         }
       }, [infoProfile]);
 
@@ -106,6 +120,13 @@ export function Profile() {
                 }else if (userProf == "Medico"){
                     try {
                         const res = await setDoctorProfilePic(id,imgData)
+                        res? alert("Perfil actualizado exitosamente") : alert("Por favor elige una imagen")//Se envio exitosamente la imagen a firebase
+                    } catch (error) {
+                        alert("Error al actualizar imagen intenta de nuevo y verifica q si elegiste una imagen")
+                    }
+                }else if (userProf == "Paciente"){
+                    try {
+                        const res = await setPatientProfilePic(id,imgData)
                         res? alert("Perfil actualizado exitosamente") : alert("Por favor elige una imagen")//Se envio exitosamente la imagen a firebase
                     } catch (error) {
                         alert("Error al actualizar imagen intenta de nuevo y verifica q si elegiste una imagen")
@@ -142,6 +163,16 @@ export function Profile() {
                         if(success) window.location.reload()
                         else alert("Email o clave incorrectas")
                       }, 4000)
+                }else if(userProf === "Paciente"){
+                    let status = document.getElementById("status").value
+                    let success = false
+
+                    success = await updatePatient(id,name,lastName,email,femail,password,status)
+
+                    setTimeout(() => {
+                      if(success) window.location.reload()
+                      else alert("Email o clave incorrectas")
+                    }, 4000);
                 }
         }
     }
@@ -178,75 +209,76 @@ export function Profile() {
                 </div>
 
                 <div className="col-8">
-                    {
-                    infoProfile.map((data)=>{
-                        return(
-                            <form className="form-edit" key={data.id} onSubmit={handleUpdateData}>
-                            <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Nombre</label>
-                                <div class="my-input">
-                                    <div class="icono"><i class="bi bi-person"></i></div>
-                                    <input type="text" class="form-control" name="name" value={name} onChange={e =>{
-                                        setName(e.target.value)}
-                                        }/>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Apellido</label>
-                                <div class="my-input">
-                                    <div class="icono"><i class="bi bi-person"></i></div>
-                                    <input type="text" class="form-control" name="lastName" value={lastName} onChange={e =>{ 
-                                        setLastName(e.target.value)}
-                                        }/>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Correo electrónico</label>
-                                <div class="my-input">
-                                    <div class="icono"><i class=" bi bi-envelope-fill"></i></div>
-                                    <input type="email" class="form-control" name="email" value={email} onChange={e =>{
-                                        setEmail(e.target.value)}
-                                    }/>
-                                </div>
-                                <div id="emailHelp" class="form-text">Nunca compartiremos su informacion personal con nadie más</div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-                                <div class="my-input">
-                                    <div class="icono"><i class="bi bi-key"></i></div>
-                                    <input type="password" name="password" class="form-control"  value={password} onChange={e =>{
-                                        setPassword(e.target.value)
-                                    }}/>
-                                </div>
-                            </div>
+                    <div class="form-section">
+                        {
+                        infoProfile.map((data)=>{
+                            return(
+                                <form className="form-edit" key={data.id} onSubmit={handleUpdateData}>
+                                    
+                                    <label for="exampleInputEmail1" class="form-label">Nombre</label>
+                                    <div class="my-input">
+                                        <div class="icono"><i class="bi bi-person"></i></div>
+                                        <input type="text" class="form-control" name="name" value={name} onChange={e =>{
+                                            setName(e.target.value)}
+                                            }/>
+                                    </div>
 
-                            {dataProfile.state.power == "Admin"?
-                                <div class="my-input">
-                                <div class="icono"><i class="bi bi-person-circle"></i></div>
-                                <select id="status" aria-label="Default select example">
-                                {dataProfile.state.status === "activo"?
+
+                                    <label for="exampleInputEmail1" class="form-label">Apellido</label>
+                                    <div class="my-input">
+                                        <div class="icono"><i class="bi bi-person"></i></div>
+                                        <input type="text" class="form-control" name="lastName" value={lastName} onChange={e =>{ 
+                                            setLastName(e.target.value)}
+                                            }/>
+                                    </div>
+
+
+                                    <label for="exampleInputEmail1" class="form-label">Correo electrónico</label>
+                                    <div class="my-input">
+                                        <div class="icono"><i class=" bi bi-envelope-fill"></i></div>
+                                        <input type="email" class="form-control" name="email" value={email} onChange={e =>{
+                                            setEmail(e.target.value)}
+                                        }/>
+                                    </div>
+                                    <div id="emailHelp" class="form-text">Nunca compartiremos su informacion personal con nadie más</div>
+
+
+                                    <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+                                    <div class="my-input">
+                                        <div class="icono"><i class="bi bi-key"></i></div>
+                                        <input type="password" name="password" class="form-control"  value={password} onChange={e =>{
+                                            setPassword(e.target.value)
+                                        }}/>
+                                    </div>
+
+                                    
+                                {dataProfile.state.power == "Admin"?//quien entro al perfil tiene poderes para cambiar el Status?
+                                    <div class="my-input my-select">
+                                    <div class="icono"><i class="bi bi-person-circle"></i></div>
+                                    <select id="status" aria-label="Default select example">
+                                    {status === "activo"?//si el Status de usuario esta activo muestralo activo de lo contrario pues inactivo
+                                        <React.Fragment>
+                                            <option selected value="activo">activo</option>
+                                            <option value="inactivo">inactivo</option>
+                                        </React.Fragment>
+                                    :
                                     <React.Fragment>
-                                        <option selected value="activo">activo</option>
-                                        <option value="inactivo">inactivo</option>
+                                        <option selected value="inactivo">inactivo</option>
+                                        <option value="activo">activo</option>
                                     </React.Fragment>
-                                :
-                                <React.Fragment>
-                                    <option selected value="inactivo">inactivo</option>
-                                    <option value="activo">activo</option>
-                                </React.Fragment>
+                                    }
+                                    </select>
+                                 </div>
+                                 :
+                                 <span></span>
                                 }
-                                </select>
-                             </div>
-                             :
-                             <span></span>
-                            }
-    
-                            <button type="submit" class="btn my-btn btn-primary">Enviar</button>
-                        </form>
-                        )
-                    })
-                    }
-                    
+        
+                                <button type="submit" class="btn my-btn btn-primary">Enviar</button>
+                            </form>
+                            )
+                        })
+                        }
+                    </div>
                 </div>
             </div>
 

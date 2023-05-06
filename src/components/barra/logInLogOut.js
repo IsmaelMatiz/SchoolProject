@@ -1,6 +1,6 @@
 import { auth } from "../../firebase/firebaseConfi"
 import { browserSessionPersistence, setPersistence, signInWithEmailAndPassword } from "firebase/auth"
-import { getAPatient } from "../../firebase/CRUD/crudPacientes"
+import { getAPatient, getPatientProfilePic } from "../../firebase/CRUD/crudPacientes"
 import { Link, useNavigate } from "react-router-dom"
 import React, { useEffect, useState } from 'react'
 import "../../styles/Header/Barra.css"
@@ -66,13 +66,11 @@ export function LoginSection (){
     }
 
     async function setInfoUser(whoIsLogged, idUser) {
-        console.log("\n//////////////////////se ejecuto set user info en el profile//////////////////////////\n")
         if (whoIsLogged == "Admin") {
             const url = await getAdminProfilePic(idUser)
             setCurrentProfilePic(url)
             const result = await getAdmin(idUser)
             setTimeout(() => {
-                console.log("\n//////////////////////se seteo user info//////////////////////////\n")
                 setInfoProfile(result)
             }, 2000);
         } else if(whoIsLogged == "Medico") {
@@ -84,7 +82,12 @@ export function LoginSection (){
             }, 2000);
             
         }else if(whoIsLogged == "Paciente"){
-
+            const url = await getPatientProfilePic(idUser)
+            setCurrentProfilePic(url)
+            const result = await getAPatient(idUser)
+            setTimeout(() => {
+                setInfoProfile(result)    
+            }, 2000);
         }
     }
 
@@ -185,7 +188,7 @@ export function LoginSection (){
                             <div>{name} {lastName}</div>
                             <div><Link to={"/Profile"} state={
                                 {id:id,
-                                 power:"user"
+                                 power:"User"
                                 }
                                 } class="my-profile">ver mi perfil</Link></div>
                             <div class="dropdown-divider"></div>

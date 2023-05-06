@@ -85,10 +85,7 @@ export function TableItemtPatient(props) {
                     <React.Fragment>
                         
                         <td>
-                        <Link to={"/Profile"} state={{
-                            id:props.id,
-                            name:props.nombre
-                            }}>
+                        <Link to={"/Evolucion"}>
                             {props.nombre}
                         </Link>
                         </td>
@@ -132,10 +129,13 @@ export function TableItemtPatient(props) {
                     </React.Fragment>
                     :
                     <React.Fragment>
-                        <button onClick={ () => {//Editar
-                            if(verifyEdit) setVerifyEdit(false)
-                            else setVerifyEdit(true)
-                        } } className="btn btn-light"><i class="bi bi-pen"></i></button>
+                        <button className="btn btn-light">
+                        <Link to={"/Profile"} state={
+                                {id:props.id,
+                                 power:"Admin"
+                                }
+                                }><i class="bi bi-pen"></i></Link>
+                            </button>
                         <button onClick={ () => {//Borrar
                             if(verifyDelete) setVerifyDelete(false)
                             else setVerifyDelete(true)

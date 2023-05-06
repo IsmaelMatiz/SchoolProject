@@ -8,7 +8,8 @@ import {collection,
         } from 'firebase/firestore';
 
 import { createUserWithEmailAndPassword, deleteUser, signInWithEmailAndPassword, signOut, updateEmail } from 'firebase/auth'
-import { auth, db, deleteFromDB, tempAuth } from '../firebaseConfi';
+import { auth, db, deleteFromDB, storage, tempAuth } from '../firebaseConfi';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 const patientsCollectionRef= collection(db,"pacientes")
 
@@ -193,3 +194,26 @@ export async function deletePatient(id,email,password){
     return tempAuth.currentUser == null && success ? true : false
 }
 
+
+//Upload files
+//Upload Profile Picture
+export async function setPatientProfilePic(uid,file) {
+  try {
+    const imageRef = ref(storage, `fotos-pacientes/${uid}`)
+    const resUpload = await uploadBytes(imageRef,file)
+    return resUpload 
+  } catch (error) {
+    console.error("Error al subir archivo: "+error)
+  }
+}
+
+//Get profile Picture
+export async function getPatientProfilePic(uid) {
+  try {
+    const imgRef = ref(storage, `fotos-pacientes/${uid}`)
+    const url = await getDownloadURL(imgRef)
+    return url
+  } catch (error) {
+    console.error("Error al obtener la imagen de perfil: "+error)
+  }
+}

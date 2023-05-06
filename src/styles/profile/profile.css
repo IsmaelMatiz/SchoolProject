@@ -56,8 +56,15 @@
   width: 100%;
 }
 
+.form-section {
+  padding-top: 1%;
+}
+.form-section .my-select {
+  margin-top: 2%;
+}
+
 .my-btn {
-  margin-top: 0%;
+  margin-top: 2%;
 }
 
 /*# sourceMappingURL=profile.css.map */
