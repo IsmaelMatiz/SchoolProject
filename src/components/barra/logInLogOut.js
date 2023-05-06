@@ -186,9 +186,14 @@ export function LoginSection (){
                             <div class="col-5"><img src={currentProfilePic} alt="Imagen de perfil elegida" /></div>
                             <div class="col-7">
                             <div>{name} {lastName}</div>
-                            <div><Link to={"/Profile"} state={
+                            <div onClick={()=>{
+                                    setTimeout(() => {
+                                        window.location.reload()
+                                    }, 1000);
+                                }}><Link to={"/Profile"} state={
                                 {id:id,
-                                 power:"User"
+                                 power:"User",
+                                 reload:"si"
                                 }
                                 } class="my-profile">ver mi perfil</Link></div>
                             <div class="dropdown-divider"></div>

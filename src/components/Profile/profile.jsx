@@ -27,7 +27,7 @@ export function Profile() {
     const [password, setPassword] = useState("")
     const [userProf, setUserProf] = useState (null)//Tipo de usuario
     const [isUserProfSet, setIsUserProfSet] = useState(false);
-    
+
     useEffect(()=>{
             //Esta funcion almacena en userProf el tipo de usuario
             async function checkEditer() {
@@ -78,6 +78,7 @@ export function Profile() {
                     setInfoProfile(result)
             }      
         }
+
     },[isUserProfSet])
 
 
