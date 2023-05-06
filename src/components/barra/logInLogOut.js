@@ -142,7 +142,10 @@ export function LoginSection (){
     function CerrarSesion (){
         setUsuario(null)
         auth.signOut()
-        navigate("/")
+        setTimeout(() => {
+            navigate("/")
+            window.location.reload()
+        }, 100);
     } 
 
     return(
@@ -157,7 +160,7 @@ export function LoginSection (){
                     Acceder
                     </button>
     
-                    <form className="dropdown-menu p-4" id='cuadro' onSubmit={HandlerSubmit}>
+                    <form className="my-sign-in dropdown-menu p-4" id='cuadro' onSubmit={HandlerSubmit}>
                     <div className="mb-3">
                     <label for="exampleDropdownFormEmail2" className="form-label" >Correo Electronico</label>
                     <input type="email" className="form-control" name='email'  placeholder="email@example.com"  required/>
@@ -183,8 +186,8 @@ export function LoginSection (){
     
                     <div className="my-sign-in dropdown-menu" id='cuadro'>
                         <div class="row">
-                            <div class="col-5"><img src={currentProfilePic} alt="Imagen de perfil elegida" /></div>
-                            <div class="col-7">
+                            <div class="col-6"><img src={currentProfilePic} alt="Imagen de perfil elegida" /></div>
+                            <div class="col-6">
                             <div>{name} {lastName}</div>
                             <div onClick={()=>{
                                     setTimeout(() => {

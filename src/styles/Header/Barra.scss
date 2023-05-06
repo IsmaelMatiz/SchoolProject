@@ -6,9 +6,11 @@ $semi-blanco: #f1f1f0;
 
 
 .new-navbar{
+    background-color: $azul-intermedio;
     img{
         width: 80%;
         height: 80%;
+        margin-right: 5%;
     }
 }
 
@@ -22,10 +24,12 @@ $semi-blanco: #f1f1f0;
 .my-sign-in{
     background-color: $semi-blanco;
     font-size: small;
+    margin-left: -100px;
+    width: fit-content;
     color: $azul-oscuro;
     img{
-        width: 100%;
-        height: 80%;
+        width: 95%;
+        height: 95%;
         border-radius: 50%;
         margin-left: 10px;
     }
