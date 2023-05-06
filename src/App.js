@@ -17,6 +17,7 @@ import { EditPaciente } from './components/edit/EditPaciente';
 import { RegisterView } from './components/create/Register';
 import { DashboardAdmin } from './components/dashboards/dashboardAdmin';
 import { DashboardMedico } from './components/dashboards/dashboardMedico';
+import { Profile } from './components/Profile/profile';
 
 
 function App() {  
@@ -36,6 +37,7 @@ function App() {
         <Route path='/Dashboard/admin' element={<DashboardAdmin/>} />
         <Route path='/Dashboard/medico' element={<DashboardMedico/>} />
         <Route path='/InfoP' element={<InfoP/>} />
+        <Route path='/Profile' element={<Profile/>} />
         <Route path='/Cumplimiento' element={<Cumplimiento/>} />
         <Route path='/Deberes' element={<Deberes/>} />
         <Route path='/Evolucion' element={<Evolucion/>} />

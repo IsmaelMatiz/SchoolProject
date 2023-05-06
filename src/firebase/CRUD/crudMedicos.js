@@ -1,11 +1,12 @@
 import { createUserWithEmailAndPassword, deleteUser, signInWithEmailAndPassword, signOut, updateEmail } from "firebase/auth";
-import { AddToDB, auth, db, deleteFromDB, tempAuth, updateDB } from "../firebaseConfi";
+import { AddToDB, auth, db, deleteFromDB, storage, tempAuth, updateDB } from "../firebaseConfi";
 import {collection,
     doc,
     getDocs,
     query,
     where
     } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const doctorCollectionRef= collection(db,"medicos")
 
@@ -123,3 +124,27 @@ export async function deleteDoctor (id,email,password){
  
     return tempAuth.currentUser == null && success ? true : false
 }
+
+//Upload files
+//Upload Profile Picture
+export async function setDoctorProfilePic(uid,file) {
+  try {
+    const imageRef = ref(storage, `fotos-doctores/${uid}`)
+    const resUpload = await uploadBytes(imageRef,file)
+    return resUpload 
+  } catch (error) {
+    console.error("Error al subir archivo: "+error)
+  }
+}
+
+//Get profile Picture
+export async function getDoctorProfilePic(uid) {
+  try {
+    const imgRef = ref(storage, `fotos-doctores/${uid}`)
+    const url = await getDownloadURL(imgRef)
+    return url
+  } catch (error) {
+    console.error("Error al obtener la imagen de perfil: "+error)
+  }
+}
+

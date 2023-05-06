@@ -1,0 +1,63 @@
+.picture-section {
+  background-color: #091d36;
+  padding: 5%;
+}
+.picture-section h1 {
+  color: #f1f1f0;
+}
+.picture-section img {
+  border-radius: 50%;
+  width: 80%;
+  height: 250px;
+  margin-left: 10%;
+}
+.picture-section button {
+  background-color: #5e83ba;
+  border: solid;
+  border-color: #5e83ba;
+  color: #f1f1f0;
+  border-radius: 30px;
+  padding: 3%;
+  width: 100%;
+  transition: 1s;
+}
+.picture-section button:hover {
+  background-color: #3a4e7a;
+  border-color: #3a4e7a;
+}
+.picture-section .my-input-file {
+  display: flex;
+  border: solid;
+  background-color: #5e83ba;
+  border-color: #5e83ba;
+  color: #f1f1f0;
+  border-radius: 30px;
+  padding: 1%;
+  padding-left: 10%;
+  width: 100%;
+  transition: 1s;
+  margin-bottom: 2%;
+  margin-top: 2%;
+}
+.picture-section .my-input-file input[type=file] {
+  padding-top: 4.5%;
+}
+.picture-section .my-input-file input[type=file]::-webkit-file-upload-button {
+  background-color: transparent;
+  color: #f1f1f0;
+  border: none;
+}
+.picture-section .my-input-file:hover {
+  background-color: #3a4e7a;
+  border-color: #3a4e7a;
+}
+
+.row {
+  width: 100%;
+}
+
+.my-btn {
+  margin-top: 0%;
+}
+
+/*# sourceMappingURL=profile.css.map */

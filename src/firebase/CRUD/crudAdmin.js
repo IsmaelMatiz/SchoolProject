@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, deleteUser, EmailAuthProvider, reauthenticateWithCredential, signInWithEmailAndPassword, signOut, updateEmail } from "firebase/auth";
-import { AddToDB, auth, db, deleteFromDB, tempAuth, updateDB} from "../firebaseConfi";
+import { AddToDB, auth, db, deleteFromDB, storage, tempAuth, updateDB} from "../firebaseConfi";
 import {collection,
   addDoc,
   getDoc,
@@ -11,6 +11,7 @@ import {collection,
   deleteDoc,
   updateDoc
   } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const adminCollectionRef= collection(db,"admins")
 
@@ -123,4 +124,27 @@ export async function deleteAdmin (id,email,password){
     .catch(error => console.error("Error al cambiar Correo autenticacion: "+error))
  
     return tempAuth.currentUser == null && success ? true : false
+}
+
+//Upload files
+//Upload Profile Picture
+export async function setAdminProfilePic(uid,file) {
+  try {
+    const imageRef = ref(storage, `fotos-admins/${uid}`)
+    const resUpload = await uploadBytes(imageRef,file)
+    return resUpload 
+  } catch (error) {
+    console.error("Error al subir archivo: "+error)
+  }
+}
+
+//Get profile Picture
+export async function getAdminProfilePic(uid) {
+  try {
+    const imgRef = ref(storage, `fotos-admins/${uid}`)
+    const url = await getDownloadURL(imgRef)
+    return url
+  } catch (error) {
+    console.error("Error al obtener la imagen de perfil: "+error)
+  }
 }

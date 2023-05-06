@@ -1,0 +1,71 @@
+$azul-oscuro:#091d36;
+$azul-profundo: #3a4e7a;
+$azul-intermedio: #5e83ba;
+$azul-claro:#c2d2e9;
+$semi-blanco: #f1f1f0;
+
+.picture-section{
+    background-color: $azul-oscuro;
+    padding: 5%;
+    h1{
+        color: $semi-blanco;
+    }
+    img{
+        border-radius: 50%;
+        width:80%; 
+        height: 250px;
+        margin-left: 10%;
+    }
+    button{
+        background-color: $azul-intermedio;
+        border: solid;
+        border-color: $azul-intermedio;
+        color: $semi-blanco;
+        border-radius: 30px;
+        padding: 3%;
+        width: 100%;   
+        transition: 1s;     
+    }
+    button:hover{
+        background-color: $azul-profundo;
+        border-color: $azul-profundo;
+    }
+
+    .my-input-file{
+        display: flex;
+        border: solid;
+        background-color: $azul-intermedio;
+        border-color: $azul-intermedio;
+        color: $semi-blanco;
+        border-radius: 30px;
+        padding: 1%;
+        padding-left: 10%;
+        width: 100%;
+        transition: 1s;
+        margin-bottom: 2%;
+        margin-top: 2%;
+
+        input[type=file]{
+            padding-top: 4.5%;
+        }
+        input[type=file]::-webkit-file-upload-button{
+            background-color: transparent;
+            color: $semi-blanco;
+            border: none;
+        }
+    }
+    .my-input-file:hover{
+        background-color: $azul-profundo;
+        border-color: $azul-profundo;
+    }
+}
+
+.row{
+    width: 100%;
+}
+
+.my-btn{
+    margin-top: 0%;
+}
+
+

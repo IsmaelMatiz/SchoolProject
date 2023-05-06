@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { deletePatient, updatePatient } from "../../firebase/CRUD/crudPacientes";
 import { auth } from "../../firebase/firebaseConfi";
 import "../../styles/itemTable/item.css"
@@ -50,6 +51,7 @@ export function TableItemtPatient(props) {
                         <td className="my-td">
                             <input type="text"  placeholder={props.nombre} 
                             onChange={e => setNombre(e.target.value)} /></td>
+                                                    
                         <td className="my-td">
                             <input type="text"  placeholder={props.apellido} 
                             onChange={e => setLastName(e.target.value)} />
@@ -81,8 +83,22 @@ export function TableItemtPatient(props) {
                     </React.Fragment>
                     :
                     <React.Fragment>
-                        <td>{props.nombre}</td>
-                        <td>{props.apellido}</td>
+                        
+                        <td>
+                        <Link to={"/Profile"} state={{
+                            id:props.id,
+                            name:props.nombre
+                            }}>
+                            {props.nombre}
+                        </Link>
+                        </td>
+                        
+                        <td>
+                        <Link to={"/Evolucion"}>
+                            {props.apellido}
+                        </Link>
+                        </td>
+                        
                         <td>
                                 {props.email}
                                 {verifyDelete? 
