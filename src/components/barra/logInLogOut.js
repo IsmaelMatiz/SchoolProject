@@ -5,11 +5,24 @@ import { Link, useNavigate } from "react-router-dom"
 import React, { useEffect, useState } from 'react'
 import "../../styles/Header/Barra.css"
 import  { userType } from "../../firebase/authProvider"
+import { getAdmin, getAdminProfilePic } from "../../firebase/CRUD/crudAdmin"
+import { getADoctor, getDoctorProfilePic } from "../../firebase/CRUD/crudMedicos"
 
 
 export function LoginSection (){
 
     const [usuario, setUsuario] = useState(null) //nos perimte saber si el usuario esta logueado o no
+    //Esta variable almacena la imagen que haya en firebase
+    const[currentProfilePic, setCurrentProfilePic] = useState(null)
+    //Esta variable almacena la info de la DB como nombre, email...
+    const[infoProfile, setInfoProfile] = useState([])
+
+    //User Info
+    const [id, setId] = useState("")
+    const [name, setName] = useState("")
+    const [lastName, setLastName] = useState("")
+    const [userProf, setUserProf] = useState (null)//Tipo de usuario
+
     const navigate = useNavigate()//Redireccionar una vez el usuario se a logueado o desloqueado
     const [error, setError] = useState(false)//si el usuario se equivoca al ingresar el email o password se lo alertamos
 
@@ -32,6 +45,7 @@ export function LoginSection (){
         ) 
 
         const whoIsLogged = await userType(auth.currentUser.uid)
+
         //Verificar si el paciente esta activo antes de redireccionar
         if (whoIsLogged == "Paciente"){
             let paciente = await getAPatient(auth.currentUser.uid)
@@ -43,8 +57,44 @@ export function LoginSection (){
                 CerrarSesion()
             }
         }else RedirectUser(whoIsLogged) 
+
+        //Traer la foto de perfil y la info de la db
+        setInfoUser(whoIsLogged, auth.currentUser.uid)
+
+        //Limpiar campos
         e.target.reset()
     }
+
+    async function setInfoUser(whoIsLogged, idUser) {
+        console.log("\n//////////////////////se ejecuto set user info en el profile//////////////////////////\n")
+        if (whoIsLogged == "Admin") {
+            const url = await getAdminProfilePic(idUser)
+            setCurrentProfilePic(url)
+            const result = await getAdmin(idUser)
+            setTimeout(() => {
+                console.log("\n//////////////////////se seteo user info//////////////////////////\n")
+                setInfoProfile(result)
+            }, 2000);
+        } else if(whoIsLogged == "Medico") {
+            const url = await getDoctorProfilePic(idUser)
+            setCurrentProfilePic(url)
+            const result = await getADoctor(idUser)
+            setTimeout(() => {
+                setInfoProfile(result)    
+            }, 2000);
+            
+        }else if(whoIsLogged == "Paciente"){
+
+        }
+    }
+
+    useEffect(()=>{
+        if (infoProfile.length == 1) {
+            setId(infoProfile[0].id);
+            setName(infoProfile[0].nombre);
+            setLastName(infoProfile[0].apellido);
+          }
+    },[infoProfile])
 
     async function RedirectUser(user) {
         console.log("user is: "+ user)
@@ -71,11 +121,20 @@ export function LoginSection (){
         auth.onAuthStateChanged( (user) =>{
           
         if (user){
-            setUsuario(user.email)
+            setUsuario(user)
         }
+        const setwhoIsLogged= async ()=>{
+            const whoIsLogged = await userType(auth.currentUser.uid)
+            setUserProf(whoIsLogged)
+        }
+        setwhoIsLogged()
+        console.log("\n//////////////////////recibi: //////////////////////////\n"+userProf)
+        setInfoUser(userProf,auth.currentUser.uid)
+
         })
       
-      },[])
+      },[userProf])
+
 
     function CerrarSesion (){
         setUsuario(null)
@@ -85,6 +144,7 @@ export function LoginSection (){
 
     return(
         <React.Fragment>
+
             {
                 usuario ? 
                 <span></span>
@@ -112,7 +172,29 @@ export function LoginSection (){
             }
         
         {
-            usuario ? (<button onClick={CerrarSesion} className='btn btn-danger'>Cerrar Sesión</button>): (<span></span>)
+            usuario ? (
+                <div className="dropdown Login">
+                    <button type="button" className="btn bg-FFC300 dropdown-toggle acceder" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                    Bienvenido {name}
+                    </button>
+    
+                    <div className="my-sign-in dropdown-menu" id='cuadro'>
+                        <div class="row">
+                            <div class="col-5"><img src={currentProfilePic} alt="Imagen de perfil elegida" /></div>
+                            <div class="col-7">
+                            <div>{name} {lastName}</div>
+                            <div><Link to={"/Profile"} state={
+                                {id:id,
+                                 power:"user"
+                                }
+                                } class="my-profile">ver mi perfil</Link></div>
+                            <div class="dropdown-divider"></div>
+                            <div><button class="btn btn-danger" onClick={CerrarSesion}>Cerrar Sesion</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ): (<span></span>)
         }
     </React.Fragment>
     )

@@ -26,6 +26,30 @@ $semi-blanco: #f1f1f0;
 span{
     color: red;
 }
+.my-sign-in{
+    background-color: $semi-blanco;
+    font-size: small;
+    color: $azul-oscuro;
+    img{
+        width: 100%;
+        height: 80%;
+        border-radius: 50%;
+        margin-left: 10px;
+    }
+    .btn-danger{
+        font-size: smaller;
+    }
+    .my-profile{
+        text-decoration: none;
+        color: $azul-oscuro;
+        transition: 1s;
+    }
+    .my-profile:hover{
+        text-decoration: none;
+        color: $azul-intermedio;
+    }
+
+}
 
 
 

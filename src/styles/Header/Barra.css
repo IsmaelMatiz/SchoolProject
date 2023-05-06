@@ -23,6 +23,30 @@ span {
   color: red;
 }
 
+.my-sign-in {
+  background-color: #f1f1f0;
+  font-size: small;
+  color: #091d36;
+}
+.my-sign-in img {
+  width: 100%;
+  height: 80%;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+.my-sign-in .btn-danger {
+  font-size: smaller;
+}
+.my-sign-in .my-profile {
+  text-decoration: none;
+  color: #091d36;
+  transition: 1s;
+}
+.my-sign-in .my-profile:hover {
+  text-decoration: none;
+  color: #5e83ba;
+}
+
 .barra {
   position: fixed;
   top: 0%;

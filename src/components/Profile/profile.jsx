@@ -30,19 +30,19 @@ export function Profile() {
             //Esta funcion almacena en userProf el tipo de usuario
             async function checkEditer() {
                 console.log("Se ejecuto Check Editer")
-                const User = await infoLoggedUser()
+                const User = dataProfile.state.id
                 
                 if (User == null) {
                     setTimeout(() => {
                         checkEditer()
                     }, 2000);
                 }else{
-                    const whoIsLogged = await userType(User.uid)
+                    const whoIsLogged = await userType(User)
                     console.log("esta logueado un: "+ whoIsLogged)
                     setTimeout(() => {
                         setUserProf(whoIsLogged)
                         setIsUserProfSet(true); // Establecer la variable booleana en verdadero
-                        fetchData(User.uid,whoIsLogged)
+                        fetchData(User,whoIsLogged)
                     }, 1000)
                 }
     }
@@ -75,6 +75,7 @@ export function Profile() {
 
 
     useEffect(() => {
+        console.log("\n//////////Data profile es: "+dataProfile.state+"/////////////////\n")
         if (infoProfile.length == 1) {
           setId(infoProfile[0].id);
           setName(infoProfile[0].nombre);
@@ -218,6 +219,27 @@ export function Profile() {
                                     }}/>
                                 </div>
                             </div>
+
+                            {dataProfile.state.power == "Admin"?
+                                <div class="my-input">
+                                <div class="icono"><i class="bi bi-person-circle"></i></div>
+                                <select id="status" aria-label="Default select example">
+                                {dataProfile.state.status === "activo"?
+                                    <React.Fragment>
+                                        <option selected value="activo">activo</option>
+                                        <option value="inactivo">inactivo</option>
+                                    </React.Fragment>
+                                :
+                                <React.Fragment>
+                                    <option selected value="inactivo">inactivo</option>
+                                    <option value="activo">activo</option>
+                                </React.Fragment>
+                                }
+                                </select>
+                             </div>
+                             :
+                             <span></span>
+                            }
     
                             <button type="submit" class="btn my-btn btn-primary">Enviar</button>
                         </form>
