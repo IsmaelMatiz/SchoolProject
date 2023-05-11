@@ -1,6 +1,6 @@
 import React from 'react';
 import {Routes,Route} from 'react-router-dom';
-import './styles/App.css';
+import './styles/App/App.css';
 import Barra from './components/barra/Barra'; 
 import { Cuerpo } from './components/cuerpo/Cuerpo';
 import Footer from "./components/footer/Footer";

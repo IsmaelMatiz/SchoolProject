@@ -43,7 +43,7 @@ select, option, .form-select {
 .my-input .form-control {
   height: min-content;
   border: none;
-  color: silver;
+  color: black;
 }
 
 .my-btn {

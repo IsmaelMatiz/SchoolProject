@@ -39,7 +39,7 @@ export default function Barra () {
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-            <Link class="nav-link active" to={"/"}>
+            <Link class="nav-link" to={"/"}>
               Inicio
             </Link>
         </li>

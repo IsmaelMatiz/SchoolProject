@@ -7,6 +7,10 @@ $semi-blanco: #f1f1f0;
 
 .new-navbar{
     background-color: $azul-intermedio;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+    z-index: 5;
     img{
         width: 80%;
         height: 80%;

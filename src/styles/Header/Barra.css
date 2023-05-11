@@ -1,5 +1,9 @@
 .new-navbar {
   background-color: #5e83ba;
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
+  z-index: 5;
 }
 .new-navbar img {
   width: 80%;
