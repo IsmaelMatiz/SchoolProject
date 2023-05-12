@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { deletePatient, updatePatient } from "../../firebase/CRUD/crudPacientes";
 import { auth } from "../../firebase/firebaseConfi";
 import "../../styles/itemTable/item.css"
+import { ConfirmPopup } from "../customConfirm/ConfirmPopup";
 
 export function TableItemtPatient(props) {
 
@@ -12,20 +14,26 @@ export function TableItemtPatient(props) {
     const [name, setNombre] = useState("")
     const [lastName, setLastName] = useState("")
     const [email, setEmail] = useState("")
+    //Esto decide si mostrar o no el popup de confirmacion
+    const[showConfirmPopup, setShowConfirmPopup] = useState(false)
+    const[continueProccess,setContinueProccess] = useState("no")
 
     function handleDelete(){
-        const continuar = prompt("Por motivos de seguridad se cerrar la sesion al borrar un perfil, desea continuar? si/no")
-        if(continuar.toLowerCase() == "si"){
+        setShowConfirmPopup(true)
+        
+    }
+    useEffect(()=>{
+        if(continueProccess == "si"){
             //Borrar Paciente
             console.log("Inicia el borrardo y el user es: " + auth.currentUser.email)
             deletePatient(props.id,props.email,password).catch(
-                error => alert("Error al borrar doctor: "+error)
+                error => alert("Error al borrar paciente: "+error)
             )
             setTimeout(() => {
                 window.location.reload()    
             }, 4000)
         }
-    }
+    },[continueProccess])
 
     async function handleUpdate(){
         //Actualizar paciente
@@ -143,6 +151,18 @@ export function TableItemtPatient(props) {
                     </React.Fragment>
                     }
                     </td>
+
+                    <ConfirmPopup
+                        trigger={showConfirmPopup}
+                        setTrigger={setShowConfirmPopup}
+                        setAccept={()=>{
+                            setContinueProccess("si")
+                        }}
+                    >
+          
+                        Por motivos de seguridad se cerrar la sesion al editar un perfil, desea continuar?
+          
+                    </ConfirmPopup>
             </tr>
     )
     

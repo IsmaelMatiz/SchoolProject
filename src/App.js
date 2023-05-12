@@ -18,6 +18,7 @@ import { RegisterView } from './components/create/Register';
 import { DashboardAdmin } from './components/dashboards/dashboardAdmin';
 import { DashboardMedico } from './components/dashboards/dashboardMedico';
 import { Profile } from './components/Profile/profile';
+import CustomConfirm from './components/customConfirm/CustormConfirm';
 
 
 function App() {  
@@ -41,6 +42,7 @@ function App() {
         <Route path='/Cumplimiento' element={<Cumplimiento/>} />
         <Route path='/Deberes' element={<Deberes/>} />
         <Route path='/Evolucion' element={<Evolucion/>} />
+        <Route path='/custom' element={<CustomConfirm/>} />
       </Routes>
       <Footer />
     </div>

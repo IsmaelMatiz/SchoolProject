@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Link} from "react-router-dom";
 import { deleteAdmin, updateAdmin } from "../../firebase/CRUD/crudAdmin";
 import { deleteDoctor, updateDoctor } from "../../firebase/CRUD/crudMedicos";
-import { deletePatient } from "../../firebase/CRUD/crudPacientes";
+import { ConfirmPopup } from "../customConfirm/ConfirmPopup";
 import "../../styles/itemTable/item.css"
+import { useEffect } from "react";
 
 export function TableItemt(props) {
 
@@ -13,29 +14,35 @@ export function TableItemt(props) {
     const [lastName, setLastName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    //Esto decide si mostrar o no el popup de confirmacion
+    const[showConfirmPopup, setShowConfirmPopup] = useState(false)
+    const[continueProccess,setContinueProccess] = useState("no")
 
     function handleDelete(){
-        const continuar = prompt("Por motivos de seguridad es posible que se cierre la sesion al borrar un perfil, desea continuar? si/no")
-        if(continuar.toLowerCase() == "si"){
-            //Borrar Admin
-            if (props.rol === "Admin"){
-                deleteAdmin(props.id,props.email,password).catch(
-                    error => alert("Error al borrar Admin: "+error)
-                )
-                setTimeout(() => {
-                    window.location.reload()    
-                }, 2000)
-            //Borrar Doctor
-            }else if (props.rol === "Medico"){
-                deleteDoctor(props.id,props.email,password).catch(
-                    error => alert("Error al borrar doctor: "+error)
-                )
-                setTimeout(() => {
-                    window.location.reload()    
-                }, 2000)
-            }
-        }   
+        setShowConfirmPopup(true) 
     }
+
+    useEffect(()=>{
+            if(continueProccess == "si"){
+                //Borrar Admin
+                if (props.rol === "Admin"){
+                    deleteAdmin(props.id,props.email,password).catch(
+                        error => alert("Error al borrar Admin: "+error)
+                    )
+                    setTimeout(() => {
+                        window.location.reload()    
+                    }, 4000)
+                //Borrar Doctor
+                }else if (props.rol === "Medico"){
+                    deleteDoctor(props.id,props.email,password).catch(
+                        error => alert("Error al borrar doctor: "+error)
+                    )
+                    setTimeout(() => {
+                        window.location.reload()    
+                    }, 4000)
+                }
+            }
+    },[continueProccess])
 
     async function handleUpdate(){
         //Actualizar paciente
@@ -121,10 +128,13 @@ export function TableItemt(props) {
                     </React.Fragment>
                     :
                     <React.Fragment>
-                        <button onClick={ () => {//Editar
-                            if(verifyEdit) setVerifyEdit(false)
-                            else setVerifyEdit(true)
-                        } } className="btn btn-light"><i class="bi bi-pen"></i></button>
+                        <button className="btn btn-light">
+                        <Link to={"/Profile"} state={
+                                {id:props.id,
+                                 power:"User"
+                                }
+                                }><i class="bi bi-pen"></i></Link>
+                        </button>
                         <button onClick={ () => {//Borrar
                             if(verifyDelete) setVerifyDelete(false)
                             else setVerifyDelete(true)
@@ -132,7 +142,21 @@ export function TableItemt(props) {
                     </React.Fragment>
                     }
                     </td>
+
+                    <ConfirmPopup
+                        trigger={showConfirmPopup}
+                        setTrigger={setShowConfirmPopup}
+                        setAccept={()=>{
+                            setContinueProccess("si")
+                        }}
+                    >
+          
+                        Por motivos de seguridad se cerrar la sesion al editar un perfil, desea continuar?
+          
+                    </ConfirmPopup>
                     </tr>
+
+                    
     )
     
 }
