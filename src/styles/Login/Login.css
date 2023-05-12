@@ -1,0 +1,44 @@
+.left-login {
+  background-color: #091d36;
+  padding: 30px;
+}
+.left-login .card {
+  width: 95%;
+  padding: 50px;
+}
+.left-login .card .card-title {
+  color: #091d36;
+  font-size: 45px;
+}
+.left-login .card .my-input {
+  border: none;
+  margin-top: 5%;
+}
+.left-login .card .my-input input {
+  border-bottom: solid silver;
+  border-radius: 0%;
+}
+.left-login .card .btn-sesion {
+  margin-top: 5%;
+  width: 100%;
+  background-color: #f4af2d;
+  color: #f1f1f0;
+}
+.left-login .card .btn-sesion:hover {
+  background-color: #c28411;
+  color: white;
+}
+
+.right-login {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+.right-login img {
+  margin-left: 15%;
+  width: 70%;
+  height: 20%;
+}
+
+/*# sourceMappingURL=Login.css.map */

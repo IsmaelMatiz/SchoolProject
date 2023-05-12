@@ -11,6 +11,16 @@
   margin-right: 5%;
 }
 
+.btn-log {
+  color: #f1f1f0;
+  text-decoration: none;
+  transition: 1s;
+}
+
+.btn-log:hover {
+  color: yellow;
+}
+
 .navbar-brand {
   width: min-content;
   margin-right: 6%;

@@ -1,0 +1,50 @@
+$azul-oscuro:#091d36;
+$azul-profundo: #3a4e7a;
+$azul-intermedio: #5e83ba;
+$azul-claro:#c2d2e9;
+$semi-blanco: #f1f1f0;
+$amarillo-salle: #f4af2d;
+$amarillo-salle-oscuro: #c28411;
+
+.left-login{
+    background-color: $azul-oscuro;
+    padding: 30px;
+    .card{
+        width: 95%;
+        padding: 50px;
+        .card-title{
+            color: $azul-oscuro;
+            font-size: 45px;
+        }
+        .my-input{
+            border: none;
+            margin-top: 5%;
+            input{
+                border-bottom: solid silver;
+                border-radius: 0%;
+            }
+        }
+        .btn-sesion{
+            margin-top: 5%;
+            width: 100%;
+            background-color: $amarillo-salle;
+            color: $semi-blanco;
+        }
+        .btn-sesion:hover{
+            background-color: $amarillo-salle-oscuro;
+            color: white;
+        }
+    }
+}
+
+.right-login{
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    img{
+        margin-left: 15%;
+        width: 70%;
+        height: 20%;
+    }
+}

@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { infoLoggedUser, userType } from "../../firebase/authProvider";
+import { userType } from "../../firebase/authProvider";
 import { getAdmin, getAdminProfilePic, setAdminProfilePic, updateAdmin } from "../../firebase/CRUD/crudAdmin";
 import { getADoctor, getDoctorProfilePic, setDoctorProfilePic, updateDoctor } from "../../firebase/CRUD/crudMedicos";
 import { getAPatient, getPatientProfilePic, setPatientProfilePic, updatePatient } from "../../firebase/CRUD/crudPacientes";
