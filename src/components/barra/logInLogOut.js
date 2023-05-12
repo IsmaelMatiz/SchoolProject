@@ -138,6 +138,29 @@ export function LoginSection (){
       
       },[userProf])
 
+      useEffect(()=>{
+        const inactividad = auth.onAuthStateChanged((user) =>{
+            if (user) {
+                let timeout = setTimeout(() => {
+                // cierra la sesión después de 30 minutos de inactividad
+                CerrarSesion()
+              }, 1800000);
+
+              // restablece el temporizador si el usuario interactúa con la aplicación
+                document.addEventListener('click', () => {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                CerrarSesion()
+                }, 1800000);
+              });
+            }else{
+                //no hay Usuario Loggeado
+            }
+        })
+
+        return () => inactividad()
+      },[])
+
 
     function CerrarSesion (){
         setUsuario(null)
