@@ -1,17 +1,21 @@
 .picture-section {
   background-color: #091d36;
   padding: 5%;
+  height: 100%;
 }
 .picture-section h1 {
   color: #f1f1f0;
 }
 .picture-section img {
   border-radius: 50%;
-  width: 80%;
-  height: 250px;
-  margin-left: 10%;
+  width: 300px;
+  height: 280px;
+  margin-left: 18%;
+  margin-top: 5%;
+  margin-bottom: 5%;
 }
 .picture-section button {
+  margin-top: 1%;
   background-color: #5e83ba;
   border: solid;
   border-color: #5e83ba;
@@ -33,14 +37,15 @@
   color: #f1f1f0;
   border-radius: 30px;
   padding: 1%;
-  padding-left: 10%;
+  padding-left: 22%;
   width: 100%;
   transition: 1s;
   margin-bottom: 2%;
-  margin-top: 2%;
 }
 .picture-section .my-input-file input[type=file] {
-  padding-top: 4.5%;
+  padding-left: 3%;
+  padding-top: 3.5%;
+  margin-bottom: 3%;
 }
 .picture-section .my-input-file input[type=file]::-webkit-file-upload-button {
   background-color: transparent;
@@ -62,9 +67,12 @@
 .form-section .my-select {
   margin-top: 2%;
 }
+.form-section .my-select select {
+  width: 100%;
+}
 
 .my-btn {
-  margin-top: 2%;
+  margin-top: 1.5%;
 }
 
 /*# sourceMappingURL=profile.css.map */

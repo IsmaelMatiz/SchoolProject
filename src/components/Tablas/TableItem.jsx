@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link} from "react-router-dom";
 import { deleteAdmin, updateAdmin } from "../../firebase/CRUD/crudAdmin";
 import { deleteDoctor, updateDoctor } from "../../firebase/CRUD/crudMedicos";
-import { ConfirmPopup } from "../customConfirm/ConfirmPopup";
+import { ConfirmPopup } from "../Alerts/ConfirmPopup";
 import "../../styles/itemTable/item.css"
 import { useEffect } from "react";
 
@@ -129,7 +129,7 @@ export function TableItemt(props) {
                     :
                     <React.Fragment>
                         <button className="btn btn-light">
-                        <Link to={"/Profile"} state={
+                        <Link to={"/Profile"} state={//go to the profile
                                 {id:props.id,
                                  power:"User"
                                 }

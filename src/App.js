@@ -5,15 +5,12 @@ import Barra from './components/barra/Barra';
 import { Cuerpo } from './components/cuerpo/Cuerpo';
 import Footer from "./components/footer/Footer";
 import Pacientes from './components/Tablas/Pacientes';
-import Edit from './components/edit/Edit';
-import EditMedico from './components/edit/EditMedico';
 import InfoP from './components/infoP/InfoP';
 import Cumplimiento from './components/infoP/Cumplimiento';
 import Deberes from './components/infoP/Deberes'; 
 import Evolucion from './components/infoP/Evolucion';
 import { Medicos } from './components/Tablas/Medicos';
 import { Admins } from './components/Tablas/Admins';
-import { EditPaciente } from './components/edit/EditPaciente';
 import { RegisterView } from './components/create/Register';
 import { DashboardAdmin } from './components/dashboards/dashboardAdmin';
 import { DashboardMedico } from './components/dashboards/dashboardMedico';
@@ -31,9 +28,6 @@ function App() {
         <Route path='/Pacientes' element={<Pacientes/>} />
         <Route path='/Medicos' element={<Medicos/>} />
         <Route path='/Admins' element={<Admins/>} />
-        <Route path='/Edit/:id' element={<Edit/>} />
-        <Route path='/EditMedico/:id' element={<EditMedico/>} />
-        <Route path='/EditPaciente/:id' element={<EditPaciente/>} />
         <Route path='/Register' element={<RegisterView/>} />
         <Route path='/Dashboard/admin' element={<DashboardAdmin/>} />
         <Route path='/Dashboard/medico' element={<DashboardMedico/>} />

@@ -6,6 +6,7 @@ import { getAdmin, getAdminProfilePic, setAdminProfilePic, updateAdmin } from ".
 import { getADoctor, getDoctorProfilePic, setDoctorProfilePic, updateDoctor } from "../../firebase/CRUD/crudMedicos";
 import { getAPatient, getPatientProfilePic, setPatientProfilePic, updatePatient } from "../../firebase/CRUD/crudPacientes";
 import "../../styles/profile/profile.css"
+import { ChanchePassword } from "../Alerts/changePass";
 
 export function Profile() {
     //Esta variable ayuda a ver una vista previa de la imagen de perfil al momento de elegir un archivo
@@ -27,6 +28,8 @@ export function Profile() {
     const [password, setPassword] = useState("")
     const [userProf, setUserProf] = useState (null)//Tipo de usuario
     const [isUserProfSet, setIsUserProfSet] = useState(false);
+    //show form to change password
+    const[showConfirmPopup, setShowConfirmPopup] = useState(false)
 
     useEffect(()=>{
             //Esta funcion almacena en userProf el tipo de usuario
@@ -83,7 +86,7 @@ export function Profile() {
 
 
     useEffect(() => {
-        if (infoProfile.length == 1 && dataProfile.state.power == "Admin") {
+        if (infoProfile.length == 1) {
           setId(infoProfile[0].id);
           setName(infoProfile[0].nombre);
           setLastName(infoProfile[0].apellido);
@@ -91,12 +94,6 @@ export function Profile() {
           setFEmail(infoProfile[0].email);
           console.log("\n//////////Data profile es: "+infoProfile[0].status+"/////////////////\n")
           setStatus(infoProfile[0].status)
-        }else if(infoProfile.length == 1 && dataProfile.state.power == "User"){
-            setId(infoProfile[0].id);
-            setName(infoProfile[0].nombre);
-            setLastName(infoProfile[0].apellido);
-            setEmail(infoProfile[0].email);
-            setFEmail(infoProfile[0].email);
         }
       }, [infoProfile]);
 
@@ -152,6 +149,7 @@ export function Profile() {
                     success = await updateDoctor(id,name,lastName,email,femail,password)
                     
                     setTimeout(() => {
+                        console.log("------/-/-/-/-/---sucess es----------"+success+"---------------/-/-/-//-/-/-/")
                         if(success) window.location.reload()
                         else alert("Email o clave incorrectas")
                       }, 4000)
@@ -165,7 +163,6 @@ export function Profile() {
                         else alert("Email o clave incorrectas")
                       }, 4000)
                 }else if(userProf === "Paciente"){
-                    let status = document.getElementById("status").value
                     let success = false
 
                     success = await updatePatient(id,name,lastName,email,femail,password,status)
@@ -176,6 +173,10 @@ export function Profile() {
                     }, 4000);
                 }
         }
+    }
+
+    function handleChangePass(){
+        setShowConfirmPopup(true)
     }
 
     return(
@@ -214,6 +215,7 @@ export function Profile() {
                         {
                         infoProfile.map((data)=>{
                             return(
+                                <React.Fragment>
                                 <form className="form-edit" key={data.id} onSubmit={handleUpdateData}>
                                     
                                     <label for="exampleInputEmail1" class="form-label">Nombre</label>
@@ -241,7 +243,6 @@ export function Profile() {
                                             setEmail(e.target.value)}
                                         }/>
                                     </div>
-                                    <div id="emailHelp" class="form-text">Nunca compartiremos su informacion personal con nadie más</div>
 
 
                                     <label for="exampleInputPassword1" class="form-label">Contraseña</label>
@@ -251,12 +252,17 @@ export function Profile() {
                                             setPassword(e.target.value)
                                         }}/>
                                     </div>
+                                        <div id="emailHelp" class="form-text">Ingresa la clave del usuario del cual deseas cambiar la info, esta informacion se requiere por motivos de seguridad</div>
 
                                     
                                 {dataProfile.state.power == "Admin"?//quien entro al perfil tiene poderes para cambiar el Status?
                                     <div class="my-input my-select">
                                     <div class="icono"><i class="bi bi-person-circle"></i></div>
-                                    <select id="status" aria-label="Default select example">
+                                    <select id="status" aria-label="Default select example"
+                                    onChange={e=>{
+                                        setStatus(e.target.value)
+                                    }}
+                                    >
                                     {status === "activo"?//si el Status de usuario esta activo muestralo activo de lo contrario pues inactivo
                                         <React.Fragment>
                                             <option selected value="activo">activo</option>
@@ -276,13 +282,24 @@ export function Profile() {
         
                                 <button type="submit" class="btn my-btn btn-primary">Enviar</button>
                             </form>
+                            <button class="btn my-btn btn-primary"
+                            onClick={handleChangePass}
+                            >Cambiar contraseña</button>
+
+                                <ChanchePassword
+                                trigger={showConfirmPopup}
+                                setTrigger={setShowConfirmPopup}
+                                email={data.email}
+                                >
+                                </ChanchePassword>
+                            </React.Fragment>
                             )
+                            
                         })
                         }
                     </div>
                 </div>
             </div>
-
         </React.Fragment>
     )
 }

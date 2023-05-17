@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { deletePatient, updatePatient } from "../../firebase/CRUD/crudPacientes";
 import { auth } from "../../firebase/firebaseConfi";
 import "../../styles/itemTable/item.css"
-import { ConfirmPopup } from "../customConfirm/ConfirmPopup";
+import { ConfirmPopup } from "../Alerts/ConfirmPopup";
 
 export function TableItemtPatient(props) {
 

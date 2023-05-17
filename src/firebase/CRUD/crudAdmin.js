@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, deleteUser, EmailAuthProvider, reauthenticateWithCredential, signInWithEmailAndPassword, signOut, updateEmail } from "firebase/auth";
+import { createUserWithEmailAndPassword, deleteUser, EmailAuthProvider, reauthenticateWithCredential, signInWithEmailAndPassword, signOut, updateEmail, updatePassword } from "firebase/auth";
 import { AddToDB, auth, db, deleteFromDB, storage, tempAuth, updateDB} from "../firebaseConfi";
 import {collection,
   addDoc,
@@ -89,7 +89,7 @@ export async function updateAdmin(uid,newName,newLastName,newEmail,formerEmail,p
       console.log("TempAuth cerro sesion")
     }).catch((error) => {
       console.error("Error al cerrar sesion de TempAuth: "+error)
-    });
+    })
     //Actualizar DB
     await updateDB(newName,newLastName,newEmail,doc(adminCollectionRef,uid)).catch(
       error => {
@@ -147,4 +147,32 @@ export async function getAdminProfilePic(uid) {
   } catch (error) {
     console.error("Error al obtener la imagen de perfil: "+error)
   }
+}
+
+
+//Cambiar Password
+//esta funcion es global, pero por facilidad del tempAuth la decidi poner aqui
+export async function ChangePassword(email,prevPassword,newPassword) {
+  //Borrar correo de autenticacion
+  let success = false
+  await signInWithEmailAndPassword(tempAuth,email, prevPassword)
+    .then(function(userCredential) {
+        console.log("tempUser se logueo correctamente")
+    }).catch(error => {
+      console.error("Error al iniciar sesion temp: "+error)
+      return false
+    })
+
+    await updatePassword(tempAuth.currentUser, newPassword).then(()=> {
+      //Todo salio bien
+      success = true
+    }).catch(error => console.error("Error al actualizar la password: "+error))
+    
+    await signOut(tempAuth).then(() => {
+      console.log("TempAuth cerro sesion")
+    }).catch((error) => {
+      console.error("Error al cerrar sesion de TempAuth: "+error)
+    })
+
+    return tempAuth.currentUser == null && success ? true : false
 }

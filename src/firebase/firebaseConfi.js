@@ -65,3 +65,4 @@ export async function deleteFromDB(docRef){
     console.error("Error al eliminar admin: "+error)
   }
 }
+
