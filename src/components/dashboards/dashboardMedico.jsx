@@ -3,9 +3,8 @@ import { Link } from "react-router-dom"
 import { getAssignment } from "../../firebase/CRUD/crudAsginacion"
 import { infoLoggedUser } from "../../firebase/authProvider"
 import { useEffect } from "react"
-import { TableItemtPatient } from "../Tablas/TableItemPatient"
-import AuthProvider from "../../firebase/authProvider"
-import Pacientes from "../Tablas/Pacientes"
+import { TableItemtPatient } from "../Tablas/Pacientes/TableItemPatient"
+import Pacientes from "../Tablas/Pacientes/Pacientes"
 import { getAPatient } from "../../firebase/CRUD/crudPacientes"
 
 export function DashboardMedico() {

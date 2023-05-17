@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import AuthProvider from "../../firebase/authProvider";
-import { getAllDoctors } from "../../firebase/CRUD/crudMedicos";
+import AuthProvider from "../../../firebase/authProvider";
+import { getAllDoctors } from "../../../firebase/CRUD/crudMedicos";
 import { TableItemt } from "./TableItem";
-import "../../styles/itemTable/item.css"
-import "../../styles/dashBoard/dashboard.css"
+import "../../../styles/itemTable/item.css"
+import "../../../styles/dashBoard/dashboard.css"
 
 export function Medicos(props) {
     // hooks

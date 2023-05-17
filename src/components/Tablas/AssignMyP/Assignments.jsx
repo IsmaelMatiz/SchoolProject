@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useEffect } from "react"
-import { getAllAssignments } from "../../firebase/CRUD/crudAsginacion"
+import { getAllAssignments } from "../../../firebase/CRUD/crudAsginacion"
 import { TableItemAssignment } from "./TableItemAssignment"
 
 export function Assignments() {
@@ -16,7 +16,7 @@ export function Assignments() {
     useEffect(() =>{
         getAssignments()
     }, [] )
-    let counter = 0
+
     return(
         <React.Fragment>
             <div class="table-wrapper-scroll-y my-custom-scrollbar">

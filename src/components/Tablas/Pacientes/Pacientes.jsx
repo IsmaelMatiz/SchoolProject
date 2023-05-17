@@ -1,9 +1,8 @@
 import React, { useState, useEffect} from 'react'
-import { Link } from 'react-router-dom'
-import { getAllPatients } from '../../firebase/CRUD/crudPacientes'
+import { getAllPatients } from '../../../firebase/CRUD/crudPacientes'
 import { TableItemtPatient } from './TableItemPatient'
-import "../../styles/itemTable/item.css"
-import "../../styles/dashBoard/dashboard.css"
+import "../../../styles/itemTable/item.css"
+import "../../../styles/dashBoard/dashboard.css"
 
 const Pacientes = () => {
 

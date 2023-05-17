@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link} from "react-router-dom";
-import { deleteAdmin, updateAdmin } from "../../firebase/CRUD/crudAdmin";
-import { deleteDoctor, updateDoctor } from "../../firebase/CRUD/crudMedicos";
-import { ConfirmPopup } from "../Alerts/ConfirmPopup";
-import "../../styles/itemTable/item.css"
+import { deleteAdmin, updateAdmin } from "../../../firebase/CRUD/crudAdmin";
+import { deleteDoctor, updateDoctor } from "../../../firebase/CRUD/crudMedicos";
+import { ConfirmPopup } from "../../Alerts/ConfirmPopup";
+import "../../../styles/itemTable/item.css"
 import { useEffect } from "react";
 
 export function TableItemt(props) {

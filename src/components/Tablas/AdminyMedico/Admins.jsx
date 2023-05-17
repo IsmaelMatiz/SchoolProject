@@ -1,8 +1,8 @@
 import React, {  useEffect, useState } from "react";
-import AuthProvider from "../../firebase/authProvider";
-import { getAllAdmins } from "../../firebase/CRUD/crudAdmin";
+import AuthProvider from "../../../firebase/authProvider";
+import { getAllAdmins } from "../../../firebase/CRUD/crudAdmin";
 import {TableItemt } from "./TableItem";
-import "../../styles/itemTable/item.css"
+import "../../../styles/itemTable/item.css"
 
 
 export function Admins() {

@@ -1,5 +1,5 @@
 import React from "react";
-import { deleteAssignment } from "../../firebase/CRUD/crudAsginacion";
+import { deleteAssignment } from "../../../firebase/CRUD/crudAsginacion";
 
 
 export function TableItemAssignment(props){

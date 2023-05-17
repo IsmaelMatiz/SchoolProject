@@ -1,6 +1,6 @@
 import React from "react";
-import { Medicos } from "../Tablas/Medicos";
-import Pacientes from "../Tablas/Pacientes";
+import { Medicos } from "../Tablas/AdminyMedico/Medicos";
+import Pacientes from "../Tablas/Pacientes/Pacientes";
 import "../../styles/dashBoard/dashboard.css"
 import "../../styles/Register/Register.css"
 import AuthProvider from "../../firebase/authProvider";
@@ -8,9 +8,10 @@ import { getAllDoctors } from "../../firebase/CRUD/crudMedicos";
 import { getAllPatients } from "../../firebase/CRUD/crudPacientes";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Assignments } from "../Tablas/Assignments";
+import { Assignments } from "../Tablas/AssignMyP/Assignments";
 import { AddToDBAssignment } from "../../firebase/CRUD/crudAsginacion";
 import { Link } from "react-router-dom";
+import { TableTherapies } from "../Tablas/Therapies/LinksTherapies";
 
 
 export function DashboardAdmin(){
@@ -43,11 +44,12 @@ export function DashboardAdmin(){
     return(
         <React.Fragment>
             <div className="create-new-prof">
-                    <div className="row">
-                        <h1>Crear un nuevo perfil</h1>
-                            <Link to={"/Register"}> <button className="btn btn-primary">Crear</button> </Link>
-                    </div>
+                <div className="row">
+                    <h1>Crear un nuevo perfil</h1>
+                        <Link to={"/Register"}> <button className="btn btn-primary">Crear</button> </Link>
                 </div>
+            </div>
+
             <div className="row">
                 <div className="col my-col">
                     <h3>Doctores</h3>
@@ -96,7 +98,62 @@ export function DashboardAdmin(){
                             <button onClick={registAssigment} class="btn my-btn btn-primary">Enviar</button>
                     </div>
                 </div>
+
                 <Assignments />
+
+                <div className="create-new-prof">
+                    <div className="row">
+                        <h1>Crear un nuevo Link</h1>
+                            <Link to={"/RegisterTherapy"}
+                            state={{
+                                action:"create"
+                            }}
+                            > <button className="btn btn-primary">Crear</button> </Link>
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col my-col">
+                        <TableTherapies />
+                    </div>
+                </div>
+                
+                <div className="asign">
+                    <div className="row">
+                        <h1>Asignar link de terapia a un Paciente</h1>
+                        <div className="col">
+                                <div class="my-input">
+                                            <div class="icono"><i class="bi bi-person-circle"></i></div>
+                                            <select class="form-select" id="docInfo" aria-label="Default select example">
+                                                <option selected>Elige la terapia?</option>
+                                                {
+                                                    allDoctors.map(
+                                                        doctor =>(
+                                                            <option key={doctor.id} value={[doctor.id,doctor.email]}>{doctor.email}</option>
+                                                        )
+                                                    )
+                                                }
+                                            </select>
+                                        </div>
+                                </div>
+                                <div className="col">
+                                <div class="my-input">
+                                            <div class="icono"><i class="bi bi-person-circle"></i></div>
+                                            <select class="form-select" id="pacienteInfo" aria-label="Default select example">
+                                                <option selected>Elige el paciente?</option>
+                                                {
+                                                    allPatients.map(
+                                                        patient =>(
+                                                            <option key={patient.id} value={[patient.id,patient.email]}>{patient.email}</option>
+                                                        )
+                                                    )
+                                                }
+                                            </select>
+                                        </div>
+                                </div>
+                            <button onClick={registAssigment} class="btn my-btn btn-primary">Enviar</button>
+                    </div>
+                </div>
         </React.Fragment>
     )
 }
