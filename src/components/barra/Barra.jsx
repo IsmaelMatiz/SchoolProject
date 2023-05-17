@@ -65,7 +65,7 @@ export default function Barra () {
           :
           userProf == "Paciente"?
           <li class="nav-item">
-          <Link class="nav-link" to={"/Evolucion"}>
+          <Link class="nav-link" to={"/Seguimiento"}>
             Dashboard Paciente
           </Link>
           </li>

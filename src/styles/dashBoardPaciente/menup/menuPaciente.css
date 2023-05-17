@@ -1,0 +1,31 @@
+.navbar-paciente {
+  height: 100%;
+  padding-left: 0;
+  padding: 10%;
+  padding-top: 1%;
+  border-right: solid silver 2px;
+}
+.navbar-paciente .li-navp {
+  list-style: none;
+  margin-top: 20%;
+  padding: 5%;
+  border: solid transparent;
+  display: flex;
+  transition: 1s;
+}
+.navbar-paciente .li-navp i {
+  font-size: 45px;
+}
+.navbar-paciente .li-navp:hover {
+  border-radius: 25%;
+  border-left: solid black;
+  border-right: solid black;
+}
+.navbar-paciente .navp-item {
+  text-decoration: none;
+  color: black;
+  margin-top: 10%;
+  margin-left: 3%;
+}
+
+/*# sourceMappingURL=menuPaciente.css.map */

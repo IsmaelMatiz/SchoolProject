@@ -1,0 +1,37 @@
+$azul-oscuro:#091d36;
+$azul-profundo: #3a4e7a;
+$azul-intermedio: #5e83ba;
+$azul-claro:#c2d2e9;
+$semi-blanco: #f1f1f0;
+
+.navbar-paciente{
+    height: 100%;
+    padding-left: 0;
+    padding: 10%;
+    padding-top: 1%;
+    border-right: solid silver 2px;
+    .li-navp{
+        list-style: none;
+        margin-top: 20%;
+        padding: 5%;
+        border: solid transparent;
+        display: flex;
+        transition: 1s;
+        i{
+            font-size: 45px;
+        }
+    }
+    
+    .li-navp:hover{
+        border-radius: 25%;
+        border-left: solid black;
+        border-right: solid black;
+    }
+
+    .navp-item{
+        text-decoration: none;
+        color: black;
+        margin-top: 10%;
+        margin-left: 3%;
+    }
+}
