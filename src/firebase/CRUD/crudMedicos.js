@@ -95,10 +95,12 @@ export async function updateDoctor(uid,newName,newLastName,newEmail,formerEmail,
 }
 
 //Delete
-export async function deleteDoctor (id,email,password){
+export async function deleteDoctor (id,affEmail,affPassword,supPassword){
   //Borrar correo de autenticacion
   let success = false
-  await signInWithEmailAndPassword(tempAuth,email, password)
+  let supEmail = auth.currentUser.email
+
+  await signInWithEmailAndPassword(tempAuth,affEmail, affPassword)
     .then(function(userCredential) {
         console.log("tempUser se logueo correctamente")
     }).catch(error => console.error("Error al iniciar sesion temp: "+error))
@@ -110,11 +112,17 @@ export async function deleteDoctor (id,email,password){
     })
     .catch(error => console.error("Error al cambiar Correo autenticacion: "+error))
 
-    await signOut(tempAuth).then(() => {
-      console.log("TempAuth cerro sesion")
-    }).catch((error) => {
-      console.error("Error al cerrar sesion de TempAuth: "+error)
-    });
+    await signInWithEmailAndPassword(auth,supEmail, supPassword)
+    .then(function(userCredential) {
+        console.log("el SupUser se logueo correctamente")
+    }).catch(async(error) => {
+      console.error("Error al iniciar sesion temp: "+error)
+      await signOut(tempAuth).then(() => {
+        console.log("TempAuth cerro sesion")
+      }).catch((error) => {
+        console.error("Error al cerrar sesion de TempAuth: "+error)
+      })
+    })
 
     //Borra de DB
     deleteFromDB(doc(doctorCollectionRef, id)).catch(error => {
@@ -122,7 +130,7 @@ export async function deleteDoctor (id,email,password){
       return false
     })
  
-    return tempAuth.currentUser == null && success ? true : false
+    return tempAuth.currentUser != null && success ? true : false
 }
 
 //Upload files

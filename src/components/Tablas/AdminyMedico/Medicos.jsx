@@ -8,7 +8,7 @@ import "../../../styles/dashBoard/dashboard.css"
 export function Medicos(props) {
     // hooks
     const [medicos, setMedicos ] = useState( [] )
-    AuthProvider()
+    //AuthProvider()
 
     // funcion para mostrar todos los docs
     async function getMedicos(){

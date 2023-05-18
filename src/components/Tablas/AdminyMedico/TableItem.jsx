@@ -5,6 +5,7 @@ import { deleteDoctor, updateDoctor } from "../../../firebase/CRUD/crudMedicos";
 import { ConfirmPopup } from "../../Alerts/ConfirmPopup";
 import "../../../styles/itemTable/item.css"
 import { useEffect } from "react";
+import { ConfirmCrudAction } from "../../Alerts/confirmCrudAction";
 
 export function TableItemt(props) {
 
@@ -16,10 +17,26 @@ export function TableItemt(props) {
     const [password, setPassword] = useState("")
     //Esto decide si mostrar o no el popup de confirmacion
     const[showConfirmPopup, setShowConfirmPopup] = useState(false)
+    const[showConfirmCrudPopup, setShowConfirmCrudPopup] = useState(false)
     const[continueProccess,setContinueProccess] = useState("no")
+    //Passwords para new crud
+    const [supUserPassword, setSupUserPassword] = useState("")
+    const [affectedUserPassword, setAffectedUserPassword] = useState("")
+
+    async function newDeleteDoctor() {
+        console.log(supUserPassword)
+        console.log(affectedUserPassword)
+        console.log("----------------------AQUI EMPEZO EL NEW DELETE---------------")
+        let success = await deleteDoctor(props.id,props.email,affectedUserPassword,supUserPassword)
+        if (success) {
+            setTimeout(() => {
+                window.location.reload()
+            }, 4000);
+        }
+    }
 
     function handleDelete(){
-        setShowConfirmPopup(true) 
+        setShowConfirmCrudPopup("si")
     }
 
     useEffect(()=>{
@@ -105,7 +122,7 @@ export function TableItemt(props) {
                                         onChange={e => setPassword(e.target.value)}
                                         class="input-delete"
                                         />
-                                        <button className="btn btn-danger" onClick={handleDelete}>Delete</button>
+                                        <button className="btn btn-danger" onClick={"handleDelete"}>Delete</button>
                                     </div>
                                 </td>
                             </React.Fragment>
@@ -135,10 +152,7 @@ export function TableItemt(props) {
                                 }
                                 }><i class="bi bi-pen"></i></Link>
                         </button>
-                        <button onClick={ () => {//Borrar
-                            if(verifyDelete) setVerifyDelete(false)
-                            else setVerifyDelete(true)
-                        } } className="btn btn-light"><i class="bi bi-trash"></i></button>
+                        <button onClick={handleDelete} className="btn btn-light"><i class="bi bi-trash"></i></button>
                     </React.Fragment>
                     }
                     </td>
@@ -154,6 +168,15 @@ export function TableItemt(props) {
                         Por motivos de seguridad se cerrar la sesion al editar un perfil, desea continuar?
           
                     </ConfirmPopup>
+                    <ConfirmCrudAction
+                    trigger={showConfirmCrudPopup}
+                    setTrigger={setShowConfirmCrudPopup}
+                    setPasswordSup={setSupUserPassword}
+                    setPasswordAff={setAffectedUserPassword}
+                    actionCrud={newDeleteDoctor}
+                    >
+                        
+                    </ConfirmCrudAction>
                     </tr>
 
                     
