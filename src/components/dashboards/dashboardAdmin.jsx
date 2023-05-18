@@ -12,17 +12,20 @@ import { Assignments } from "../Tablas/AssignMyP/Assignments";
 import { AddToDBAssignment } from "../../firebase/CRUD/crudAsginacion";
 import { Link } from "react-router-dom";
 import { TableTherapies } from "../Tablas/Therapies/LinksTherapies";
+import { getAllTherapies } from "../../firebase/CRUD/crudLinksTerapias";
 
 
 export function DashboardAdmin(){
     AuthProvider()
 
     const [allDoctors,setDoctors] = useState([])
+    const [allTherapies,setTherapies] = useState([])
     const [allPatients, setPatients] = useState([])
 
     async function setSelects(){
         setDoctors(await getAllDoctors()) 
         setPatients(await getAllPatients())
+        setTherapies(await getAllTherapies())
     }
 
     async function registAssigment() {
@@ -98,8 +101,11 @@ export function DashboardAdmin(){
                             <button onClick={registAssigment} class="btn my-btn btn-primary">Enviar</button>
                     </div>
                 </div>
-
-                <Assignments />
+                <div className="row">
+                    <div className="col my-col">
+                        <Assignments />
+                    </div>
+                </div>
 
                 <div className="create-new-prof">
                     <div className="row">
@@ -127,9 +133,9 @@ export function DashboardAdmin(){
                                             <select class="form-select" id="docInfo" aria-label="Default select example">
                                                 <option selected>Elige la terapia?</option>
                                                 {
-                                                    allDoctors.map(
-                                                        doctor =>(
-                                                            <option key={doctor.id} value={[doctor.id,doctor.email]}>{doctor.email}</option>
+                                                    allTherapies.map(
+                                                        therapy =>(
+                                                            <option key={therapy.id} value={[therapy.id,therapy.titulo_terapia]}>{therapy.titulo_terapia}</option>
                                                         )
                                                     )
                                                 }
@@ -151,7 +157,7 @@ export function DashboardAdmin(){
                                             </select>
                                         </div>
                                 </div>
-                            <button onClick={registAssigment} class="btn my-btn btn-primary">Enviar</button>
+                            <button onClick={""} class="btn my-btn btn-primary">Enviar</button>
                     </div>
                 </div>
         </React.Fragment>
