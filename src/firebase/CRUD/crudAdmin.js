@@ -16,18 +16,40 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 const adminCollectionRef= collection(db,"admins")
 
 //Create
-export async function CreateAdmin (email,password,name,lastName){
-    await createUserWithEmailAndPassword(tempAuth, email, password)
+export async function CreateAdmin (email,password,name,lastName,supEmail,supPassword){
+  let success = false
+
+  await createUserWithEmailAndPassword(tempAuth, email, password)
   .then(async(userCredential) => {
-    // Signed in 
+    // Creado exitosamente el admin
     const user = userCredential.user;
-    await AddToDB(user.uid,user.email,name,lastName,'admins')
-    console.log("parece q si")
+    await AddToDB(user.uid,user.email,name,lastName,'admins')//agregar el admin a firestore
+    success = true
+    console.log("Creado Exitosamente")
   })
   .catch((error) => {
-    console.error("Error al crear admin: "+error)
+    console.error("Error al crear admin: "+error) //Alertar de error al crear el usuario
+    return false
   });
-  await auth.signOut()
+
+  //Reloguear al super usuario(admin o doc)
+  await signInWithEmailAndPassword(auth,supEmail, supPassword)
+    .then(function(userCredential) {
+        console.log("el SupUser se logueo correctamente")
+    }).catch(async(error) => {//Error al loguear al super usuario
+      console.error("Error al iniciar sesion temp: "+error)
+      
+      success = false//setear success en falso para alertar el problema, aunque igual se va a cerrar la sesion
+    
+      await signOut(tempAuth).then(() => {
+        console.log("TempAuth cerro sesion")
+      }).catch((error) => {
+        console.error("Error al cerrar sesion de TempAuth: "+error)
+      })
+    })
+
+    return tempAuth.currentUser != null && success ? true : false
+
   }
 
 

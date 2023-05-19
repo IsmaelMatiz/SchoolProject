@@ -13,64 +13,41 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 const patientsCollectionRef= collection(db,"pacientes")
 
-//TODO: Analizar pa q era esto XD
-/*export function Rol(){
-    // captura del rol del usuario
-  const [user, setUser] = useState(null);
-
-  async function getRol(uid) {
-    const medicoDocRef = doc(firestore, "medicos", uid);
-    const pacienteDocRef = doc(firestore, "pacientes", uid);
-  
-    const medicoDoc = await getDoc(medicoDocRef);
-    const pacienteDoc = await getDoc(pacienteDocRef);
-  
-    if (medicoDoc.exists()) {
-      return medicoDoc.data().rol;
-    } else if (pacienteDoc.exists()) {
-      return pacienteDoc.data().rol;
-    } else {
-      throw new Error("Documento no encontrado");
-    }
-  }
-
-  function setUserWithFirebaseRol(usuarioFirebase){
-    getRol(usuarioFirebase.uid).then((rol) => {
-      const userData = {
-        uid: usuarioFirebase.uid,
-        email: usuarioFirebase.email,
-        rol: rol,
-      };
-      setUser(userData);
-      console.log("userData final", userData);
-    });
-  }
-
-  onAuthStateChanged(auth,(usuarioFirebase)=>{
-    if(usuarioFirebase){
-      
-      if(!user){
-        setUserWithFirebaseRol(usuarioFirebase);
-      }
-
-    } else{
-      setUser(null);
-    }
-  })
-}*/
 
 //Create
-export async function CreatePatient(email,password,name,lastName){
+export async function CreatePatient(email,password,name,lastName,supEmail,supPassword){
+  let success = false
+
   await createUserWithEmailAndPassword(auth, email, password)
 .then(async (userCredential) => {
   // Signed in 
   const user = userCredential.user;
+  success = true
   await AddToDBPatient(user.uid,user.email,name,lastName,'pacientes',"inactivo")
 })
 .catch((error) => {
   console.error("Error al crear Paciente: "+error)
+  return false
 })
-await auth.signOut()
+
+//Reloguear al super usuario(admin o doc)
+await signInWithEmailAndPassword(auth,supEmail, supPassword)
+.then(function(userCredential) {
+    console.log("el SupUser se logueo correctamente")
+}).catch(async(error) => {//Error al loguear al super usuario
+  console.error("Error al iniciar sesion temp: "+error)
+  
+  success = false//setear success en falso para alertar el problema, aunque igual se va a cerrar la sesion
+
+  await signOut(tempAuth).then(() => {
+    console.log("TempAuth cerro sesion")
+  }).catch((error) => {
+    console.error("Error al cerrar sesion de TempAuth: "+error)
+  })
+})
+
+return tempAuth.currentUser != null && success ? true : false
+
 }
 
 async function AddToDBPatient (uid,email,nombre,apellido,table,status){

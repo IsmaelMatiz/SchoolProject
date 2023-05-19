@@ -4,6 +4,7 @@ import { infoLoggedUser, userType } from "../../firebase/authProvider";
 import { CreateAdmin } from "../../firebase/CRUD/crudAdmin";
 import { CreateDoctor } from "../../firebase/CRUD/crudMedicos";
 import { CreatePatient } from "../../firebase/CRUD/crudPacientes";
+import { auth } from "../../firebase/firebaseConfi";
 import "../../styles/Register/Register.css"
 
 export function RegisterView(){
@@ -13,7 +14,7 @@ export function RegisterView(){
     
 
     //Registrar usuario independiente de su rol
-    function RegisterUser(data){
+    async function RegisterUser(data){
         //Primero Obtener la Info
         data.preventDefault()
         const name = data.target.name.value
@@ -21,6 +22,7 @@ export function RegisterView(){
         const email = data.target.email.value
         const password = data.target.password.value
         const verifyPassword = data.target.verify.value
+        const supPass = data.target.supPassword.value
         const rol = data.target.rol.value
         console.log(rol)
         
@@ -33,24 +35,31 @@ export function RegisterView(){
         }
 
         //verificar el rol y en base a eso crear el perfil
+        let success = false
         switch (rol) {
             case "1":
-                CreateAdmin(email,password,name,lastName)
-                setSuccess(1)
+                success = await CreateAdmin(email,password,name,lastName,auth.currentUser.email,supPass)
+                if (success) {
+                    setSuccess(1)   
+                }else setSuccess(2)
                 setTimeout(() => {
                     window.location.reload()
                 }, 4000)
                 break
             case "2":
-                CreateDoctor(email,password,name,lastName)
-                setSuccess(1)
+                success = CreateDoctor(email,password,name,lastName,auth.currentUser.email,supPass)
+                if (success) {
+                    setSuccess(1)   
+                }else setSuccess(2)
                 setTimeout(() => {
                     window.location.reload()
                 }, 4000)
                 break
             case "3":
-                CreatePatient(email,password,name,lastName)
-                setSuccess(1)
+                success = CreatePatient(email,password,name,lastName,auth.currentUser.email,supPass)
+                if (success) {
+                    setSuccess(1)   
+                }else setSuccess(2)
                 setTimeout(() => {
                     window.location.reload()
                 }, 4000)
@@ -137,6 +146,14 @@ export function RegisterView(){
                                 </React.Fragment>
                                 }
                             </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Ingresa tu propia contraseña</label>
+                            <div class="my-input">
+                                <div class="icono"><i class="bi bi-key-fill"></i></div>
+                                <input type="password" name="supPassword" class="form-control"/>
+                            </div>
                         </div>
 
                         <button type="submit" class="btn my-btn btn-primary">Enviar</button>
