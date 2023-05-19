@@ -125,29 +125,33 @@ export function RegisterView(){
                                 <input type="password" name="verify" class="form-control"/>
                             </div>
                         </div>
-                        <div class="my-input">
-                            <div class="icono"><i class="bi bi-person-circle"></i></div>
-                            <select class="form-select" name="rol" aria-label="Default select example">
-                                <option selected>Cual es tu rol?</option>
-                                {editer == "Admin"?
-                                <React.Fragment>
-                                    <option value="1">Admin</option>
-                                    <option value="2">Medico</option>
-                                    <option value="3">Paciente</option>
-                                </React.Fragment>
-                                :
-                                editer == "Medico"?
-                                <React.Fragment>
-                                    <option value="3">Paciente</option>
-                                </React.Fragment>
-                                :
-                                <React.Fragment>
-                                    <option value="0">nadie</option>
-                                </React.Fragment>
-                                }
-                            </select>
+                        
+                        <div className="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Elige el rol a crear</label>
+                            <div class="my-input">
+                                <div class="icono"><i class="bi bi-person-circle"></i></div>
+                                <select class="form-select" name="rol" aria-label="Default select example">
+                                    <option selected>Elige un rol?</option>
+                                    {editer == "Admin"?
+                                    <React.Fragment>
+                                        <option value="1">Admin</option>
+                                        <option value="2">Medico</option>
+                                        <option value="3">Paciente</option>
+                                    </React.Fragment>
+                                    :
+                                    editer == "Medico"?
+                                    <React.Fragment>
+                                        <option value="3">Paciente</option>
+                                    </React.Fragment>
+                                    :
+                                    <React.Fragment>
+                                        <option value="0">nadie</option>
+                                    </React.Fragment>
+                                    }
+                                </select>
+                            </div>
                         </div>
-
+                        
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Ingresa tu propia contraseña</label>
                             <div class="my-input">

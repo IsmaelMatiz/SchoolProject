@@ -117,40 +117,74 @@ export async function updateDoctor(uid,newName,newLastName,newEmail,formerEmail,
 
 //Delete
 export async function deleteDoctor (id,affEmail,affPassword,supPassword){
-  //Borrar correo de autenticacion
-  let success = false
-  let supEmail = auth.currentUser.email
+  let success = false//var auxiliar para checar cada parte del proceso
+  let supEmail = auth.currentUser.email//super usuario que hara la accion
 
+  //Primero cambiar a la sesion del ususario afectado
   await signInWithEmailAndPassword(tempAuth,affEmail, affPassword)
     .then(function(userCredential) {
         console.log("tempUser se logueo correctamente")
-    }).catch(error => console.error("Error al iniciar sesion temp: "+error))
+        success = true
+    }).catch(error => {
+      console.error("Error al iniciar sesion temp: "+error)
+      success = false
+      return false
+    })
 
+    //Si la operacion anterior salio mal detener ejecucion
+    if (!success) {
+      console.log("Algo salio mal al momento de loguear al usuario afectado, se detiene el borrado")
+      return false
+    }
+
+  //Borrar al usuario afectado
     await deleteUser(tempAuth.currentUser)
     .then(()=>{
       console.log("Borrado correctamente correo autenticacion")
       success = true
     })
-    .catch(error => console.error("Error al cambiar Correo autenticacion: "+error))
+    .catch(error => {
+      console.error("Error al Borrar Correo de autenticacion: "+error)
+      success = false
+      return false
+  })
 
+  //Si la operacion anterior salio mal detener ejecucion
+  if (!success) {
+    console.log("Algo salio mal al momento de borrar el correro de auth del usuario afectado, se detiene el proceso")
+    return false
+  }
+
+  //Borrar al usuario afectado de la DB
+  deleteFromDB(doc(doctorCollectionRef, id)).catch(error => {
+    console.error("Error al borrar de DB")
+    success = false
+    return false
+  })
+
+  //Si la operacion anterior salio mal detener ejecucion
+  if (!success) {
+    console.log("Algo salio mal al momento de borrar de la DB al usuario, se detiene el proceso")
+    return false
+  }
+
+  //Volver a loguear al super usuario
     await signInWithEmailAndPassword(auth,supEmail, supPassword)
     .then(function(userCredential) {
         console.log("el SupUser se logueo correctamente")
+        success = true
     }).catch(async(error) => {
+      //si no es posible loguear de nuevo al super usuario cerrar la sesion
       console.error("Error al iniciar sesion temp: "+error)
+      
       await signOut(tempAuth).then(() => {
         console.log("TempAuth cerro sesion")
       }).catch((error) => {
         console.error("Error al cerrar sesion de TempAuth: "+error)
       })
     })
-
-    //Borra de DB
-    deleteFromDB(doc(doctorCollectionRef, id)).catch(error => {
-      console.error("Error al borrar de DB")
-      return false
-    })
- 
+    
+    //Finalmente si todo sale bien informarlo
     return tempAuth.currentUser != null && success ? true : false
 }
 
@@ -176,4 +210,15 @@ export async function getDoctorProfilePic(uid) {
     console.error("Error al obtener la imagen de perfil: "+error)
   }
 }
+
+//Delete Profile Picture TODO
+/*export async function setDoctorProfilePic(uid,file) {
+  try {
+    const imageRef = ref(storage, `fotos-doctores/${uid}`)
+    const resUpload = await uploadBytes(imageRef,file)
+    return resUpload 
+  } catch (error) {
+    console.error("Error al subir archivo: "+error)
+  }
+}*/
 

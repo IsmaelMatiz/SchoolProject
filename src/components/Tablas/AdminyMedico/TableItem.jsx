@@ -32,6 +32,8 @@ export function TableItemt(props) {
             setTimeout(() => {
                 window.location.reload()
             }, 4000);
+        }else{
+            alert("Error al borrar Medico verifique las claves")
         }
     }
 
