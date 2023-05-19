@@ -107,35 +107,102 @@ export async function getAPatient(uid){
 }
 
 //Update
-export async function updatePatient(uid,newName,newLastName,newEmail,formerEmail,password,status){
-  //actualizar correo de autenticacion
-  let success = false
+export async function updatePatient(uid,newName,newLastName,newEmail,formerEmail,password,status,supPassword){
+  let success = false//var auxiliar para checar cada parte del proceso
+  let supEmail = auth.currentUser.email//super usuario que hara la accion
+
+  //Primero cambiar a la sesion del ususario afectado
   await signInWithEmailAndPassword(tempAuth,formerEmail, password)
     .then(function(userCredential) {
         console.log("tempUser se logueo correctamente")
-    }).catch(error => console.error("Error al iniciar sesion temp: "+error))
+        success = true
+      }).catch(error => {
+        console.error("Error al iniciar sesion temp: "+error)
+        success = false
+        return false
+      })
 
+    //Si la operacion anterior salio mal detener ejecucion
+    if (!success) {
+      console.log("Algo salio mal al momento de loguear al usuario afectado, se detiene el borrado")
+      return false
+    }
+
+    //Editar email al usuario afectado
     await updateEmail(tempAuth.currentUser, newEmail)
     .then(()=>{
       console.log("Actualizado correctamente correo autenticacion")
       success = true
     })
-    .catch(error => console.error("Error al cambiar Correo autenticacion: "+error))
+    .catch(error => {
+      console.error("Error al cambiar Correo autenticacion: "+error)
+      success = false
+    })
 
-    await signOut(tempAuth).then(() => {
-      console.log("TempAuth cerro sesion")
-    }).catch((error) => {
-      console.error("Error al cerrar sesion de TempAuth: "+error)
-    });
+    //Si la operacion anterior salio mal detener ejecucion
+    if (!success) {
+      console.log("Algo salio mal al momento de loguear al usuario afectado, se detiene el borrado")
+      return false
+    }
+
     //Actualizar DB
     await updateDBPatient(newName,newLastName,newEmail,doc(patientsCollectionRef,uid),status).catch(
       error => {
         console.log("Error Actualizando la DB: "+error)
+        success = false
         return false
       }
     )
 
-    return tempAuth.currentUser == null && success ? true : false    
+    //Si la operacion anterior salio mal detener ejecucion
+    if (!success) {
+      console.log("Algo salio mal al momento de loguear al usuario afectado, se detiene el borrado")
+      return false
+    }
+
+    /*
+    * Si el super usuario se edita asi mismo, no podra loguearse con la info del email anterior
+    * asi que aqui aqui validamos eso y en caso de ser asi intentamos loguearnos con el nuevo email
+    */
+   if (supEmail == formerEmail) {//si esto se cumple quiere decir que el super user se edito a si mismo
+    
+    //Volver a loguear al super usuario cuando se edito a si mismo
+    await signInWithEmailAndPassword(auth,newEmail, supPassword)
+    .then(function(userCredential) {
+        console.log("el SupUser se logueo correctamente")
+        success = true
+    }).catch(async(error) => {
+      //si no es posible loguear de nuevo al super usuario cerrar la sesion
+      console.error("Error al iniciar sesion temp: "+error)
+      
+      await signOut(tempAuth).then(() => {
+        console.log("TempAuth cerro sesion")
+      }).catch((error) => {
+        console.error("Error al cerrar sesion de TempAuth: "+error)
+      })
+    })
+
+   } else {//por el contrario edito a otro usuario
+    
+    //Volver a loguear al super usuario cuando edito a otro usuario
+    await signInWithEmailAndPassword(auth,supEmail, supPassword)
+    .then(function(userCredential) {
+        console.log("el SupUser se logueo correctamente")
+        success = true
+    }).catch(async(error) => {
+      //si no es posible loguear de nuevo al super usuario cerrar la sesion
+      console.error("Error al iniciar sesion temp: "+error)
+      
+      await signOut(tempAuth).then(() => {
+        console.log("TempAuth cerro sesion")
+      }).catch((error) => {
+        console.error("Error al cerrar sesion de TempAuth: "+error)
+      })
+    })
+   }
+    
+    //Finalmente si todo sale bien informarlo
+    return tempAuth.currentUser != null && success ? true : false
 }
 
 async function updateDBPatient(newName,newLastName, newEmail,docRef,status){

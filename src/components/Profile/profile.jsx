@@ -7,6 +7,7 @@ import { getADoctor, getDoctorProfilePic, setDoctorProfilePic, updateDoctor } fr
 import { getAPatient, getPatientProfilePic, setPatientProfilePic, updatePatient } from "../../firebase/CRUD/crudPacientes";
 import "../../styles/profile/profile.css"
 import { ChanchePassword } from "../Alerts/changePass";
+import { ConfirmCrudAction } from "../Alerts/confirmCrudAction";
 
 export function Profile() {
     //Esta variable ayuda a ver una vista previa de la imagen de perfil al momento de elegir un archivo
@@ -25,11 +26,15 @@ export function Profile() {
     const [email, setEmail] = useState("")
     const [status, setStatus] = useState("")
     const [femail, setFEmail] = useState("")//Email anterior
-    const [password, setPassword] = useState("")
     const [userProf, setUserProf] = useState (null)//Tipo de usuario
     const [isUserProfSet, setIsUserProfSet] = useState(false);
     //show form to change password
     const[showConfirmPopup, setShowConfirmPopup] = useState(false)
+    //show form to confirm update
+    const[showConfirmCrudPopup, setShowConfirmCrudPopup] = useState(false)
+    //Passwords para new crud
+    const [supUserPassword, setSupUserPassword] = useState("")
+    const [affectedUserPassword, setAffectedUserPassword] = useState("")
 
     useEffect(()=>{
             //Esta funcion almacena en userProf el tipo de usuario
@@ -137,42 +142,44 @@ export function Profile() {
     }
 
     //Update the user info in the DB
-    async function handleUpdateData(e) {
-        e.preventDefault()
-
-        const continuar = prompt("Por motivos de seguridad se cerrar la sesion al editar un perfil, desea continuar? si/no")
-        if(continuar.toLowerCase() == "si"){
-                //Actualizar Medico
-                if (userProf === "Medico"){
-                    let success = false
+    async function handleUpdateData() {
+        console.log(userProf)
+        console.log(id)
+        console.log(name)
+        console.log(lastName)
+        console.log(email)
+        console.log(femail)
+        console.log(supUserPassword)
+        console.log(affectedUserPassword)
+        
+            //Actualizar Medico
+            if (userProf === "Medico"){
+                let success = false
+            
+                success = await updateDoctor(id,name,lastName,email,femail,affectedUserPassword,supUserPassword)
                 
-                    success = await updateDoctor(id,name,lastName,email,femail,password)
-                    
-                    setTimeout(() => {
-                        console.log("------/-/-/-/-/---sucess es----------"+success+"---------------/-/-/-//-/-/-/")
-                        if(success) window.location.reload()
-                        else alert("Email o clave incorrectas")
-                      }, 4000)
-                }else if(userProf === "Admin"){
-                //Actualizar Admin
-                    let success = false
-                
-                    success = await updateAdmin(id,name,lastName,email,femail,password)
-                    setTimeout(() => {
-                        if(success) window.location.reload()
-                        else alert("Email o clave incorrectas")
-                      }, 4000)
-                }else if(userProf === "Paciente"){
-                    let success = false
-
-                    success = await updatePatient(id,name,lastName,email,femail,password,status)
-
-                    setTimeout(() => {
-                      if(success) window.location.reload()
-                      else alert("Email o clave incorrectas")
-                    }, 4000);
-                }
-        }
+                setTimeout(() => {
+                    console.log("------/-/-/-/-/---sucess es----------"+success+"---------------/-/-/-//-/-/-/")
+                    if(success) window.location.reload()
+                    else alert("Email o clave incorrectas")
+                  }, 4000)
+            }else if(userProf === "Admin"){
+            //Actualizar Admin
+                let success = false
+            
+                success = await updateAdmin(id,name,lastName,email,femail,affectedUserPassword,supUserPassword)
+                setTimeout(() => {
+                    if(success) window.location.reload()
+                    else alert("Email o clave incorrectas")
+                  }, 4000)
+            }else if(userProf === "Paciente"){
+                let success = false
+                success = await updatePatient(id,name,lastName,email,femail,affectedUserPassword,status,supUserPassword)
+                setTimeout(() => {
+                  if(success) window.location.reload()
+                  else alert("Email o clave incorrectas")
+                }, 4000);
+            }
     }
 
     function handleChangePass(){
@@ -212,11 +219,19 @@ export function Profile() {
 
                 <div className="col-8">
                     <div class="form-section">
+                    {dataProfile.state.power == "Admin"?
+                    <h1>Datos del usuario</h1>
+                    :
+                    <h1>Tus datos</h1>
+                    }
                         {
                         infoProfile.map((data)=>{
                             return(
                                 <React.Fragment>
-                                <form className="form-edit" key={data.id} onSubmit={handleUpdateData}>
+                                <form className="form-edit" key={data.id} onSubmit={(e)=>{
+                                    e.preventDefault()
+                                    setShowConfirmCrudPopup("si")
+                                    }}>
                                     
                                     <label for="exampleInputEmail1" class="form-label">Nombre</label>
                                     <div class="my-input">
@@ -243,16 +258,6 @@ export function Profile() {
                                             setEmail(e.target.value)}
                                         }/>
                                     </div>
-
-
-                                    <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-                                    <div class="my-input">
-                                        <div class="icono"><i class="bi bi-key"></i></div>
-                                        <input type="password" name="password" class="form-control"  value={password} onChange={e =>{
-                                            setPassword(e.target.value)
-                                        }}/>
-                                    </div>
-                                        <div id="emailHelp" class="form-text">Ingresa la clave del usuario del cual deseas cambiar la info, esta informacion se requiere por motivos de seguridad</div>
 
                                     
                                 {dataProfile.state.power == "Admin"?//quien entro al perfil tiene poderes para cambiar el Status?
@@ -293,13 +298,21 @@ export function Profile() {
                                 >
                                 </ChanchePassword>
                             </React.Fragment>
-                            )
-                            
+                            ) 
                         })
                         }
                     </div>
                 </div>
             </div>
+            <ConfirmCrudAction
+                    trigger={showConfirmCrudPopup}
+                    setTrigger={setShowConfirmCrudPopup}
+                    setPasswordSup={setSupUserPassword}
+                    setPasswordAff={setAffectedUserPassword}
+                    actionCrud={handleUpdateData}
+                    >
+                        
+            </ConfirmCrudAction>
         </React.Fragment>
     )
 }

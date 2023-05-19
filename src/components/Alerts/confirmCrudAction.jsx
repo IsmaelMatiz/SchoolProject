@@ -7,8 +7,6 @@ export function ConfirmCrudAction(props) {
     const navigate = useNavigate()
 
     function handleAccept() {
-        
-        
         setTimeout(() => {
             props.actionCrud()
         }, 1000)
