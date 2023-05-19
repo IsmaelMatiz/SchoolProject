@@ -27,8 +27,15 @@ export async function CreatePatient(email,password,name,lastName,supEmail,supPas
 })
 .catch((error) => {
   console.error("Error al crear Paciente: "+error)
+  success = false
   return false
 })
+
+//Si la operacion anterior salio mal detener ejecucion
+if (!success) {
+  console.log("Algo salio mal al momento de crear al usuario afectado, se detiene el proceso")
+  return false
+}
 
 //Reloguear al super usuario(admin o doc)
 await signInWithEmailAndPassword(auth,supEmail, supPassword)
