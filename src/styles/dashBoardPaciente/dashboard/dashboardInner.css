@@ -3,4 +3,23 @@
   margin-left: 20%;
 }
 
+.my-therapies {
+  background-color: #3a4e7a;
+  margin: 3%;
+  width: 30%;
+  padding: 3%;
+  border-radius: 30px;
+  color: #f1f1f0;
+}
+.my-therapies .btn-therapy {
+  background-color: #5e83ba;
+  color: #f1f1f0;
+  width: 100%;
+  transition: 1s;
+}
+.my-therapies .btn-therapy:hover {
+  background-color: #c2d2e9;
+  color: #3a4e7a;
+}
+
 /*# sourceMappingURL=dashboardInner.css.map */

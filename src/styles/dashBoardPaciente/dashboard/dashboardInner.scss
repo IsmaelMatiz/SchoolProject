@@ -1,4 +1,29 @@
+$azul-oscuro:#091d36;
+$azul-profundo: #3a4e7a;
+$azul-intermedio: #5e83ba;
+$azul-claro:#c2d2e9;
+$semi-blanco: #f1f1f0;
+
 .interior-dashboard{
     display: inline;
     margin-left: 20%;
+}
+
+.my-therapies{
+    background-color: $azul-profundo;
+    margin: 3%;
+    width:30%;
+    padding: 3%;
+    border-radius: 30px;
+    color: $semi-blanco;
+    .btn-therapy{
+        background-color: $azul-intermedio;
+        color: $semi-blanco;
+        width:100%;
+        transition: 1s;
+    }
+    .btn-therapy:hover{
+        background-color: $azul-claro;
+        color: $azul-profundo;
+    }
 }

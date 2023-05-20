@@ -98,13 +98,16 @@ export function TableItemtPatient(props) {
                     <React.Fragment>
                         
                         <td>
-                        <Link to={"/Terapias"}>
+                        <Link to={"/Terapias"}
+                        state={{idUser: props.id,power:"admin"}}
+                        >
                             {props.nombre}
                         </Link>
                         </td>
                         
                         <td>
-                        <Link to={"/Terapias"}>
+                        <Link to={"/Terapias"}
+                        state={{idUser: props.id,power:"admin"}}>
                             {props.apellido}
                         </Link>
                         </td>
