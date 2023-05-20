@@ -65,10 +65,12 @@ export async function getAssignment(uid,field){
 
 //Delete
 export async function deleteAssignment (id){
-    try {
+  let success = false  
         const toBeDeleted = doc(asignCollectionRef, id)
-        await deleteDoc(toBeDeleted) 
-      } catch (error) {
-        console.error("Error al eliminar asignamiento: "+error)
-      }
+        await deleteDoc(toBeDeleted).then(()=>{
+          success = true
+        }).catch(e =>{
+          console.error("Error al borrar assigment: "+e)
+        })
+        return success
 }

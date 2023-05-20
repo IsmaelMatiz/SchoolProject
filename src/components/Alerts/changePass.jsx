@@ -38,7 +38,7 @@ export function ChanchePassword(props) {
         <React.Fragment>
         <div className="popup">
             <div className="popup-inner">
-
+                <h4>Se cerrara la sesion al cambiar la clave</h4>
                 <form>
                     <label for="exampleInputPassword1" class="form-label">Contraseña Anterior</label>
                     <div class="my-input">
