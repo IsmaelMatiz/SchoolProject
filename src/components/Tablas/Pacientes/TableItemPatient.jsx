@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { deletePatient, updatePatient } from "../../../firebase/CRUD/crudPacientes";
 import { auth } from "../../../firebase/firebaseConfi";
 import "../../../styles/itemTable/item.css"
+import { ConfirmCrudAction } from "../../Alerts/confirmCrudAction";
 import { ConfirmPopup } from "../../Alerts/ConfirmPopup";
 
 export function TableItemtPatient(props) {
@@ -18,27 +19,31 @@ export function TableItemtPatient(props) {
     const[showConfirmPopup, setShowConfirmPopup] = useState(false)
     const[continueProccess,setContinueProccess] = useState("no")
 
+    const[showConfirmCrudPopup, setShowConfirmCrudPopup] = useState(false)
+    //Passwords para new crud
+    const [supUserPassword, setSupUserPassword] = useState("")
+    const [affectedUserPassword, setAffectedUserPassword] = useState("")
+
     function handleDelete(){
-        setShowConfirmPopup(true)
+        setShowConfirmCrudPopup("si")
         
     }
-    useEffect(()=>{
-        if(continueProccess == "si"){
-            //Borrar Paciente
-            console.log("Inicia el borrardo y el user es: " + auth.currentUser.email)
-            deletePatient(props.id,props.email,password).catch(
-                error => alert("Error al borrar paciente: "+error)
-            )
+
+    async function newDeletePatient() {
+        console.log("Aqui inicia el new delete de patient")
+        let success = await deletePatient(props.id,props.email,affectedUserPassword,supUserPassword)
+
+        if (success) {
             setTimeout(() => {
-                window.location.reload()    
-            }, 4000)
+                window.location.reload()
+            }, 4000);
+        }else{
+            alert("Error al borrar Medico verifique las claves")
         }
-    },[continueProccess])
+    }
 
     async function handleUpdate(){
         //Actualizar paciente
-        const continuar = prompt("Por motivos de seguridad se cerrar la sesion al editar un perfil, desea continuar? si/no")
-        if(continuar.toLowerCase() == "si"){
             let status = document.getElementById("status").value
             let success = false
 
@@ -49,7 +54,7 @@ export function TableItemtPatient(props) {
               if(success) window.location.reload()
               else alert("Email o clave incorrectas")
             }, 4000);
-        }
+
     }
 
     return(
@@ -144,25 +149,20 @@ export function TableItemtPatient(props) {
                                 }
                                 }><i class="bi bi-pen"></i></Link>
                             </button>
-                        <button onClick={ () => {//Borrar
-                            if(verifyDelete) setVerifyDelete(false)
-                            else setVerifyDelete(true)
-                        } } className="btn btn-light"><i class="bi bi-trash"></i></button>
+                        <button onClick={handleDelete} className="btn btn-light"><i class="bi bi-trash"></i></button>
                     </React.Fragment>
                     }
                     </td>
 
-                    <ConfirmPopup
-                        trigger={showConfirmPopup}
-                        setTrigger={setShowConfirmPopup}
-                        setAccept={()=>{
-                            setContinueProccess("si")
-                        }}
+                    <ConfirmCrudAction
+                    trigger={showConfirmCrudPopup}
+                    setTrigger={setShowConfirmCrudPopup}
+                    setPasswordSup={setSupUserPassword}
+                    setPasswordAff={setAffectedUserPassword}
+                    actionCrud={newDeletePatient}
                     >
-          
-                        Por motivos de seguridad se cerrar la sesion al editar un perfil, desea continuar?
-          
-                    </ConfirmPopup>
+                        
+                    </ConfirmCrudAction>
             </tr>
     )
     

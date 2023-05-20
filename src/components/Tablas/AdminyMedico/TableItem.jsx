@@ -24,9 +24,6 @@ export function TableItemt(props) {
     const [affectedUserPassword, setAffectedUserPassword] = useState("")
 
     async function newDeleteDoctor() {
-        console.log(supUserPassword)
-        console.log(affectedUserPassword)
-        console.log("----------------------AQUI EMPEZO EL NEW DELETE---------------")
         let success = await deleteDoctor(props.id,props.email,affectedUserPassword,supUserPassword)
         if (success) {
             setTimeout(() => {
@@ -159,17 +156,6 @@ export function TableItemt(props) {
                     }
                     </td>
 
-                    <ConfirmPopup
-                        trigger={showConfirmPopup}
-                        setTrigger={setShowConfirmPopup}
-                        setAccept={()=>{
-                            setContinueProccess("si")
-                        }}
-                    >
-          
-                        Por motivos de seguridad se cerrar la sesion al editar un perfil, desea continuar?
-          
-                    </ConfirmPopup>
                     <ConfirmCrudAction
                     trigger={showConfirmCrudPopup}
                     setTrigger={setShowConfirmCrudPopup}
