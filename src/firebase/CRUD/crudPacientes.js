@@ -9,7 +9,7 @@ import {collection,
 
 import { createUserWithEmailAndPassword, deleteUser, signInWithEmailAndPassword, signOut, updateEmail } from 'firebase/auth'
 import { auth, db, deleteFromDB, storage, tempAuth } from '../firebaseConfi';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 const patientsCollectionRef= collection(db,"pacientes")
 
@@ -272,6 +272,14 @@ export async function deletePatient(id,email,password,supPassword){
     return false
   }
 
+  success = await deletePatientProfilePic(id)
+
+  //Si la operacion anterior salio mal detener ejecucion
+  if (!success) {
+    console.log("Algo salio mal al momento de borrar de la foto del storage, se detiene el proceso")
+    return false
+  }
+
   //Volver a loguear al super usuario
   await signInWithEmailAndPassword(auth,supEmail, supPassword)
   .then(function(userCredential) {
@@ -314,4 +322,15 @@ export async function getPatientProfilePic(uid) {
   } catch (error) {
     console.error("Error al obtener la imagen de perfil: "+error)
   }
+}
+
+//Delete Profile pic
+async function deletePatientProfilePic(uid) {
+  let success = false
+  const imageRef = ref(storage, `fotos-pacientes/${uid}`)
+  await deleteObject(imageRef).then(()=>{
+    success = true
+  }).catch(e => console.error("Error al borrar archivo de firestore: "+e))
+  
+  return success
 }

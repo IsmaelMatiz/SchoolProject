@@ -6,7 +6,7 @@ import {collection,
     query,
     where
     } from 'firebase/firestore';
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const doctorCollectionRef= collection(db,"medicos")
 
@@ -242,6 +242,15 @@ export async function deleteDoctor (id,affEmail,affPassword,supPassword){
     return false
   }
 
+  success = await deleteDoctorProfilePic(id)
+
+  //Si la operacion anterior salio mal detener ejecucion
+  console.log("success es al llegar al if: "+success)
+  if (!success) {
+    console.log("Algo salio mal al momento de borrar de la foto del storage, se detiene el proceso")
+    return false
+  }
+
   //Volver a loguear al super usuario
     await signInWithEmailAndPassword(auth,supEmail, supPassword)
     .then(function(userCredential) {
@@ -285,14 +294,14 @@ export async function getDoctorProfilePic(uid) {
   }
 }
 
-//Delete Profile Picture TODO
-/*export async function setDoctorProfilePic(uid,file) {
-  try {
-    const imageRef = ref(storage, `fotos-doctores/${uid}`)
-    const resUpload = await uploadBytes(imageRef,file)
-    return resUpload 
-  } catch (error) {
-    console.error("Error al subir archivo: "+error)
-  }
-}*/
+//Delete Profile pic
+async function deleteDoctorProfilePic(uid) {
+  let success = false
+  const imageRef = ref(storage, `fotos-doctores/${uid}`)
+  await deleteObject(imageRef).then(()=>{
+    success = true
+  }).catch(e => console.error("Error al borrar archivo de firestore: "+e))  
+
+  return success
+}
 

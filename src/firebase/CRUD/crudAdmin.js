@@ -11,7 +11,7 @@ import {collection,
   deleteDoc,
   updateDoc
   } from 'firebase/firestore';
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const adminCollectionRef= collection(db,"admins")
 
@@ -250,6 +250,14 @@ export async function deleteAdmin (id,affEmail,affPassword,supPassword){
     return false
   }
 
+  success = await deleteAdminProfilePic(id)
+
+  //Si la operacion anterior salio mal detener ejecucion
+  if (!success) {
+    console.log("Algo salio mal al momento de borrar de la foto del storage, se detiene el proceso")
+    return false
+  }
+
   //Volver a loguear al super usuario
   await signInWithEmailAndPassword(auth,supEmail, supPassword)
   .then(function(userCredential) {
@@ -293,6 +301,16 @@ export async function getAdminProfilePic(uid) {
   }
 }
 
+//Delete Profile pic
+async function deleteAdminProfilePic(uid) {
+    let success = false
+    const imageRef = ref(storage, `fotos-admins/${uid}`)
+    await deleteObject(imageRef).then(()=>{
+      success = true
+    }).catch(e => console.error("Error al borrar archivo de firestore: "+e))
+    
+    return success
+}
 
 //Cambiar Password
 //esta funcion es global, pero por facilidad del tempAuth la decidi poner aqui
