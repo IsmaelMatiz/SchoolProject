@@ -15,6 +15,10 @@ export function TableItemAssignment(props){
         }
     }
 
+    console.log("////////////////////////A ver que con esto??!!!/////////////////")
+    console.log(props.email_paciente)
+    console.log(props.email_doctor)
+
     return(
         <React.Fragment>
             <tr key={props.id}>

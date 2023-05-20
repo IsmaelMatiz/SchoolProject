@@ -1,4 +1,4 @@
-import { AddToDB, auth, db, deleteFromDB, tempAuth, updateDB } from "../firebaseConfi";
+import { db } from "../firebaseConfi";
 import {addDoc, collection,
     deleteDoc,
     doc,
@@ -11,9 +11,9 @@ import {addDoc, collection,
 const asignCollectionRef= collection(db,"asignacion")
 
 //Create
-export async function AddToDBAssignment (uidDoctor,emailDoctor,uidPaciente,emailPaciente){
+export async function AddToDBAssignment (uidDoctor,uidPaciente){
     try {
-      await addDoc(asignCollectionRef, {id_doctor:uidDoctor,email_doctor:emailDoctor, id_paciente: uidPaciente, email_paciente:emailPaciente})
+      await addDoc(asignCollectionRef, {id_doctor:uidDoctor, id_paciente: uidPaciente})
       .then((docRef)=>{
         return updateDoc(docRef,{
           id: docRef.id

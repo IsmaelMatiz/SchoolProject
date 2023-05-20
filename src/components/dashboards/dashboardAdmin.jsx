@@ -30,10 +30,10 @@ export function DashboardAdmin(){
 
     async function registAssigment() {
         //Primero Obtener la Info
-        let infoDoctor = document.getElementById("docInfo").value.split(",")
-        let infoPaciente = document.getElementById("pacienteInfo").value.split(",")
+        let infoDoctor = document.getElementById("docInfo").value
+        let infoPaciente = document.getElementById("pacienteInfo").value
 
-        await AddToDBAssignment(infoDoctor[0],infoDoctor[1],infoPaciente[0],infoPaciente[1])
+        await AddToDBAssignment(infoDoctor,infoPaciente)
 
         setTimeout(() => {
             window.location.reload()
@@ -76,7 +76,7 @@ export function DashboardAdmin(){
                                                 {
                                                     allDoctors.map(
                                                         doctor =>(
-                                                            <option key={doctor.id} value={[doctor.id,doctor.email]}>{doctor.email}</option>
+                                                            <option key={doctor.id} value={doctor.id}>{doctor.email}</option>
                                                         )
                                                     )
                                                 }
@@ -91,7 +91,7 @@ export function DashboardAdmin(){
                                                 {
                                                     allPatients.map(
                                                         patient =>(
-                                                            <option key={patient.id} value={[patient.id,patient.email]}>{patient.email}</option>
+                                                            <option key={patient.id} value={patient.id}>{patient.email}</option>
                                                         )
                                                     )
                                                 }
