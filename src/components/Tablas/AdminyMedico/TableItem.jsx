@@ -23,14 +23,26 @@ export function TableItemt(props) {
     const [supUserPassword, setSupUserPassword] = useState("")
     const [affectedUserPassword, setAffectedUserPassword] = useState("")
 
-    async function newDeleteDoctor() {
-        let success = await deleteDoctor(props.id,props.email,affectedUserPassword,supUserPassword)
+    async function newDeleteUsers() {
+        if (props.rol === "Admin"){
+            let success = await deleteAdmin(props.id,props.email,affectedUserPassword,supUserPassword)
         if (success) {
             setTimeout(() => {
                 window.location.reload()
             }, 4000);
         }else{
             alert("Error al borrar Medico verifique las claves")
+        }
+        }
+        else if (props.rol === "Medico"){
+            let success = await deleteDoctor(props.id,props.email,affectedUserPassword,supUserPassword)
+        if (success) {
+            setTimeout(() => {
+                window.location.reload()
+            }, 4000);
+        }else{
+            alert("Error al borrar Medico verifique las claves")
+        }
         }
     }
 
@@ -161,7 +173,7 @@ export function TableItemt(props) {
                     setTrigger={setShowConfirmCrudPopup}
                     setPasswordSup={setSupUserPassword}
                     setPasswordAff={setAffectedUserPassword}
-                    actionCrud={newDeleteDoctor}
+                    actionCrud={newDeleteUsers}
                     >
                         
                     </ConfirmCrudAction>

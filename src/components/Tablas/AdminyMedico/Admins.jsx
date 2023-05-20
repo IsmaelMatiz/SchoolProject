@@ -9,7 +9,6 @@ export function Admins() {
 
     // hooks
     const [admins, setAdmins ] = useState( [] )
-    AuthProvider()
 
     // funcion para mostrar todos los docs
     async function getAdmins (){
