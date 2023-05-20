@@ -43,18 +43,13 @@ export default function Barra () {
               Inicio
             </Link>
         </li>
-        <li class="nav-item">
-            <Link class="nav-link" to={"/"}>
-              Contacto
-            </Link>
-        </li>
 
         {userProf == "Admin"?
-          <li class="nav-item">
-          <Link class="nav-link" to={"/Dashboard/admin"}>
-            Dashboard Admin
-          </Link>
-          </li>
+            <li class="nav-item">
+            <Link class="nav-link" to={"/Dashboard/admin"}>
+              Dashboard Admin
+            </Link>
+            </li>
           :
           userProf == "Medico"?
           <li class="nav-item">
@@ -72,6 +67,16 @@ export default function Barra () {
           :
           <span></span>
         }
+
+        {userProf == "Admin"?
+        <li class="nav-item">
+        <Link class="nav-link" to={"/Admins"}>
+          Admins
+        </Link>
+        </li>
+        :
+        <span></span>  
+      }
 
       </ul>
       <div class="d-flex align-items-center" >
