@@ -1,15 +1,16 @@
-import React, { useState } from "react";
-import { deleteAssignment } from "../../../firebase/CRUD/crudAsginacion";
-import { ConfirmPopup } from "../../Alerts/ConfirmPopup";
+import React, { useState } from "react"
+import { deleteAssignmentTherapy } from "../../../firebase/CRUD/crudAsignacionTerapias"
+import { deleteATherapy } from "../../../firebase/CRUD/crudLinksTerapias"
+import { ConfirmPopup } from "../../Alerts/ConfirmPopup"
 
 
-export function TableItemAssignment(props){
+export function TableItemAssiTherapies(props) {
     const [success, setSuccess] = useState(0)//dependiendo el numero notifica al usuario de si todo salio bien
     //Esto decide si mostrar o no el popup de confirmacion
     const[showConfirmPopup, setShowConfirmPopup] = useState(false)
 
     async function handleDelete(){
-            let succes = await deleteAssignment(props.id)
+            let succes = await deleteAssignmentTherapy(props.id)
             if (succes) {
                 setSuccess(1)
             }else{
@@ -23,7 +24,7 @@ export function TableItemAssignment(props){
     return(
         <React.Fragment>
             <tr key={props.id}>
-                <td>{props.email_doctor}</td>
+                <td>{props.title_therapy}</td>
                 <td>{props.email_paciente}</td>
                 <td><button onClick={()=>{
                     setShowConfirmPopup("si")

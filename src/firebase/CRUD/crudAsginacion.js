@@ -1,4 +1,4 @@
-import { AddToDB, auth, db, deleteFromDB, tempAuth, updateDB } from "../firebaseConfi";
+import { db } from "../firebaseConfi";
 import {addDoc, collection,
     deleteDoc,
     doc,
@@ -11,9 +11,9 @@ import {addDoc, collection,
 const asignCollectionRef= collection(db,"asignacion")
 
 //Create
-export async function AddToDBAssignment (uidDoctor,emailDoctor,uidPaciente,emailPaciente){
+export async function AddToDBAssignment (uidDoctor,uidPaciente){
     try {
-      await addDoc(asignCollectionRef, {id_doctor:uidDoctor,email_doctor:emailDoctor, id_paciente: uidPaciente, email_paciente:emailPaciente})
+      await addDoc(asignCollectionRef, {id_doctor:uidDoctor, id_paciente: uidPaciente})
       .then((docRef)=>{
         return updateDoc(docRef,{
           id: docRef.id
@@ -65,10 +65,12 @@ export async function getAssignment(uid,field){
 
 //Delete
 export async function deleteAssignment (id){
-    try {
+  let success = false  
         const toBeDeleted = doc(asignCollectionRef, id)
-        await deleteDoc(toBeDeleted) 
-      } catch (error) {
-        console.error("Error al eliminar asignamiento: "+error)
-      }
+        await deleteDoc(toBeDeleted).then(()=>{
+          success = true
+        }).catch(e =>{
+          console.error("Error al borrar assigment: "+e)
+        })
+        return success
 }

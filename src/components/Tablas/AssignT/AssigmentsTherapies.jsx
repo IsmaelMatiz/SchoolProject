@@ -1,38 +1,42 @@
-import React, { useState } from "react"
-import { useEffect } from "react"
-import { getAllAssignments } from "../../../firebase/CRUD/crudAsginacion"
-import { getADoctor } from "../../../firebase/CRUD/crudMedicos"
+import React, { useEffect, useState } from "react"
+import { getAllTherapiesAssigments } from "../../../firebase/CRUD/crudAsignacionTerapias"
+import { getATherapy } from "../../../firebase/CRUD/crudLinksTerapias"
 import { getAPatient } from "../../../firebase/CRUD/crudPacientes"
-import { TableItemAssignment } from "./TableItemAssignment"
+import { TableItemAssiTherapies } from "./TableItemAssigmentTerapies"
 
-export function Assignments() {
 
-    const [assignments, setAssignments ] = useState( [] )
-    const [infoAssignments, setInfoAssigments] = useState([])
+export function AssigmentsTherapies(params) {
+    const [idsAssignments, setIdsAssigments ] = useState( [] )
+    const [dataAssignments, setDataAssigments] = useState([])
 
+    //Obtener los Ids de todo
     useEffect(() =>{
 
         // funcion para mostrar todos los docs
-    async function getAssignments(){
-        const result = await getAllAssignments()
-        setAssignments(result)
+    async function getAssignmentsT(){
+        const result = await getAllTherapiesAssigments()
+        setIdsAssigments(result)
     }
 
-        getAssignments()
+        getAssignmentsT()
     }, [] )
 
+    //pasar esos Ids a la info real de los usuarios o terapias
     useEffect(() => {
         async function getAllData() {
           const allInfoDocs = await Promise.all(
-            assignments.map(async (a) => {
-              let emailD;
+            idsAssignments.map(async (a) => {
+              let nombreT;
               let emailP;
     
               try {
-                const doctor = await getADoctor(a.id_doctor);
-                emailD = doctor[0].email;
+                const therapy = await getATherapy(a.id_therapy);
+                console.log("TERAPIAAAA---------")
+                console.log(a.id_therapy)
+                nombreT = therapy[0].titulo_terapia;
+                console.log(nombreT)
               } catch {
-                emailD = "No existe el Doctor";
+                nombreT = "No existe la Terapia";
               }
     
               try {
@@ -44,38 +48,36 @@ export function Assignments() {
     
               return {
                 id: a.id,
-                email_doctor: emailD,
+                title_therapy: nombreT,
                 email_paciente: emailP,
               };
             })
           );
 
-          setInfoAssigments(allInfoDocs);
+          setDataAssigments(allInfoDocs);
         }
     
         getAllData();
-      }, [assignments]);
+      }, [idsAssignments]);
 
-    console.log("info es: ")
-    console.log(infoAssignments)
     return(
         <React.Fragment>
             <div class="table-wrapper-scroll-y my-custom-scrollbar">
                 <table className='table my-table table-hover'>
                 <thead>
                     <tr>
-                    <th>Correo Medico</th>
+                    <th>Titulo Terapia</th>
                     <th>Correo Paciente</th>
                     <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        infoAssignments.map( (assignment) =>
-                            <TableItemAssignment
+                        dataAssignments.map( (assignment) =>
+                            <TableItemAssiTherapies
                             key={assignment.id}
                             id={assignment.id} 
-                            email_doctor={assignment.email_doctor}
+                            title_therapy={assignment.title_therapy}
                             email_paciente={assignment.email_paciente}
                             />
                         )

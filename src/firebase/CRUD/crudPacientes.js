@@ -272,13 +272,8 @@ export async function deletePatient(id,email,password,supPassword){
     return false
   }
 
-  success = await deletePatientProfilePic(id)
-
-  //Si la operacion anterior salio mal detener ejecucion
-  if (!success) {
-    console.log("Algo salio mal al momento de borrar de la foto del storage, se detiene el proceso")
-    return false
-  }
+  //Si hay foto de perfil borrala
+  await deletePatientProfilePic(id)
 
   //Volver a loguear al super usuario
   await signInWithEmailAndPassword(auth,supEmail, supPassword)
