@@ -7,6 +7,10 @@ $semi-blanco: #f1f1f0;
 .interior-dashboard{
     display: inline;
     margin-left: 20%;
+    iframe{
+        width: 80%;
+        height: 500px;
+    }
 }
 
 .my-therapies{
@@ -25,5 +29,52 @@ $semi-blanco: #f1f1f0;
     .btn-therapy:hover{
         background-color: $azul-claro;
         color: $azul-profundo;
+    }
+}
+.my-upload-pdf{
+    display: flex;
+        border: solid;
+        background-color: $azul-intermedio;
+        border-color: $azul-intermedio;
+        color: $semi-blanco;
+        border-radius: 30px;
+        padding: 1%;
+        padding-left: 2.5%;
+        width: 30%;
+        transition: 1s;
+        margin-bottom: 2%;
+
+    input[type=file]{
+        padding-left: 3%;
+        padding-top: 3.5%;
+    }
+    input[type=file]::-webkit-file-upload-button{
+        background-color: transparent;
+        color: $semi-blanco;
+        border: none;
+    }
+}
+
+.my-upload-pdf:hover{
+        background-color: $azul-profundo;
+        border-color: $azul-profundo;
+}
+
+.buttons-file{
+    display: flex;
+    button{
+        margin-left: 1%;
+        background-color: $azul-intermedio;
+        border: solid;
+        border-color: $azul-intermedio;
+        color: $semi-blanco;
+        border-radius: 30px;
+        width: 30%;
+        height: 80px;
+        transition: 1s;     
+    }
+    button:hover{
+        background-color: $azul-profundo;
+        border-color: $azul-profundo;
     }
 }

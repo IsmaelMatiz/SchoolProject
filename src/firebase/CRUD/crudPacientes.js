@@ -296,7 +296,7 @@ export async function deletePatient(id,email,password,supPassword){
 }
 
 
-//Upload files
+//Upload Profile Pics
 //Upload Profile Picture
 export async function setPatientProfilePic(uid,file) {
   try {
@@ -328,4 +328,27 @@ async function deletePatientProfilePic(uid) {
   }).catch(e => console.error("Error al borrar archivo de firestore: "+e))
   
   return success
+}
+
+//Upload PDF Historia Clinica
+//Upload PDF
+export async function setPatientClinicHistory(uid,file) {
+    let success = false
+    const imageRef = ref(storage, `historias-clinicas/${uid}`)
+    const resUpload = await uploadBytes(imageRef,file).then(()=>{
+      success = true
+    }).catch(e => console.error("Error al subir pdf de historia a firebase: "+ e))
+    return success
+}
+
+//Get the pdf
+export async function getPatientClinicHistory(uid) {
+  try {
+    const pdfRef = ref(storage, `historias-clinicas/${uid}`)
+    const url = await getDownloadURL(pdfRef)
+    return url
+  } catch (error) {
+    console.error("Error al obtener la imagen de perfil: "+error)
+    return "no"
+  }
 }
