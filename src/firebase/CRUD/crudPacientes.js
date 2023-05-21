@@ -296,7 +296,7 @@ export async function deletePatient(id,email,password,supPassword){
 }
 
 
-//Upload files
+//Upload Profile Pics
 //Upload Profile Picture
 export async function setPatientProfilePic(uid,file) {
   try {
@@ -328,4 +328,73 @@ async function deletePatientProfilePic(uid) {
   }).catch(e => console.error("Error al borrar archivo de firestore: "+e))
   
   return success
+}
+
+//Upload PDF Historia Clinica
+//Upload PDF
+export async function setPatientClinicHistory(uid,file) {
+    let success = false
+    const pdfRef = ref(storage, `historias-clinicas/${uid}`)
+    const resUpload = await uploadBytes(pdfRef,file).then(()=>{
+      success = true
+    }).catch(e => console.error("Error al subir pdf de historia a firebase: "+ e))
+    return success
+}
+
+//Get the pdf
+export async function getPatientClinicHistory(uid) {
+  try {
+    const pdfRef = ref(storage, `historias-clinicas/${uid}`)
+    const url = await getDownloadURL(pdfRef)
+    return url
+  } catch (error) {
+    console.error("Error al obtener la imagen de perfil: "+error)
+    return "no"
+  }
+}
+
+//Upload Progreso Pacientes
+//Upload img progreso
+export async function setPatientProgreso(uid,file) {
+  let success = false
+  const pdfRef = ref(storage, `progreso-pacientes/${uid}`)
+  const resUpload = await uploadBytes(pdfRef,file).then(()=>{
+    success = true
+  }).catch(e => console.error("Error al subir pdf de historia a firebase: "+ e))
+  return success
+}
+
+//Get img progreso
+export async function getPatientProgreso(uid) {
+try {
+  const pdfRef = ref(storage, `progreso-pacientes/${uid}`)
+  const url = await getDownloadURL(pdfRef)
+  return url
+} catch (error) {
+  console.error("Error al obtener la imagen de perfil: "+error)
+  return "no"
+}
+}
+
+//Upload Seguimiento Pacientes
+//Upload img seguimiento
+export async function setPatientSeguimiento(uid,file) {
+  let success = false
+  const pdfRef = ref(storage, `seguimiento-pacientes/${uid}`)
+  const resUpload = await uploadBytes(pdfRef,file).then(()=>{
+    success = true
+  }).catch(e => console.error("Error al subir pdf de historia a firebase: "+ e))
+  return success
+}
+
+//Get img seguimiento
+export async function getPatientSeguimiento(uid) {
+try {
+  const pdfRef = ref(storage, `seguimiento-pacientes/${uid}`)
+  const url = await getDownloadURL(pdfRef)
+  return url
+} catch (error) {
+  console.error("Error al obtener la imagen de perfil: "+error)
+  return "no"
+}
 }
