@@ -1,21 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { MenuDashboardPaciente } from './menuDashboardPaciente'
-import { Bar } from 'react-chartjs-2'
-import { BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from 'recharts'
-import { Legend, Tooltip } from 'chart.js'
 import "../../styles/dashBoardPaciente/dashboard/dashboardInner.css"
+import { useLocation } from 'react-router-dom'
+import { getPatientProgreso, setPatientProgreso } from '../../firebase/CRUD/crudPacientes'
 
 export function Progreso () {
+  let dataProfile = useLocation()
+  const [success, setSuccess] = useState(0)
+  const [urlPicProgreso, setUrlPicProgreso] = useState("")
+
+  async function uploadImageProgreso(e){
+    e.preventDefault()
+    const imgFile = e.target.pdfHistoria.files[0]
+    if (!imgFile) {
+      alert("Por favor elige un docmento primero")
+    }else{
+      let success = await setPatientProgreso(dataProfile.state.idUser,imgFile)
+      success ? setSuccess(1): setSuccess(2)
+    }
+  }
+
+  async function getUrlImageProgreso() {
+    setUrlPicProgreso(await getPatientProgreso(dataProfile.state.idUser))
+  }
+
+  useEffect(()=>{
+    getUrlImageProgreso()
+  },[])
   
-  const data= [
-    {nombre: 'Maria', edad: 15, weight: 60},
-    {nombre: 'Sofia', edad: 30, weight: 70},
-    {nombre: 'Saul', edad: 25, weight: 65},
-    {nombre: 'Danna', edad: 17, weight: 85},
-    {nombre: 'Carlos', edad: 19, weight: 48},
-    {nombre: 'Juliana', edad: 12, weight: 69},
-    {nombre: 'Dayana', edad: 21, weight: 78},  
-  ]
+  
 
   return (
     <React.Fragment>
@@ -26,28 +39,39 @@ export function Progreso () {
         <div className="col-10">
           <div className="interior-dashboard">
           <h2>Progreso</h2>
-          <ResponsiveContainer width="70%" aspect={2}>
-            <BarChart 
-              data={data} 
-              width={500} 
-              height={300} 
-              margin= {{top:5, right:30, left:20, bottom:5
-              
-              }} 
-            >
-              <CartesianGrid strokeDasharray="4 1 2"/>
-              <XAxis dataKey="nombre"/>
-              <YAxis/>
-              <Tooltip/>
-              <Legend/>
-              <Bar dataKey= "weight"/>
-              <Bar dataKey= "edad"/>
-
-            </BarChart>
-          </ResponsiveContainer>
+          {dataProfile.state.power == "admin"?
+          <React.Fragment>
+            <form className="buttons-file" onSubmit={uploadImageProgreso}>
+              <div className="my-upload-pdf">
+                <i class="bi bi-cloud-arrow-up-fill"></i>
+                <input type="file" name="pdfHistoria"/>
+              </div>
+              <button type='submit'>Subir Documento</button>
+              {
+                success == 0? <span></span> 
+                : success == 1? 
+                <div class="alert alert-success" role="alert">
+                    Archivo subido exitosamente
+                </div>
+              : success == 2? 
+                <div class="alert alert-warning" role="alert">
+                    Error al subir archivo intente mas tarde
+                </div>
+                : <span></span>
+            }
+            </form>
+          </React.Fragment>
+          :
+          <span></span>
+          }
+          {urlPicProgreso== "no"?
+          <h4>No hay Progreso del Paciente</h4>
+          :
+          <img src={urlPicProgreso} alt="Imagen del progreso del paciente" />
+          }
           </div>
         </div>
       </div>
     </React.Fragment>
-  );
+  )
 }

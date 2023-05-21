@@ -334,8 +334,8 @@ async function deletePatientProfilePic(uid) {
 //Upload PDF
 export async function setPatientClinicHistory(uid,file) {
     let success = false
-    const imageRef = ref(storage, `historias-clinicas/${uid}`)
-    const resUpload = await uploadBytes(imageRef,file).then(()=>{
+    const pdfRef = ref(storage, `historias-clinicas/${uid}`)
+    const resUpload = await uploadBytes(pdfRef,file).then(()=>{
       success = true
     }).catch(e => console.error("Error al subir pdf de historia a firebase: "+ e))
     return success
@@ -351,4 +351,50 @@ export async function getPatientClinicHistory(uid) {
     console.error("Error al obtener la imagen de perfil: "+error)
     return "no"
   }
+}
+
+//Upload Progreso Pacientes
+//Upload img progreso
+export async function setPatientProgreso(uid,file) {
+  let success = false
+  const pdfRef = ref(storage, `progreso-pacientes/${uid}`)
+  const resUpload = await uploadBytes(pdfRef,file).then(()=>{
+    success = true
+  }).catch(e => console.error("Error al subir pdf de historia a firebase: "+ e))
+  return success
+}
+
+//Get img progreso
+export async function getPatientProgreso(uid) {
+try {
+  const pdfRef = ref(storage, `progreso-pacientes/${uid}`)
+  const url = await getDownloadURL(pdfRef)
+  return url
+} catch (error) {
+  console.error("Error al obtener la imagen de perfil: "+error)
+  return "no"
+}
+}
+
+//Upload Seguimiento Pacientes
+//Upload img seguimiento
+export async function setPatientSeguimiento(uid,file) {
+  let success = false
+  const pdfRef = ref(storage, `seguimiento-pacientes/${uid}`)
+  const resUpload = await uploadBytes(pdfRef,file).then(()=>{
+    success = true
+  }).catch(e => console.error("Error al subir pdf de historia a firebase: "+ e))
+  return success
+}
+
+//Get img seguimiento
+export async function getPatientSeguimiento(uid) {
+try {
+  const pdfRef = ref(storage, `seguimiento-pacientes/${uid}`)
+  const url = await getDownloadURL(pdfRef)
+  return url
+} catch (error) {
+  console.error("Error al obtener la imagen de perfil: "+error)
+  return "no"
+}
 }
