@@ -98,6 +98,14 @@ export function Login (){
                             <button type="submit" className="btn btn-sesion">Ingresar</button>
                             {/*error? <span>Error con el correo o la contraseña</span>:<span></span>*/}             
                         </form>
+                        {
+                            error? 
+                            <div class="alert alert-warning" role="alert">
+                                    Erro al iniciar sesion verifica correo y contaseña
+                            </div> 
+                            :  
+                            <span></span>
+                        }
                       </div>
                     </div>
                 </div>
