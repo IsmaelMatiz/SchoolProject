@@ -12,8 +12,6 @@ export function MenuDashboardPaciente() {
   useEffect(()=>{
     auth.onAuthStateChanged(
       (user)=>{
-        console.log("Si me ejecuto pero me vale madres")
-        console.log(user)
         if (!user){
         setTimeout(() => {
             navigate("/")
