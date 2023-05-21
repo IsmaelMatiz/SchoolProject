@@ -1,10 +1,28 @@
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import AuthProvider from '../../firebase/authProvider';
 import { auth } from '../../firebase/firebaseConfi';
 import "../../styles/dashBoardPaciente/menup/menuPaciente.css"
 
 export function MenuDashboardPaciente() {
   let dataProfile = useLocation()
+  const navigate = useNavigate()//Redireccionar una vez el usuario se a logueado o desloqueado
+  
+  useEffect(()=>{
+    auth.onAuthStateChanged(
+      (user)=>{
+        console.log("Si me ejecuto pero me vale madres")
+        console.log(user)
+        if (!user){
+        setTimeout(() => {
+            navigate("/")
+            window.location.reload()
+        }, 100);
+        }
+      }
+    )
+  },[])
 
   return (
     <React.Fragment>

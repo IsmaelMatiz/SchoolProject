@@ -49,18 +49,6 @@ export default async function AuthProvider(){
             case "Nobody":
                 navigate("/")
                 break;
-            
-            case "Admin":
-                console.log("un admin no requiere redireccion, el pueder hacerlo todo")
-                break;
-            case "Medico":
-                navigate("/Dashboard/medico")
-                break;
-            case "Paciente":
-                navigate("/Evolucion")
-                break;
-            default:
-                break;
         }
     }
     redirectUser(await userType(whoIsLogged))

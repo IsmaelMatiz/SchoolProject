@@ -1,13 +1,15 @@
 import React, { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { getAssignment } from "../../firebase/CRUD/crudAsginacion"
-import { infoLoggedUser } from "../../firebase/authProvider"
+import { infoLoggedUser, userType } from "../../firebase/authProvider"
 import { useEffect } from "react"
 import { TableItemtPatient } from "../Tablas/Pacientes/TableItemPatient"
 import Pacientes from "../Tablas/Pacientes/Pacientes"
 import { getAPatient } from "../../firebase/CRUD/crudPacientes"
+import { auth } from "../../firebase/firebaseConfi"
 
 export function DashboardMedico() {
+    const navigate = useNavigate()//Ayuda a redireccionar al usuario en caso de no estar autenticado
 
     const [mispacientes, setMisPacientes ] = useState( [] )
 
@@ -36,10 +38,31 @@ export function DashboardMedico() {
         })
     }
 
-    // usamos useEffect
+    // Traemos los pacientes del medico al inicio
     useEffect(() =>{
         getPatients()
     }, [] )
+
+    useEffect(()=>{
+        auth.onAuthStateChanged(
+          async(user)=>{
+            if (!user){
+            setTimeout(() => {
+                navigate("/")
+                window.location.reload()
+            }, 100);
+            }else{
+                let userTy = await userType(auth.currentUser.uid)
+                if (userTy != "Medico") {
+                    setTimeout(() => {
+                        navigate("/")
+                        window.location.reload()
+                    }, 100);
+                }
+            }
+          }
+        )
+      },[])
     return(
         <React.Fragment>
             <div className="create-new-prof">

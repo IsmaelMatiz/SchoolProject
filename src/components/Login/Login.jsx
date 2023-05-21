@@ -66,7 +66,7 @@ export function Login (){
                 navigate("/Admins")
                 break;
             case "Medico":
-                navigate("/Medicos")
+                navigate("/Dashboard/medico")
                 break;
             case "Paciente":
                 navigate("/Terapias",{state: {idUser: auth.currentUser.uid, power:"user"}})

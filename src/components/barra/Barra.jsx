@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import "../../styles/Header/Barra.css"
-import { Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { LoginSection } from './logInLogOut'
 import { auth } from '../../firebase/firebaseConfi'
 import { userType } from '../../firebase/authProvider'
@@ -60,7 +60,9 @@ export default function Barra () {
           :
           userProf == "Paciente"?
           <li class="nav-item">
-          <Link class="nav-link" to={"/Seguimiento"}>
+          <Link class="nav-link" to={"/Seguimiento"}
+          state={{idUser: auth.currentUser.uid ,power:"user"}}
+          >
             Dashboard Paciente
           </Link>
           </li>
