@@ -67,6 +67,14 @@ export function LoginSection (){
         }
     }
 
+    function CerrarSesion (){
+        auth.signOut()
+        setTimeout(() => {
+            navigate("/")
+            window.location.reload()
+        }, 100);
+    }
+
     useEffect(()=>{
         if (infoProfile.length == 1) {
             setId(infoProfile[0].id);
@@ -171,14 +179,4 @@ export function LoginSection (){
         }
     </React.Fragment>
     )
-}
-
-export function CerrarSesion (){
-    const navigate = useNavigate()//Redireccionar una vez el usuario se a logueado o desloqueado
-
-    auth.signOut()
-    setTimeout(() => {
-        navigate("/")
-        window.location.reload()
-    }, 100);
 }
