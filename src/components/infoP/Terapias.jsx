@@ -8,7 +8,7 @@ import { useEffect } from 'react'
 
 export function Terapias () {
 
-  const [therapies, setMyTherapies ] = useState( [] )
+  const [therapies, setMyTherapies ] = useState( [0] )
   
   //Esta ayudara proximamente a obtener la info desde la pagina anterior cuando se invoque esta pagina
   let dataProfile = useLocation()
@@ -26,7 +26,11 @@ export function Terapias () {
 
         
         setTimeout(() => {
-            setMyTherapies(myTherapies)
+          console.log("tHERAPIES ES: ")
+          console.log(myTherapies)
+          if (myTherapies.length == 0) {
+            setMyTherapies([])
+          }else{setMyTherapies(myTherapies)}
         }, 4000)
         
     }
@@ -44,21 +48,25 @@ export function Terapias () {
         <div className="col-10">
           <div className="interior-dashboard">
           <h2>Terapias</h2>
-          
-          {
-            therapies.map((t)=>{
-              return(
-                <React.Fragment>
-                  <div className="my-therapies">
-                    <h3>{t.titulo_terapia}</h3>
-                    <a href={t.link_terapia} target="_blank" rel="noopener noreferrer">
-                      <button className='btn btn-therapy'>Ir a la terapia</button>
-                    </a> 
-                  </div>
-                </React.Fragment>
-              )
-            })
+          {therapies.length == 0?
+          <h4>No hay Terapias asignadas</h4>
+            :
+            <span></span>
           }
+          {
+              therapies.map((t)=>{
+                return(
+                  <React.Fragment>
+                    <div className="my-therapies">
+                      <h3>{t.titulo_terapia}</h3>
+                      <a href={t.link_terapia} target="_blank" rel="noopener noreferrer">
+                        <button className='btn btn-therapy'>Ir a la terapia</button>
+                      </a> 
+                    </div>
+                  </React.Fragment>
+                )
+              })
+            }
           </div>
         </div>
       </div>

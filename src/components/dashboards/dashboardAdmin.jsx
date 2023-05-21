@@ -3,22 +3,23 @@ import { Medicos } from "../Tablas/AdminyMedico/Medicos";
 import Pacientes from "../Tablas/Pacientes/Pacientes";
 import "../../styles/dashBoard/dashboard.css"
 import "../../styles/Register/Register.css"
-import AuthProvider from "../../firebase/authProvider";
+import AuthProvider, { userType } from "../../firebase/authProvider";
 import { getAllDoctors } from "../../firebase/CRUD/crudMedicos";
 import { getAllPatients } from "../../firebase/CRUD/crudPacientes";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Assignments } from "../Tablas/AssignMyP/Assignments";
 import { AddToDBAssignment } from "../../firebase/CRUD/crudAsginacion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { TableTherapies } from "../Tablas/Therapies/LinksTherapies";
 import { getAllTherapies } from "../../firebase/CRUD/crudLinksTerapias";
 import { AddToDBAssignmentTerapy } from "../../firebase/CRUD/crudAsignacionTerapias";
 import { AssigmentsTherapies } from "../Tablas/AssignT/AssigmentsTherapies";
+import { auth } from "../../firebase/firebaseConfi";
 
 
 export function DashboardAdmin(){
-    AuthProvider()
+    const navigate = useNavigate()//Ayuda a redireccionar al usuario en caso de no estar autenticado
 
     const [allDoctors,setDoctors] = useState([])
     const [allTherapies,setTherapies] = useState([])
@@ -62,6 +63,27 @@ export function DashboardAdmin(){
         }
     }
     
+    useEffect(()=>{
+        auth.onAuthStateChanged(
+          async(user)=>{
+            if (!user){
+            setTimeout(() => {
+                navigate("/")
+                window.location.reload()
+            }, 100);
+            }else{
+                let userTy = await userType(auth.currentUser.uid)
+                if (userTy != "Admin") {
+                    setTimeout(() => {
+                        navigate("/")
+                        window.location.reload()
+                    }, 100);
+                }
+            }
+          }
+        )
+      },[])
+
     useEffect(()=>{
         setSelects()
     },[])

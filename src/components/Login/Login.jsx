@@ -5,12 +5,19 @@ import { userType } from "../../firebase/authProvider";
 import { getAPatient } from "../../firebase/CRUD/crudPacientes";
 import { auth } from "../../firebase/firebaseConfi";
 import "../../styles/Login/Login.css"
-import { CerrarSesion } from "../barra/logInLogOut";
 
 export function Login (){
 
     const [error, setError] = useState(false)//si el usuario se equivoca al ingresar el email o password se lo alertamos
     const navigate = useNavigate()//Redireccionar una vez el usuario se a logueado o desloqueado
+
+    function CerrarSesion (){
+        auth.signOut()
+        setTimeout(() => {
+            navigate("/")
+            window.location.reload()
+        }, 100);
+    }
 
     async function HandlerSubmit(e){
         e.preventDefault()
@@ -19,7 +26,7 @@ export function Login (){
         await setPersistence(auth,browserSessionPersistence).then(
             async() =>
             {
-                    return signInWithEmailAndPassword(auth, email, password)
+                return signInWithEmailAndPassword(auth, email, password)
                 .then(async (userCredential) => {
                     setError(false)
                 })
@@ -59,7 +66,7 @@ export function Login (){
                 navigate("/Admins")
                 break;
             case "Medico":
-                navigate("/Medicos")
+                navigate("/Dashboard/medico")
                 break;
             case "Paciente":
                 navigate("/Terapias",{state: {idUser: auth.currentUser.uid, power:"user"}})
@@ -91,6 +98,14 @@ export function Login (){
                             <button type="submit" className="btn btn-sesion">Ingresar</button>
                             {/*error? <span>Error con el correo o la contraseña</span>:<span></span>*/}             
                         </form>
+                        {
+                            error? 
+                            <div class="alert alert-warning" role="alert">
+                                    Erro al iniciar sesion verifica correo y contaseña
+                            </div> 
+                            :  
+                            <span></span>
+                        }
                       </div>
                     </div>
                 </div>
