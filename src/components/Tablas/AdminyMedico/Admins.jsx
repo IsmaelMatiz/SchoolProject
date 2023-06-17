@@ -41,8 +41,8 @@ useEffect(() =>{
                             <TableItemt
                             key={admin.id}
                             id={admin.id}
-                            nombre={admin.nombre}
-                            apellido={admin.apellido}
+                            nombre={admin.name}
+                            apellido={admin.lastname}
                             email={admin.email}
                             rol={"Admin"}
                             />

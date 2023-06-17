@@ -35,7 +35,7 @@ export async function AddToDB (uid,email,nombre,apellido,table){
   const collectionRef = collection(db, table)
   const docRef = doc(collectionRef,uid)
   try {
-    await setDoc(docRef, {id:uid,email:email, nombre:nombre, apellido:apellido})  
+    await setDoc(docRef, {id:uid,email:email, name:nombre, lastname:apellido})  
   } catch (error) {
     console.error("Error al agregar a base de datos "+table+": "+ error)
   }

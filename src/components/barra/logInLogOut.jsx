@@ -77,9 +77,10 @@ export function LoginSection (){
 
     useEffect(()=>{
         if (infoProfile.length == 1) {
+            
             setId(infoProfile[0].id);
-            setName(infoProfile[0].nombre);
-            setLastName(infoProfile[0].apellido);
+            setName(infoProfile[0].name);
+            setLastName(infoProfile[0].lastname);
           }
     },[infoProfile])
 
