@@ -93,8 +93,8 @@ export function Profile() {
     useEffect(() => {
         if (infoProfile.length == 1) {
           setId(infoProfile[0].id);
-          setName(infoProfile[0].nombre);
-          setLastName(infoProfile[0].apellido);
+          setName(infoProfile[0].name);
+          setLastName(infoProfile[0].lastname);
           setEmail(infoProfile[0].email);
           setFEmail(infoProfile[0].email);
           console.log("\n//////////Data profile es: "+infoProfile[0].status+"/////////////////\n")
